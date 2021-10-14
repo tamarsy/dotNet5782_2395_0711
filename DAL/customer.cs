@@ -17,12 +17,7 @@ namespace IDAL
             public double lattitude { get; set; }
             public override string ToString()
             {
-                return "Parcel";
-            }
-
-            public override string ToString()
-            {
-                return "Customer";
+                return "Id:" + Id;
             }
         }
 

@@ -14,10 +14,17 @@ namespace DalObject
         static internal Station[] StationsArr = new Station[5];
         static internal Customer[] CustomerArr = new Customer[100];
         static internal Parcel[] ParcelArr = new Parcel[100];
-
-        class Config
+        internal class Config
         {
 
+            static int parcelIndex = 0;
+            static int customerIndex = 0;
+            static int droneIndex = 0;
+            static int stationIndex = 0;
+            static void Initialize()
+            {
+
+            }
         }
     }
 }
