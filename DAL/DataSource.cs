@@ -17,23 +17,25 @@ namespace DalObject
         internal class Config
         {
             const int NUMOFDRONES = 5;
-            static int parcelIndex = 0;
-            static int customerIndex = 0;
-            static int droneIndex = 0;
-            static int stationIndex = 0;
-            static int num = 0;
+            public static int parcelIndex = 0;
+            public static int customerIndex = 0;
+            public static int droneIndex = 0;
+            public static int stationIndex = 0;
+            public static int runNumForParcel = 0;
             public static void Initialize()
             {
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
                 {
                     DronesArr[i] = new Drone(i, "mavic_JDL" + i, (WeightCategories)(i % 3), (DroneStatuses)(i % 3), 99.9);
+                    ++droneIndex;
                 }
 
                 for (int i = 0; i < NUMOFDRONES / 2; ++i)
                 {
                     StationsArr[i] = new Station(i, random.Next(1111, 9999), random.Next(0, 99)/3.7,
                         random.Next(0, 99) / 3.7, random.Next(2, 10));
+                    ++stationIndex;
                 }
 
                 List<string> names = new List<string>();
@@ -45,6 +47,7 @@ namespace DalObject
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
                 {        
                     CustomerArr[i] = new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i], phones[i]);
+                    ++customerIndex;
                 }
             }
         }
