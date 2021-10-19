@@ -1,15 +1,14 @@
 ﻿using System;
-using DalObject;
+
 
 namespace ConsoleUI
 {
-    class Program
+    public class Program
     {
         public enum OPTIONS
         {
             ADD = 1, UPDATE, VIEW, SHOWLIST, EXIT
         }
-
         public enum THESTRUCTS
         {
             STATION = 1, DRONE, CUSTOMER, PARCEL
@@ -18,41 +17,40 @@ namespace ConsoleUI
         {
             PARCELTODRONE, PICKPARCEL, CHARGEON, CHARGEOF
         }
-
         static void Main(string[] args)
         {
-
+            DalObject.DalObject dalObject = new DalObject.DalObject();
             Console.WriteLine("Welcome to the drones sending\n" +
                 "Choos your option: Add, Update, View, ShowList, Exit (1-5)");
-            int choos = int.Parse(Console.readLine());
+            int choos = int.Parse(Console.ReadLine());
             do
             {
                 switch (choos)
                 {
-                    case ADD:
+                    case (int)OPTIONS.ADD:
                         {
                             Console.WriteLine("Choos your option: STATION, DRONE, CUSTOMER, PARCEL (1-4)");
-                            choos = int.Parse(Console.readLine());
+                            choos = int.Parse(Console.ReadLine());
                             switch (choos)
                             {
-                                case STATION:
+                                case (int)THESTRUCTS.STATION:
                                     {
-                                        AddStation();
+                                        dalObject.AddStation();
                                         break;
                                     }
-                                case DRONE:
+                                case (int)THESTRUCTS.DRONE:
                                     {
-                                        AddDrone();
+                                        dalObject.AddDrone();
                                         break;
                                     }
-                                case CUSTOMER:
+                                case (int)THESTRUCTS.CUSTOMER:
                                     {
-                                        AddCustomer();
+                                        dalObject.AddCustomer();
                                         break;
                                     }
-                                case PARCEL:
+                                case (int)THESTRUCTS.PARCEL:
                                     {
-                                        AddParcel();
+                                        dalObject.AddParcel();
                                         break;
                                     }
                                 default:
@@ -61,100 +59,103 @@ namespace ConsoleUI
                             }
                             break;
                         }
-                    case UPDATE:
+                    case (int)OPTIONS.UPDATE:
                         {
                             Console.WriteLine("Choos your option: PARCEL TO DRONE, PICK PARCEL, CHARGE ON, CHARGE OF (1-4)");
-                            choos = int.Parse(Console.readLine());
+                            choos = int.Parse(Console.ReadLine());
                             switch (choos)
                             {
-                                case PARCELTODRONE:
+                                case (int) UPDATE.PARCELTODRONE:
                                     {
-                                        ParcelToDrone();
+                                        dalObject.ParcelToDrone();
                                         break;
                                     }
-                                case PICKPARCEL:
+                                case (int)UPDATE.PICKPARCEL:
                                     {
-                                        PickParcel();
+                                        dalObject.PickParcel();
                                         break;
                                     }
-                                case CHARGEON:
+                                case (int)UPDATE.CHARGEON:
                                     {
-                                        ChargeOn();
+                                        dalObject.ChargeOn();
                                         break;
                                     }
-                                case CHARGEOF:
+                                case (int)UPDATE.CHARGEOF:
                                     {
-                                        ChargeOf();
+                                        dalObject.ChargeOf();
                                         break;
                                     }
                                 default:
                                     Console.WriteLine("Error, input number only from 1 to 4");
                                     break;
                             }
+                            break;
                         }
-                    case VIEW:
+                    case (int)OPTIONS.VIEW:
                         {
                             Console.WriteLine("Choos your option: STATION, DRONE, CUSTOMER, PARCEL (1-4) ");
-                            choos = int.Parse(Console.readLine());
+                            choos = int.Parse(Console.ReadLine());
                             switch (choos)
                             {
-                                case STATION:
+                                case (int)THESTRUCTS.STATION:
                                     {
-                                        ViewStation();
+                                        dalObject.ViewStation();
                                         break;
                                     }
-                                case DRONE:
+                                case (int)THESTRUCTS.DRONE:
                                     {
-                                        ViewDrone();
+                                        dalObject.ViewDrone();
                                         break;
                                     }
-                                case CUSTOMER:
+                                case (int)THESTRUCTS.CUSTOMER:
                                     {
-                                        ViewCustomer();
+                                        dalObject.ViewCustomer();
                                         break;
                                     }
-                                case PARCEL:
+                                case (int)THESTRUCTS.PARCEL:
                                     {
-                                        ViewParcel();
+                                        dalObject.ViewParcel();
                                         break;
                                     }
                                 default:
                                     Console.WriteLine("Error, input number only from 1 to 4");
                                     break;
                             }
+                            break;
                         }
-                    case SHOWLIST:
+                    case (int)OPTIONS.SHOWLIST:
                         {
                             Console.WriteLine("Choos your option: STATION LIST, DRONE LIST, CUSTOMER LIST, PARCEL LIST (1-4) ");
-                            choos = int.Parse(Console.readLine());
+                            choos = int.Parse(Console.ReadLine());
                             switch (choos)
                             {
-                                case STATION:
+                                case (int)THESTRUCTS.STATION:
                                     {
-                                        StationList();
+                                        dalObject.StationList();
                                         break;
                                     }
-                                case DRONE:
+                                case (int)THESTRUCTS.DRONE:
                                     {
-                                        DroneList();
+                                        dalObject.DroneList();
                                         break;
                                     }
-                                case CUSTOMER:
+                                case (int)THESTRUCTS.CUSTOMER:
                                     {
-                                        CustomerList();
+                                        dalObject.CustomerList();
                                         break;
                                     }
-                                case PARCEL:
+                                case (int)THESTRUCTS.PARCEL:
                                     {
-                                        ParcelList();
+                                        dalObject.ParcelList();
                                         break;
                                     }
                                 default:
                                     Console.WriteLine("Error, input number only from 1 to 4");
                                     break;
                             }
+                            break;
                         }
-                    case EXIT:
+                    case (int)OPTIONS.EXIT:
                         {
                             break;
                         }
@@ -163,7 +164,7 @@ namespace ConsoleUI
                         break;
                 }
 
-            } while (choos != EXIT);
+            } while (choos != (int)OPTIONS.EXIT);
         }
     }
 }

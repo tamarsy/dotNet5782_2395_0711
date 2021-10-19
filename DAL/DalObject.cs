@@ -10,7 +10,7 @@ namespace DalObject
     {
         public DalObject()
         {
-            DataSource.Initialize();
+            DataSource.Config.Initialize();
         }
         public void AddStation()
         {
@@ -25,6 +25,10 @@ namespace DalObject
 
         }
         public void AddParcel()
+        {
+
+        }
+        public void ParcelToDrone()
         {
 
         }
