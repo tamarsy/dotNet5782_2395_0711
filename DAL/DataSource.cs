@@ -22,7 +22,7 @@ namespace DalObject
             static int droneIndex = 0;
             static int stationIndex = 0;
             static int num = 0;
-            static void Initialize()
+            public static void Initialize()
             {
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
