@@ -31,8 +31,21 @@ namespace DalObject
         }
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
-            for (int i= DataSource.Config.droneIndex; )
-            DataSource.Drone
+            int i = 0;
+            for (; i < DataSource.Config.droneIndex ; i++)
+            {
+               if( DataSource.DronesArr[i].Id == droneChoose)
+                {
+                    break;
+                }
+            }
+            if (i == DataSource.Config.droneIndex)
+                throw 'ERROR'
+            i = 0;
+            while (i < DataSource.Config.parcelIndex && DataSource.DronesArr[i].Id == droneChoose)
+            {
+                i++;
+            }
         }
         public void PickParcel()
         {
