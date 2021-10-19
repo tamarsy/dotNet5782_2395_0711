@@ -82,10 +82,7 @@ namespace DalObject
             if (i == DataSource.Config.droneIndex)
                 
             i = 0;
-            while (i < DataSource.Config.parcelIndex && DataSource.DronesArr[i].Id == droneChoose)
-            {
-                i++;
-            }
+          
         }
         public void PickParcel()
         {
