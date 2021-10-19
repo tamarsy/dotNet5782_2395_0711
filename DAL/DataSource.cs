@@ -27,20 +27,24 @@ namespace DalObject
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
                 {
-                    DronesArr[i] = new Drone(i, "mavic_JDL" + i, (MaxWeight)(i % 3), (DroneStatuses)(i % 3), 99.9);
+                    DronesArr[i] = new Drone(i, "mavic_JDL" + i, (WeightCategories)(i % 3), (DroneStatuses)(i % 3), 99.9);
                 }
 
                 for (int i = 0; i < NUMOFDRONES / 2; ++i)
                 {
-                    StationsArr[i] = new Station(i, random.next(1111, 9999), random.next(0, 99)/3.7,
-                        random.next(0, 99) / 3.7, random.next(2, 10));
+                    StationsArr[i] = new Station(i, random.Next(1111, 9999), random.Next(0, 99)/3.7,
+                        random.Next(0, 99) / 3.7, random.Next(2, 10));
                 }
+
+                List<string> names = new List<string>();
+                names.Add("Yoss"); names.Add("Dov"); names.Add("Shay"); names.Add("Gad"); names.Add("Ran");
+
+                List<string> phones = new List<string>();
+                names.Add("9741945"); names.Add("9089251"); names.Add("9090508"); names.Add("6722027"); names.Add("8827664");
+
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
-                {
-                    string names = new string[5];
-                    names = "yoss", "dov", "shay", "natan", "levi";
-                    CustomerArr[i] = new Customer(i, names[i], random.next(100000000, 999999999),
-                        lattitude: random.next(0, 99) / 3.7, random.next(0, 99) / 3.7);
+                {        
+                    CustomerArr[i] = new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i], phones[i]);
                 }
             }
         }
