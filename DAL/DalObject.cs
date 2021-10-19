@@ -80,9 +80,17 @@ namespace DalObject
                 }
             }
             if (i == DataSource.Config.droneIndex)
-                throw 'ERROR'
+                throw new ArgumentException("Error!! Ther is no drone with this id");
             i = 0;
-          
+            for (; i < DataSource.Config.parcelIndex; i++)
+            {
+                if (DataSource.ParcelArr[i].Id == percelChoose)
+                {
+                    break;
+                }
+            }
+            if (i == DataSource.Config.droneIndex)
+                throw new ArgumentException("Error!! Ther is no drone with this id");
         }
         public void PickParcel()
         {
