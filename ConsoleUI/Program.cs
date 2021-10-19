@@ -45,7 +45,8 @@ namespace ConsoleUI
                                         station.Lattitude = double.Parse(Console.ReadLine());
                                         station.Longitude = double.Parse(Console.ReadLine());
                                         station.Name = int.Parse(Console.ReadLine());
-                                        dalObject.AddStation(station);
+                                        try { dalObject.AddStation(station); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)THESTRUCTS.DRONE:
@@ -57,7 +58,9 @@ namespace ConsoleUI
                                         drone.MaxWeight = (WeightCategories)int.Parse(Console.ReadLine());
                                         drone.Model = Console.ReadLine();
                                         drone.Status = (DroneStatuses)int.Parse(Console.ReadLine());
-                                        dalObject.AddDrone(drone);
+                                        try { dalObject.AddDrone(drone); }
+                                        catch (Exception e) { Console.WriteLine(e); }
+
                                         break;
                                     }
                                 case (int)THESTRUCTS.CUSTOMER:
@@ -69,7 +72,8 @@ namespace ConsoleUI
                                         customer.Longitude = double.Parse(Console.ReadLine());
                                         customer.Name = Console.ReadLine();
                                         customer.Phone = Console.ReadLine();
-                                        dalObject.AddCustomer(customer);
+                                        try { dalObject.AddCustomer(customer); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)THESTRUCTS.PARCEL:
@@ -86,7 +90,8 @@ namespace ConsoleUI
                                         parcel.SenderId = int.Parse(Console.ReadLine());
                                         parcel.TargilId = int.Parse(Console.ReadLine());
                                         parcel.Weight = (WeightCategories)int.Parse(Console.ReadLine());
-                                        dalObject.AddParcel(parcel);
+                                        try { dalObject.AddParcel(parcel); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 default:
@@ -139,6 +144,7 @@ namespace ConsoleUI
                             {
                                 case (int)THESTRUCTS.STATION:
                                     {
+                                        Console.WriteLine();
                                         dalObject.ViewStation();
                                         break;
                                     }
