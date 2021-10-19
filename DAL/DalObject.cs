@@ -12,5 +12,70 @@ namespace DalObject
         {
             DataSource.Initialize();
         }
+        public void AddStation()
+        {
+
+        }
+        public void AddDrone()
+        {
+
+        }
+        public void AddCustomer()
+        {
+
+        }
+        public void AddParcel()
+        {
+
+        }
+        public void PickParcel()
+        {
+
+        }
+        public void ChargeOn()
+        {
+
+        }
+        public void ChargeOf()
+        {
+
+        }
+        public void ViewStation()
+        {
+
+        }
+        public void ViewDrone()
+        {
+
+        }
+        public void ViewCustomer()
+        {
+
+        }
+        public void ViewParcel()
+        {
+
+        }
+        public void StationList()
+        {
+
+        }
+        public void DroneList()
+        {
+
+        }
+        public void CustomerList()
+        {
+
+        }
+        public void ParcelList()
+        {
+
+        }
+
+        public void Exit()
+        {
+
+        }
     }
 }
