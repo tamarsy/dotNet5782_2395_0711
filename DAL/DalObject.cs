@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDAL.DO;
 
 namespace DalObject
 {
@@ -12,19 +13,19 @@ namespace DalObject
         {
             DataSource.Config.Initialize();
         }
-        public void AddStation()
+        public void AddStation(Station station)
+        {
+            DataSource.StationsArr[DataSource.Config.stationIndex] = station;
+        }
+        public void AddDrone(Drone drone)
         {
 
         }
-        public void AddDrone()
+        public void AddCustomer(Customer customer)
         {
 
         }
-        public void AddCustomer()
-        {
-
-        }
-        public void AddParcel()
+        public void AddParcel(Parcel parcel)
         {
 
         }

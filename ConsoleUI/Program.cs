@@ -1,5 +1,5 @@
 ﻿using System;
-
+using IDAL.DO;
 namespace ConsoleUI
 {
     public class Program
@@ -34,22 +34,55 @@ namespace ConsoleUI
                             {
                                 case (int)THESTRUCTS.STATION:
                                     {
-                                        dalObject.AddStation();
+                                        Console.WriteLine("enter station details:");
+                                        Station station = new Station();
+                                        station.ChargeSlot = int.Parse(Console.ReadLine());
+                                        station.Id = int.Parse(Console.ReadLine());
+                                        station.Lattitude = double.Parse(Console.ReadLine());
+                                        station.Longitude = double.Parse(Console.ReadLine());
+                                        station.Name = int.Parse(Console.ReadLine());
+                                        dalObject.AddStation(station);
                                         break;
                                     }
                                 case (int)THESTRUCTS.DRONE:
                                     {
-                                        dalObject.AddDrone();
+                                        Console.WriteLine("enter drone details:");
+                                        Drone drone = new Drone();
+                                        drone.Battery = double.Parse(Console.ReadLine());
+                                        drone.Id = int.Parse(Console.ReadLine());
+                                        drone.MaxWeight = (WeightCategories)int.Parse(Console.ReadLine());
+                                        drone.Model = Console.ReadLine();
+                                        drone.Status = (DroneStatuses)int.Parse(Console.ReadLine());
+                                        dalObject.AddDrone(drone);
                                         break;
                                     }
                                 case (int)THESTRUCTS.CUSTOMER:
                                     {
-                                        dalObject.AddCustomer();
+                                        Console.WriteLine("enter customer details:");
+                                        Customer customer = new Customer();
+                                        customer.Id = int.Parse(Console.ReadLine());
+                                        customer.Lattitude = double.Parse(Console.ReadLine());
+                                        customer.Longitude = double.Parse(Console.ReadLine());
+                                        customer.Name = Console.ReadLine();
+                                        customer.Phone = Console.ReadLine();
+                                        dalObject.AddCustomer(customer);
                                         break;
                                     }
                                 case (int)THESTRUCTS.PARCEL:
                                     {
-                                        dalObject.AddParcel();
+                                        Console.WriteLine("enter parcel details:");
+                                        Parcel parcel = new Parcel();
+                                        parcel.Droneld = int.Parse(Console.ReadLine());
+                                        parcel.Delivered = new DateTime(int.Parse(Console.ReadLine()));
+                                        parcel.Id = int.Parse(Console.ReadLine());
+                                        parcel.PickedUp = new DateTime(int.Parse(Console.ReadLine()));
+                                        parcel.Priority = (Priorities)int.Parse(Console.ReadLine());
+                                        parcel.ReQuested = new DateTime(int.Parse(Console.ReadLine()));
+                                        parcel.Schedulet = new DateTime(int.Parse(Console.ReadLine()));
+                                        parcel.SenderId = int.Parse(Console.ReadLine());
+                                        parcel.TargilId = int.Parse(Console.ReadLine());
+                                        parcel.Weight = (WeightCategories)int.Parse(Console.ReadLine());
+                                        dalObject.AddParcel(parcel);
                                         break;
                                     }
                                 default:
