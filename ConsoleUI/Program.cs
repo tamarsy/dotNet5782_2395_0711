@@ -60,7 +60,6 @@ namespace ConsoleUI
                                         drone.Status = (DroneStatuses)int.Parse(Console.ReadLine());
                                         try { dalObject.AddDrone(drone); }
                                         catch (Exception e) { Console.WriteLine(e); }
-
                                         break;
                                     }
                                 case (int)THESTRUCTS.CUSTOMER:
@@ -144,7 +143,8 @@ namespace ConsoleUI
                             {
                                 case (int)THESTRUCTS.STATION:
                                     {
-                                        Console.WriteLine();
+                                        Console.WriteLine("enter station id to view");
+                                        
                                         dalObject.ViewStation();
                                         break;
                                     }

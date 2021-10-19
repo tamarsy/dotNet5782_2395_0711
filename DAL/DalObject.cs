@@ -80,7 +80,7 @@ namespace DalObject
                 }
             }
             if (i == DataSource.Config.droneIndex)
-                throw 'ERROR'
+                
             i = 0;
             while (i < DataSource.Config.parcelIndex && DataSource.DronesArr[i].Id == droneChoose)
             {
