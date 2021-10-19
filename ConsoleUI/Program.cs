@@ -12,6 +12,10 @@ namespace ConsoleUI
         {
             STATION = 1, DRONE, CUSTOMER, PARCEL
         }
+        public enum LIST
+        {
+            STATION = 1, DRONE, CUSTOMER, PARCEL, PARCELSWITHOUTDRONE, EMPTYCHARGESLOT
+        }
         public enum UPDATE
         {
             PARCELTODRONE, PICKPARCEL, CHARGEON, CHARGEOF
@@ -65,8 +69,12 @@ namespace ConsoleUI
                             switch (choos)
                             {
                                 case (int) UPDATE.PARCELTODRONE:
-                                    {
-                                        dalObject.ParcelToDrone();
+                                    {                              
+                                        Console.WriteLine("Choose a parcel (id)");
+                                        int percelChoose = int.Parse(Console.ReadLine());
+                                        Console.WriteLine("Choose a drone (id)");
+                                        int droneChoose = int.Parse(Console.ReadLine());
+                                        dalObject.ParcelToDrone(percelChoose, droneChoose);
                                         break;
                                     }
                                 case (int)UPDATE.PICKPARCEL:
@@ -124,28 +132,38 @@ namespace ConsoleUI
                         }
                     case (int)OPTIONS.SHOWLIST:
                         {
-                            Console.WriteLine("Choos your option: STATION LIST, DRONE LIST, CUSTOMER LIST, PARCEL LIST (1-4) ");
+                            Console.WriteLine("Choos your option: STATION LIST, DRONE LIST, CUSTOMER LIST, PARCEL LIST, Parcels without drone, stations with empty ChargeSlot (1-6)");
                             choos = int.Parse(Console.ReadLine());
                             switch (choos)
                             {
-                                case (int)THESTRUCTS.STATION:
+                                case (int)LIST.STATION:
                                     {
                                         dalObject.StationList();
                                         break;
                                     }
-                                case (int)THESTRUCTS.DRONE:
+                                case (int)LIST.DRONE:
                                     {
                                         dalObject.DroneList();
                                         break;
                                     }
-                                case (int)THESTRUCTS.CUSTOMER:
+                                case (int)LIST.CUSTOMER:
                                     {
                                         dalObject.CustomerList();
                                         break;
                                     }
-                                case (int)THESTRUCTS.PARCEL:
+                                case (int)LIST.PARCEL:
                                     {
                                         dalObject.ParcelList();
+                                        break;
+                                    }
+                                case (int)LIST.PARCELSWITHOUTDRONE:
+                                    {
+                                        dalObject.ParcesWithoutDronelList();
+                                        break;
+                                    }
+                                case (int)LIST.EMPTYCHARGESLOT:
+                                    {
+                                        dalObject.EmptyChangeSlotlList();
                                         break;
                                     }
                                 default:

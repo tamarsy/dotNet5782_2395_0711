@@ -28,9 +28,10 @@ namespace DalObject
         {
 
         }
-        public void ParcelToDrone()
+        public void ParcelToDrone(int percelChoose, int droneChoose)
         {
-
+            for (int i= DataSource.Config.droneIndex; )
+            DataSource.Drone
         }
         public void PickParcel()
         {
@@ -73,6 +74,14 @@ namespace DalObject
 
         }
         public void ParcelList()
+        {
+
+        }
+        public void ParcesWithoutDronelList()
+        {
+
+        }
+        public void EmptyChangeSlotlList()
         {
 
         }
