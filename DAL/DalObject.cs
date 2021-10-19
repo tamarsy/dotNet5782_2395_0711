@@ -76,10 +76,5 @@ namespace DalObject
         {
 
         }
-
-        public void Exit()
-        {
-
-        }
     }
 }
