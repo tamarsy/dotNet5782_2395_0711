@@ -135,19 +135,56 @@ namespace DalObject
             if (i == DataSource.Config.droneIndex)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
         }
+        private bool isEmptyChargeSlotInStation(int stationId)
+        {
+            for (int i = 0; i < DataSource.Config.stationIndex; ++i)
+            {
+                if (DataSource.StationsArr[i].ChargeSlot > 0)
+                {
+                    
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droenId"></param>
         public void ChargeOn(int droenId)
         {
             for (int i = 0; i < DataSource.Config.droneIndex; ++i)
             {
                 if (droenId == DataSource.DronesArr[i].Id)
                 {
-
+                    for (int j = 0; j < DataSource.Config.stationIndex; ++j)
+                    {
+                        if (isEmptyChargeSlotInStation(DataSource.StationsArr[i].Id))
+                        {
+                            DroneCharge d = new DroneCharge(droenId, DataSource.StationsArr[i].Id);
+                            DataSource.DronesArr[i].Status = DroneStatuses.maintanance;
+                            DataSource.DronesArr[i].Battery = 99;
+                            return;
+                        }
+                    }
+                    throw new ArgumentException("no station with empty charge slot");
                 }
             }
+            throw new ArgumentException("no drone whith id: " + droenId);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droenId"></param>
         public void ChargeOf(int droenId)
         {
-
+            for (int i = 0; i < DataSource.Config.droneIndex; ++i)
+            {
+                if (droenId == DataSource.DronesArr[i].Id)
+                {
+                    DataSource.DronesArr[i].Status = DroneStatuses.vacant;
+                }
+            }
+            throw new ArgumentException("no drone whith id: " + droenId + "in charge slot");
         }
         /// <summary>
         /// 
@@ -276,7 +313,7 @@ namespace DalObject
             int index = 0;
             for (int i = 0; i < DataSource.Config.stationIndex; ++i)
             {
-                if (DataSource.StationsArr[i].ChargeSlot == -1)
+                if (FindEmptyChargeSlot(DataSource.StationsArr[i].id) != -1)
                 {
                     allList += "station " + (++index) + ": " + "\n";
                     allList += DataSource.StationsArr[i].ToString();
