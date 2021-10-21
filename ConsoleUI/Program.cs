@@ -144,23 +144,48 @@ namespace ConsoleUI
                                 case (int)THESTRUCTS.STATION:
                                     {
                                         Console.WriteLine("enter station id to view");
-                                        
-                                        dalObject.ViewStation();
+                                        int i = int.Parse(Console.ReadLine());
+                                        try {
+                                            Station station = dalObject.ViewStation(i);
+                                            Console.WriteLine(station.ToString());
+                                        }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)THESTRUCTS.DRONE:
                                     {
-                                        dalObject.ViewDrone();
+                                        Console.WriteLine("enter drone id to view");
+                                        int i = int.Parse(Console.ReadLine());
+                                        try
+                                        {
+                                            Drone drone = dalObject.ViewDrone(i);
+                                            Console.WriteLine(drone.ToString());
+                                        }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)THESTRUCTS.CUSTOMER:
                                     {
-                                        dalObject.ViewCustomer();
+                                        Console.WriteLine("enter customer id to view");
+                                        int i = int.Parse(Console.ReadLine());
+                                        try
+                                        {
+                                            Customer customer = dalObject.ViewCustomer(i);
+                                            Console.WriteLine(customer.ToString());
+                                        }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)THESTRUCTS.PARCEL:
                                     {
-                                        dalObject.ViewParcel();
+                                        Console.WriteLine("enter parcel id to view");
+                                        int i = int.Parse(Console.ReadLine());
+                                        try
+                                        {
+                                            Parcel parcel = dalObject.ViewParcel(i);
+                                            Console.WriteLine(parcel.ToString());
+                                        }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 default:
@@ -177,36 +202,36 @@ namespace ConsoleUI
                             {
                                 case (int)LIST.STATION:
                                     {
-                                        dalObject.StationList();
+                                        Console.WriteLine(dalObject.StationList());
                                         break;
                                     }
                                 case (int)LIST.DRONE:
                                     {
-                                        dalObject.DroneList();
+                                        Console.WriteLine(dalObject.DroneList());
                                         break;
                                     }
                                 case (int)LIST.CUSTOMER:
                                     {
-                                        dalObject.CustomerList();
+                                        Console.WriteLine(dalObject.CustomerList());
                                         break;
                                     }
                                 case (int)LIST.PARCEL:
                                     {
-                                        dalObject.ParcelList();
+                                        Console.WriteLine(dalObject.ParcelList());
                                         break;
                                     }
                                 case (int)LIST.PARCELSWITHOUTDRONE:
                                     {
-                                        dalObject.ParcesWithoutDronelList();
+                                        Console.WriteLine(dalObject.ParcesWithoutDronelList());
                                         break;
                                     }
                                 case (int)LIST.EMPTYCHARGESLOT:
                                     {
-                                        dalObject.EmptyChangeSlotlList();
+                                        Console.WriteLine(dalObject.EmptyChangeSlotlList());
                                         break;
                                     }
                                 default:
-                                    Console.WriteLine("Error, input number only from 1 to 4");
+                                    Console.WriteLine("Error, input number only from 1 to 6");
                                     break;
                             }
                             break;

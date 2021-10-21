@@ -33,7 +33,11 @@ namespace IDAL
             public int ChargeSlot { get; set; }
             public override string ToString()
             {
-                return "Id: " + Id;
+                return "Id: " + Id + "\n"
+                    + "Name: " + Name + "\n"
+                     + "Longitude: " + Longitude + "\n"
+                     + "Lattitude: " + Lattitude + "\n"
+                     + "ChargeSlot: " + ChargeSlot;
             }
         }
     }

@@ -49,6 +49,14 @@ namespace DalObject
                     CustomerArr[i] = new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i], phones[i]);
                     ++customerIndex;
                 }
+
+                for (int i = 0; i < NUMOFDRONES * 2; ++i)
+                {
+                    ParcelArr[i] = new Parcel(i,random.Next(111111111, 999999999), random.Next(1, 99), (WeightCategories)(i % 3)
+                        ,(Priorities)(i % 3), new DateTime(random.Next(1, 99)), random.Next(0, 5), new DateTime(random.Next(1, 99)),
+                        new DateTime(random.Next(1, 99)), new DateTime(random.Next(1, 99)));
+                    ++parcelIndex;
+                }
             }
         }
     }

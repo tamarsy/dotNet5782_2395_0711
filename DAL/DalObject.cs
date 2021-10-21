@@ -104,45 +104,140 @@ namespace DalObject
         {
 
         }
-        public void ViewStation()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the station id</param>
+        /// <returns></returns>
+        public Station ViewStation(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.stationIndex; i++)
+            {
+                if (DataSource.StationsArr[i].Id == id)
+                {
+                    return DataSource.StationsArr[i];
+                }
+            }
+            throw new ArgumentException("not found a station with id = " + id);
         }
-        public void ViewDrone()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the drone id</param>
+        /// <returns></returns>
+        public Drone ViewDrone(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.droneIndex; i++)
+            {
+                if (DataSource.DronesArr[i].Id == id)
+                {
+                    return DataSource.DronesArr[i];
+                }
+            }
+            throw new ArgumentException("not found a drone with id = " + id);
         }
-        public void ViewCustomer()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the customer id</param>
+        /// <returns></returns>
+        public Customer ViewCustomer(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.customerIndex; i++)
+            {
+                if (DataSource.CustomerArr[i].Id == id)
+                {
+                    return DataSource.CustomerArr[i];
+                }
+            }
+            throw new ArgumentException("not found a customer with id = " + id);
         }
-        public void ViewParcel()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the parcel id</param>
+        /// <returns></returns>
+        public Parcel ViewParcel(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.parcelIndex; ++i)
+            {
+                if (DataSource.ParcelArr[i].Id == id)
+                {
+                    return DataSource.ParcelArr[i];
+                }
+            }
+            throw new ArgumentException("not found a parcel with id = " + id);
         }
-        public void StationList()
+        /// <summary>
+        /// 
+        /// </summary>
+        public string StationList()
         {
-
+            string allList = "Station list: " + "\n";
+            for (int i = 0; i < DataSource.Config.stationIndex; ++i)
+            {
+                allList += "station " + (i + 1) + ": " + "\n";
+                allList += DataSource.StationsArr[i].ToString();
+            }
+            return allList;
         }
-        public void DroneList()
+        public string DroneList()
         {
-
+            string allList = "Drone list: " + "\n";
+            for (int i = 0; i < DataSource.Config.droneIndex; ++i)
+            {
+                allList += "drone " + (i + 1) + ": " + "\n";
+                allList += DataSource.DronesArr[i].ToString();
+            }
+            return allList;
         }
-        public void CustomerList()
+        public string CustomerList()
         {
-
+            string allList = "Customer list: " + "\n";
+            for (int i = 0; i < DataSource.Config.customerIndex; ++i)
+            {
+                allList += "customer " + (i + 1) + ": " + "\n";
+                allList += DataSource.CustomerArr[i].ToString();
+            }
+            return allList;
         }
-        public void ParcelList()
+        public string ParcelList()
         {
-
+            string allList = "Parcel list: " + "\n";
+            for (int i = 0; i < DataSource.Config.parcelIndex; ++i)
+            {
+                allList += "parcel " + (i + 1) + ": " + "\n";
+                allList += DataSource.ParcelArr[i].ToString();
+            }
+            return allList;
         }
-        public void ParcesWithoutDronelList()
+        public string ParcesWithoutDronelList()
         {
-
+            string allList = "Parcel Without Drone list: " + "\n";
+            int index = 0;
+            for (int i = 0; i < DataSource.Config.parcelIndex; ++i)
+            {
+                if (DataSource.ParcelArr[i].Droneld != -1)
+                {
+                    allList += "parcel " + (++index) + ": " + "\n";
+                    allList += DataSource.ParcelArr[i].ToString();
+                }
+            }
+            return allList;
         }
-        public void EmptyChangeSlotlList()
+        public string EmptyChangeSlotlList()
         {
-
+            string allList = "Empty Change Slotl List: " + "\n";
+            int index = 0;
+            for (int i = 0; i < DataSource.Config.stationIndex; ++i)
+            {
+                if (DataSource.StationsArr[i].ChargeSlot == -1)
+                {
+                    allList += "station " + (++index) + ": " + "\n";
+                    allList += DataSource.StationsArr[i].ToString();
+                }
+            }
+            return allList;
         }
     }
 }
