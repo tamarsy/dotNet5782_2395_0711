@@ -10,6 +10,7 @@ namespace DalObject
 {
     internal class DataSource
     {
+        static internal List<DroneCharge> listOfChargeSlot;
         static internal Drone[] DronesArr = new Drone[10];
         static internal Station[] StationsArr = new Station[5];
         static internal Customer[] CustomerArr = new Customer[100];
@@ -24,6 +25,7 @@ namespace DalObject
             public static int runNumForParcel = 0;
             public static void Initialize()
             {
+                listOfChargeSlot = new List<DroneCharge>();
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
                 {
