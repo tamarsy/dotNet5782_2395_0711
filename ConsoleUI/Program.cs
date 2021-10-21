@@ -112,6 +112,8 @@ namespace ConsoleUI
                                         Console.WriteLine("Choose a drone (id)");
                                         int droneChoose = int.Parse(Console.ReadLine());
                                         dalObject.ParcelToDrone(percelChoose, droneChoose);
+                                        try { dalObject.ParcelToDrone(percelChoose, droneChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.PICKPARCEL:
@@ -120,6 +122,8 @@ namespace ConsoleUI
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
                                         dalObject.PickParcel(percelChoose);
+                                        try { dalObject.PickParcel(percelChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.DESTINATION:
@@ -127,6 +131,8 @@ namespace ConsoleUI
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
                                         dalObject.Destination(percelChoose);
+                                        try { dalObject.Destination(percelChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.CHARGEON:
