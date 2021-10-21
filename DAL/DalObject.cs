@@ -72,20 +72,28 @@ namespace DalObject
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
             int i = 0;
+            int index;
             for (; i < DataSource.Config.droneIndex ; i++)
             {
                if( DataSource.DronesArr[i].Id == droneChoose)
-                {
+                {  
                     break;
                 }
             }
             if (i == DataSource.Config.droneIndex)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
-            i = 0;
-            for (; i < DataSource.Config.parcelIndex; i++)
+            int j = 0;
+            for (; j < DataSource.Config.parcelIndex; j++)
             {
-                if (DataSource.ParcelArr[i].Id == percelChoose)
+                if (DataSource.ParcelArr[j].Id == percelChoose)
                 {
+                    if(DataSource.ParcelArr[j].Weight>DataSource.DronesArr[i].MaxWeight)
+                        throw new ArgumentException("Error!! Ther is no drone with this id");
+
+                    if (DataSource.DronesArr[i].Status!=DroneStatuses.vacant)
+                        throw new ArgumentException("We can't send this drone");
+
+                    DataSource.ParcelArr[j].Droneld = DataSource.DronesArr[i].Id;
                     break;
                 }
             }
