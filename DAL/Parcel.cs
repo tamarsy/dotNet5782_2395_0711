@@ -47,7 +47,6 @@ namespace IDAL
                      + "Schedulet: " + Schedulet + "\n"
                      + "PickedUp: " + PickedUp + "\n"
                      + "Delivered" + Delivered;
-
             }
         }
     }

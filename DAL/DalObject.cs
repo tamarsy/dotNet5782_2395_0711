@@ -96,11 +96,17 @@ namespace DalObject
         {
 
         }
-        public void ChargeOn()
+        public void ChargeOn(int droenId)
         {
+            for (int i = 0; i < DataSource.Config.droneIndex; ++i)
+            {
+                if (droenId == DataSource.DronesArr[i].Id)
+                {
 
+                }
+            }
         }
-        public void ChargeOf()
+        public void ChargeOf(int droenId)
         {
 
         }

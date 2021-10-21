@@ -121,12 +121,24 @@ namespace ConsoleUI
                                     }
                                 case (int)UPDATE.CHARGEON:
                                     {
-                                        dalObject.ChargeOn();
+                                        Console.WriteLine("enter id of the drone to charge on");
+                                        int droenId = int.Parse(Console.ReadLine());
+                                        try
+                                        {
+                                            dalObject.ChargeOn(droenId);
+                                        }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.CHARGEOF:
                                     {
-                                        dalObject.ChargeOf();
+                                        Console.WriteLine("enter id of the drone to charge on");
+                                        int droenId = int.Parse(Console.ReadLine());
+                                        try
+                                        {
+                                            dalObject.ChargeOf(droenId);
+                                        }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 default:
