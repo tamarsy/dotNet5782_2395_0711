@@ -19,7 +19,7 @@ namespace IDAL
             public int StationId { get; set; }
             public override string ToString()
             {
-                return "Drone Id: " + DroneId + "Station Id: " + StationId;
+                return "Drone Id: " + DroneId + "\n" + "Station Id: " + StationId;
             }
         }
     }
