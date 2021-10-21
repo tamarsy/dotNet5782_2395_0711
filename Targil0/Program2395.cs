@@ -4,12 +4,12 @@ namespace Targil0
 {
     partial class Program
     {
-        static void Main(string[] args)
-        {
-            welcome2395();
-            welcome0711();
-            Console.ReadKey();
-        }
+        //static void Main(string[] args)
+        //{
+        //    welcome2395();
+        //    welcome0711();
+        //    Console.ReadKey();
+        //}
 
         private static void welcome2395()
         {

@@ -33,7 +33,11 @@ namespace IDAL
             public double Battery { get; set; }
             public override string ToString()
             {
-                return "Id: " + Id;
+                return "Id: " + Id + "\n"
+                    + "Model: " + Model + "\n"
+                    + "MaxWeight: " + MaxWeight + "\n"
+                     + "Status: " + Status + "\n"
+                     + "Battery: " + Battery;
             }
         }
     }
