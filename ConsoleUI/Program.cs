@@ -18,7 +18,7 @@ namespace ConsoleUI
         }
         public enum UPDATE
         {
-            PARCELTODRONE, PICKPARCEL, CHARGEON, CHARGEOF
+            PARCELTODRONE, PICKPARCEL, DESTINATION, CHARGEON, CHARGEOF
         }
         static void Main(string[] args)
         {
@@ -116,7 +116,17 @@ namespace ConsoleUI
                                     }
                                 case (int)UPDATE.PICKPARCEL:
                                     {
-                                        dalObject.PickParcel();
+                                       
+                                        Console.WriteLine("Choose a parcel (id)");
+                                        int percelChoose = int.Parse(Console.ReadLine());
+                                        dalObject.PickParcel(percelChoose);
+                                        break;
+                                    }
+                                case (int)UPDATE.DESTINATION:
+                                    {
+                                        Console.WriteLine("Choose a parcel (id)");
+                                        int percelChoose = int.Parse(Console.ReadLine());
+                                        dalObject.Destination(percelChoose);
                                         break;
                                     }
                                 case (int)UPDATE.CHARGEON:
