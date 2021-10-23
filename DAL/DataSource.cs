@@ -44,11 +44,12 @@ namespace DalObject
                 names.Add("Yoss"); names.Add("Dov"); names.Add("Shay"); names.Add("Gad"); names.Add("Ran");
 
                 List<string> phones = new List<string>();
-                names.Add("9741945"); names.Add("9089251"); names.Add("9090508"); names.Add("6722027"); names.Add("8827664");
+                phones.Add("9741945"); phones.Add("9089251"); phones.Add("9090508"); phones.Add("6722027"); phones.Add("8827664");
 
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
-                {        
-                    CustomerArr[i] = new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i], phones[i]);
+                {
+                    Customer customer = new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i % 5], phones[i % 5]);
+                    CustomerArr[i] = customer;
                     ++customerIndex;
                 }
 
