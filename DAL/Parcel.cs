@@ -37,7 +37,16 @@ namespace IDAL
 
             public override string ToString()
             {
-                return "id: " + Id;
+                return "Id: " + Id + "\n"
+                    + "SenderId: " + SenderId + "\n"
+                    + "TargilId: " + TargilId + "\n"
+                     + "Weight: " + Weight + "\n"
+                     + "Priority: " + Priority + "\n"
+                     + "ReQuested: " + ReQuested + "\n"
+                    + "Droneld: " + Droneld + "\n"
+                     + "Schedulet: " + Schedulet + "\n"
+                     + "PickedUp: " + PickedUp + "\n"
+                     + "Delivered" + Delivered;
             }
         }
     }

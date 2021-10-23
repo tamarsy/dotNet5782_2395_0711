@@ -72,77 +72,275 @@ namespace DalObject
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
             int i = 0;
-            for (; i < DataSource.Config.droneIndex ; i++)
+            for (; i < DataSource.Config.droneIndex; i++)
             {
-               if( DataSource.DronesArr[i].Id == droneChoose)
+                if (DataSource.DronesArr[i].Id == droneChoose)
                 {
                     break;
                 }
             }
             if (i == DataSource.Config.droneIndex)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
-            i = 0;
+            int j = 0;
+            for (; j < DataSource.Config.parcelIndex; j++)
+            {
+                if (DataSource.ParcelArr[j].Id == percelChoose)
+                {
+                    if (DataSource.ParcelArr[j].Weight > DataSource.DronesArr[i].MaxWeight)
+                        throw new ArgumentException("Error!! The drone cannot carry this weight");
+
+                    if (DataSource.DronesArr[i].Status != DroneStatuses.vacant)
+                        throw new ArgumentException("We can't send this drone");
+
+                    DataSource.DronesArr[i].Status = DroneStatuses.sending;
+                    DataSource.ParcelArr[j].Droneld = DataSource.DronesArr[i].Id;
+                    DataSource.ParcelArr[j].Schedulet = DateTime.Now;
+                    break;
+                }
+            }
+            if (j == DataSource.Config.droneIndex)
+                throw new ArgumentException("Error!! Ther is no drone with this id");
+        }
+        public void PickParcel(int percelChoose)
+        {
+            int i = 0;
             for (; i < DataSource.Config.parcelIndex; i++)
             {
                 if (DataSource.ParcelArr[i].Id == percelChoose)
                 {
+                    DataSource.ParcelArr[i].PickedUp = DateTime.Now;
                     break;
                 }
             }
             if (i == DataSource.Config.droneIndex)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
         }
-        public void PickParcel()
+        public void Destination(int percelChoose)
         {
-
+            int i = 0;
+            for (; i < DataSource.Config.parcelIndex; i++)
+            {
+                if (DataSource.ParcelArr[i].Id == percelChoose)
+                {
+                    DataSource.ParcelArr[i].Delivered = DateTime.Now;
+                    int j = 0;
+                    for (; j < DataSource.Config.droneIndex; j++)
+                    {
+                        if (DataSource.DronesArr[j].Id == DataSource.ParcelArr[i].Droneld)
+                            DataSource.DronesArr[j].Status = DroneStatuses.vacant;
+                    }
+                    break;
+                }
+            }
+            if (i == DataSource.Config.droneIndex)
+                throw new ArgumentException("Error!! Ther is no drone with this id");
         }
-        public void ChargeOn()
+        private bool isEmptyChargeSlotInStation(Station station)
         {
-
+            int counter = 0;
+            foreach (var ChargeSlot in DataSource.listOfChargeSlot)
+            {
+                if (ChargeSlot.StationId == station.Id)
+                {
+                    ++counter;
+                }
+            }
+            if (counter < station.ChargeSlot)
+            {
+                return true;
+            }
+            return false;
         }
-        public void ChargeOf()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droenId"></param>
+        public void ChargeOn(int droenId)
         {
-
+            for (int i = 0; i < DataSource.Config.droneIndex; ++i)
+            {
+                if (droenId == DataSource.DronesArr[i].Id)
+                {
+                    if (DataSource.DronesArr[i].Status == DroneStatuses.sending)
+                    {
+                        throw new ArgumentException("cant charge on this drone is sending");
+                    }
+                    for (int j = 0; j < DataSource.Config.stationIndex; ++j)
+                    {
+                        if (isEmptyChargeSlotInStation(DataSource.StationsArr[i]))
+                        {
+                            DroneCharge d = new DroneCharge(droenId, DataSource.StationsArr[i].Id);
+                            DataSource.DronesArr[i].Status = DroneStatuses.maintanance;
+                            DataSource.DronesArr[i].Battery = 99;
+                            return;
+                        }
+                    }
+                    throw new ArgumentException("no station with empty charge slot");
+                }
+            }
+            throw new ArgumentException("no drone whith id: " + droenId);
         }
-        public void ViewStation()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="droenId"></param>
+        public void ChargeOf(int droenId)
         {
-
+            for (int i = 0; i < DataSource.Config.droneIndex; ++i)
+            {
+                if (droenId == DataSource.DronesArr[i].Id)
+                {
+                    if (DataSource.DronesArr[i].Status != DroneStatuses.maintanance)
+                    {
+                        throw new ArgumentException("cant charge of this drone is not charging now");
+                    }
+                    DataSource.DronesArr[i].Status = DroneStatuses.vacant;
+                    //remove from the list Of Charge Slot in DataSource
+                    for (int j=0 ; j< DataSource.listOfChargeSlot.Count(); ++j)
+                    {
+                        if (DataSource.listOfChargeSlot[j].DroneId == DataSource.DronesArr[i].Id)
+                        {
+                            DataSource.listOfChargeSlot.RemoveAt(j);
+                        }
+                    }
+                }
+            }
+            throw new ArgumentException("no drone whith id: " + droenId + "in charge slot");
         }
-        public void ViewDrone()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the station id</param>
+        /// <returns></returns>
+        public Station ViewStation(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.stationIndex; i++)
+            {
+                if (DataSource.StationsArr[i].Id == id)
+                {
+                    return DataSource.StationsArr[i];
+                }
+            }
+            throw new ArgumentException("not found a station with id = " + id);
         }
-        public void ViewCustomer()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the drone id</param>
+        /// <returns></returns>
+        public Drone ViewDrone(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.droneIndex; i++)
+            {
+                if (DataSource.DronesArr[i].Id == id)
+                {
+                    return DataSource.DronesArr[i];
+                }
+            }
+            throw new ArgumentException("not found a drone with id = " + id);
         }
-        public void ViewParcel()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the customer id</param>
+        /// <returns></returns>
+        public Customer ViewCustomer(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.customerIndex; i++)
+            {
+                if (DataSource.CustomerArr[i].Id == id)
+                {
+                    return DataSource.CustomerArr[i];
+                }
+            }
+            throw new ArgumentException("not found a customer with id = " + id);
         }
-        public void StationList()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">the parcel id</param>
+        /// <returns></returns>
+        public Parcel ViewParcel(int id)
         {
-
+            for (int i = 0; i < DataSource.Config.parcelIndex; ++i)
+            {
+                if (DataSource.ParcelArr[i].Id == id)
+                {
+                    return DataSource.ParcelArr[i];
+                }
+            }
+            throw new ArgumentException("not found a parcel with id = " + id);
         }
-        public void DroneList()
+        /// <summary>
+        /// 
+        /// </summary>
+        public string StationList()
         {
-
+            string allList = "Station list: " + "\n";
+            for (int i = 0; i < DataSource.Config.stationIndex; ++i)
+            {
+                allList += "station " + (i + 1) + ": " + "\n";
+                allList += DataSource.StationsArr[i].ToString();
+            }
+            return allList;
         }
-        public void CustomerList()
+        public string DroneList()
         {
-
+            string allList = "Drone list: " + "\n";
+            for (int i = 0; i < DataSource.Config.droneIndex; ++i)
+            {
+                allList += "drone " + (i + 1) + ": " + "\n";
+                allList += DataSource.DronesArr[i].ToString();
+            }
+            return allList;
         }
-        public void ParcelList()
+        public string CustomerList()
         {
-
+            string allList = "Customer list: " + "\n";
+            for (int i = 0; i < DataSource.Config.customerIndex; ++i)
+            {
+                allList += "customer " + (i + 1) + ": " + "\n";
+                allList += DataSource.CustomerArr[i].ToString();
+            }
+            return allList;
         }
-        public void ParcesWithoutDronelList()
+        public string ParcelList()
         {
-
+            string allList = "Parcel list: " + "\n";
+            for (int i = 0; i < DataSource.Config.parcelIndex; ++i)
+            {
+                allList += "parcel " + (i + 1) + ": " + "\n";
+                allList += DataSource.ParcelArr[i].ToString();
+            }
+            return allList;
         }
-        public void EmptyChangeSlotlList()
+        public string ParcesWithoutDronelList()
         {
-
+            string allList = "Parcel Without Drone list: " + "\n";
+            int index = 0;
+            for (int i = 0; i < DataSource.Config.parcelIndex; ++i)
+            {
+                if (DataSource.ParcelArr[i].Droneld != -1)
+                {
+                    allList += "parcel " + (++index) + ": " + "\n";
+                    allList += DataSource.ParcelArr[i].ToString();
+                }
+            }
+            return allList;
+        }
+        public string EmptyChangeSlotlList()
+        {
+            string allList = "Empty Change Slotl List: " + "\n";
+            int index = 0;
+            for (int i = 0; i < DataSource.Config.stationIndex; ++i)
+            {
+                if (isEmptyChargeSlotInStation(DataSource.StationsArr[i]))
+                {
+                    allList += "station " + (++index) + ": " + "\n";
+                    allList += DataSource.StationsArr[i].ToString();
+                }
+            }
+            return allList;
         }
     }
 }
