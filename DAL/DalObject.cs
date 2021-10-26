@@ -20,49 +20,49 @@ namespace DalObject
         /// the function add a new station to the arry
         /// </summary>
         /// <param name="station">the new station to add</param>
-        public void AddStation(Station station)
+        public void AddStation(Station newStation)
         {
-            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            if (DataSource.StationsArr.Exists(station => station.Id == newStation.Id))
             {
-                throw new ArgumentException("station's place are full! you can't add a new station!");
-            }*/
-            DataSource.StationsArr.Add(station);
+                throw new ArgumentException("Can't add, There is already a station with this ID");
+            }
+            DataSource.StationsArr.Add(newStation);
         }
         /// <summary>
         /// the function add a new drone to the arry
         /// </summary>
         /// <param name="drone">the new drone to add</param>
-        public void AddDrone(Drone drone)
+        public void AddDrone(Drone newDrone)
         {
-            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            if (DataSource.DronesArr.Exists(drone => drone.Id == newDrone.Id))
             {
-                throw new ArgumentException("drone's place are full! you can't add a new drone!");
-            }*/
-            DataSource.DronesArr.Add(drone);
+                throw new ArgumentException("Can't add, There is already a drone with this ID");
+            }
+            DataSource.DronesArr.Add(newDrone);
         }
         /// <summary>
         /// the function add a new customer to the arry
         /// </summary>
         /// <param name="customer">the new customer to add</param>
-        public void AddCustomer(Customer customer)
+        public void AddCustomer(Customer newCustomer)
         {
-            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            if (DataSource.CustomerArr.Exists(drone => drone.Id == newCustomer.Id))
             {
-                throw new ArgumentException("customer's place are full! you can't add a new customer!");
-            }*/
-            DataSource.CustomerArr.Add(customer);
+                throw new ArgumentException("Can't add, There is already a customer with this ID");
+            }
+            DataSource.CustomerArr.Add(newCustomer);
         }
         /// <summary>
         /// the function add a new parcel to the arry
         /// </summary>
         /// <param name="parcel">the new parcel to add</param>
-        public void AddParcel(Parcel parcel)
+        public void AddParcel(Parcel newpParcel)
         {
-            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            if (DataSource.CustomerArr.Exists(drone => drone.Id == newpParcel.Id))
             {
-                throw new ArgumentException("parcel's place are full! you can't add a new parcel!");
-            }*/
-            DataSource.ParcelArr.Add(parcel);
+                throw new ArgumentException("Can't add, There is already a parcel with this ID");
+            }
+            DataSource.ParcelArr.Add(newpParcel);
         }
         /// <summary>
         /// the function contected beetwen parcel and drone
@@ -84,6 +84,7 @@ namespace DalObject
                     break;
                 }
             }
+            
             if (check==false)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
             int itemParcelDrone = 0;
@@ -109,7 +110,7 @@ namespace DalObject
                 }
             }
             if (check == false)
-                throw new ArgumentException("Error!! Ther is no drone with this id");
+                throw new ArgumentException("Error!! Ther is no percel with this id");
         }
         /// <summary>
         /// the function pick the percel from the dron
@@ -162,17 +163,17 @@ namespace DalObject
         /// </summary>
         /// <param name="station">the choosen station</param>
         /// <returns></returns>
-        private bool isEmptyChargeSlotInStation(Station station)
+        private bool isEmptyChargeSlotInStation(int stationId, int stationChargeSlot)
         {
             int counter = 0;
             foreach (var ChargeSlot in DataSource.listOfChargeSlot)
             {
-                if (ChargeSlot.StationId == station.Id)
+                if (ChargeSlot.StationId == stationId)
                 {
                     ++counter;
                 }
             }
-            if (counter < station.ChargeSlot)
+            if (counter < stationChargeSlot)
             {
                 return true;
             }
@@ -194,7 +195,7 @@ namespace DalObject
                     }
                     foreach (var item in DataSource.StationsArr)
                     {
-                        if (isEmptyChargeSlotInStation(item))
+                        if (isEmptyChargeSlotInStation(item.Id, item.ChargeSlot))
                         {
                             DroneCharge d = new DroneCharge(droenId, DataSource.StationsArr[i].Id);
                             DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model, DataSource.DronesArr[i].MaxWeight,
@@ -355,7 +356,7 @@ namespace DalObject
             List<Station> stationWithEmptyChargeSlot = new List<Station>();
             foreach (var item in DataSource.StationsArr)
             {
-                if (isEmptyChargeSlotInStation(item))
+                if (isEmptyChargeSlotInStation(item.Id, item.ChargeSlot))
                 {
                     stationWithEmptyChargeSlot.Add(item);
                 }
