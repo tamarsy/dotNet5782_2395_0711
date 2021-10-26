@@ -122,7 +122,13 @@ namespace DalObject
             {
                 if (DataSource.ParcelArr[i].Id == percelChoose)
                 {
-                    DataSource.ParcelArr[i].PickedUp = DateTime.Now;
+                    //itemParcelPickedUp = DataSource.ParcelArr[i].PickedUp;
+                    //itemParcelPickedUp = DataSource.ParcelArr[i].PickedUp;
+                    DataSource.ParcelArr[i] = new Parcel(DataSource.ParcelArr[i].Id, DataSource.ParcelArr[i].SenderId,
+                    DataSource.ParcelArr[i].TargilId, DataSource.ParcelArr[i].Weight, DataSource.ParcelArr[i].Priority,
+                    DataSource.ParcelArr[i].ReQuested, DataSource.ParcelArr[i].Droneld, DataSource.ParcelArr[i].Schedulet,
+                    DataSource.ParcelArr[i].PickedUp=DateTime.Now, DataSource.ParcelArr[i].Delivered);
+                    break;
                     break;
                 }
             }
