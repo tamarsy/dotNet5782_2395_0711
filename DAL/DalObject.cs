@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    public class DalObject
+    public class DalObject:IDal.IDal
     {
         /// <summary>
         /// coter that play the Initialize in DataSoutce
