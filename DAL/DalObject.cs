@@ -174,6 +174,10 @@ namespace DalObject
             {
                 if (droenId == DataSource.DronesArr[i].Id)
                 {
+                    if (DataSource.DronesArr[i].Status == DroneStatuses.sending)
+                    {
+                        throw new ArgumentException("cant charge on this drone is sending");
+                    }
                     for (int j = 0; j < DataSource.Config.stationIndex; ++j)
                     {
                         if (isEmptyChargeSlotInStation(DataSource.StationsArr[i]))
@@ -199,7 +203,19 @@ namespace DalObject
             {
                 if (droenId == DataSource.DronesArr[i].Id)
                 {
+                    if (DataSource.DronesArr[i].Status != DroneStatuses.maintanance)
+                    {
+                        throw new ArgumentException("cant charge of this drone is not charging now");
+                    }
                     DataSource.DronesArr[i].Status = DroneStatuses.vacant;
+                    //remove from the list Of Charge Slot in DataSource
+                    for (int j=0 ; j< DataSource.listOfChargeSlot.Count(); ++j)
+                    {
+                        if (DataSource.listOfChargeSlot[j].DroneId == DataSource.DronesArr[i].Id)
+                        {
+                            DataSource.listOfChargeSlot.RemoveAt(j);
+                        }
+                    }
                 }
             }
             throw new ArgumentException("no drone whith id: " + droenId + "in charge slot");

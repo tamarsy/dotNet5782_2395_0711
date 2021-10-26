@@ -111,7 +111,9 @@ namespace ConsoleUI
                                         int percelChoose = int.Parse(Console.ReadLine());
                                         Console.WriteLine("Choose a drone (id)");
                                         int droneChoose = int.Parse(Console.ReadLine());
-                                        IDal.ParcelToDrone(percelChoose, droneChoose);
+                                        dalObject.ParcelToDrone(percelChoose, droneChoose);
+                                        try { dalObject.ParcelToDrone(percelChoose, droneChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.PICKPARCEL:
@@ -119,14 +121,18 @@ namespace ConsoleUI
                                        
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
-                                        IDal.PickParcel(percelChoose);
+                                        dalObject.PickParcel(percelChoose);
+                                        try { dalObject.PickParcel(percelChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.DESTINATION:
                                     {
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
-                                        IDal.Destination(percelChoose);
+                                        dalObject.Destination(percelChoose);
+                                        try { dalObject.Destination(percelChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.CHARGEON:
