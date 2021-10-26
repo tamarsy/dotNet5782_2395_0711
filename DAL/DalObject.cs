@@ -22,10 +22,10 @@ namespace DalObject
         /// <param name="station">the new station to add</param>
         public void AddStation(Station station)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("station's place are full! you can't add a new station!");
-            }
+            }*/
             DataSource.StationsArr.Add(station);
         }
         /// <summary>
@@ -34,10 +34,10 @@ namespace DalObject
         /// <param name="drone">the new drone to add</param>
         public void AddDrone(Drone drone)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("drone's place are full! you can't add a new drone!");
-            }
+            }*/
             DataSource.DronesArr.Add(drone);
         }
         /// <summary>
@@ -46,10 +46,10 @@ namespace DalObject
         /// <param name="customer">the new customer to add</param>
         public void AddCustomer(Customer customer)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("customer's place are full! you can't add a new customer!");
-            }
+            }*/
             DataSource.CustomerArr.Add(customer);
         }
         /// <summary>
@@ -58,10 +58,10 @@ namespace DalObject
         /// <param name="parcel">the new parcel to add</param>
         public void AddParcel(Parcel parcel)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
+            /*if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("parcel's place are full! you can't add a new parcel!");
-            }
+            }*/
             DataSource.ParcelArr.Add(parcel);
         }
         /// <summary>
@@ -72,7 +72,7 @@ namespace DalObject
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
             int i = 0;
-            for (; i < DataSource.Config.droneIndex; i++)
+            for (; i < DataSource.DronesArr.Count; i++)
             {
                 if (DataSource.DronesArr[i].Id == droneChoose)
                 {

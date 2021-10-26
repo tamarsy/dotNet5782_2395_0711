@@ -111,8 +111,8 @@ namespace ConsoleUI
                                         int percelChoose = int.Parse(Console.ReadLine());
                                         Console.WriteLine("Choose a drone (id)");
                                         int droneChoose = int.Parse(Console.ReadLine());
-                                        dalObject.ParcelToDrone(percelChoose, droneChoose);
-                                        try { dalObject.ParcelToDrone(percelChoose, droneChoose); }
+                                        IDal.ParcelToDrone(percelChoose, droneChoose);
+                                        try { IDal.ParcelToDrone(percelChoose, droneChoose); }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
@@ -121,8 +121,8 @@ namespace ConsoleUI
                                        
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
-                                        dalObject.PickParcel(percelChoose);
-                                        try { dalObject.PickParcel(percelChoose); }
+                                        IDal.PickParcel(percelChoose);
+                                        try { IDal.PickParcel(percelChoose); }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
@@ -130,8 +130,8 @@ namespace ConsoleUI
                                     {
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
-                                        dalObject.Destination(percelChoose);
-                                        try { dalObject.Destination(percelChoose); }
+                                        IDal.Destination(percelChoose);
+                                        try { IDal.Destination(percelChoose); }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
