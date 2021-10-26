@@ -8,7 +8,7 @@ using IDAL.DO;
 
 namespace IDal
 {
-    interface IDal
+    public interface IDal
     {
         public void AddStation(Station newStation);
         public void AddDrone(Drone newDrone);

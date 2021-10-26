@@ -84,9 +84,9 @@ namespace DalObject
                     break;
                 }
             }
-            
             if (check==false)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
+
             int itemParcelDrone = 0;
             DateTime itemParcelSchedulet;
             check = false;
@@ -118,7 +118,7 @@ namespace DalObject
         /// <param name="percelChoose">the choosen percel</param>
         public void PickParcel(int percelChoose)
         {
-            int i = 0;
+            /*int i = 0;
             for (; i < DataSource.ParcelArr.Count; i++)
             {
                 if (DataSource.ParcelArr[i].Id == percelChoose)
@@ -134,7 +134,7 @@ namespace DalObject
                 }
             }
             if (i == DataSource.Config.droneIndex)
-                throw new ArgumentException("Error!! Ther is no drone with this id");
+                throw new ArgumentException("Error!! Ther is no drone with this id");*/
         }
         /// <summary>
         /// 

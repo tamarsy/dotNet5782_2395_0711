@@ -22,7 +22,7 @@ namespace ConsoleUI
         }
         static void Main(string[] args)
         {
-            DalObject.DalObject DalObject = new DalObject.DalObject();
+            IDal.IDal DalObject = new DalObject.DalObject();
             Console.WriteLine("Welcome to the drones sending\n" +
                 "Choos your option: Add, Update, View, ShowList, Exit (1-5)");
             int choos = int.Parse(Console.ReadLine());
