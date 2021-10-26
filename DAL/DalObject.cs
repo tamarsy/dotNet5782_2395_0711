@@ -135,22 +135,26 @@ namespace DalObject
         /// <param name="percelChoose"></param>
         public void Destination(int percelChoose)
         {
-            int i = 0;
-            for (; i < DataSource.Config.parcelIndex; i++)
+            bool check = false;
+            for (int i = 0; i < DataSource.ParcelArr.Count; ++i)
             {
                 if (DataSource.ParcelArr[i].Id == percelChoose)
                 {
-                    DataSource.ParcelArr[i].Delivered = DateTime.Now;
-                    int j = 0;
-                    for (; j < DataSource.Config.droneIndex; j++)
+                    check = true;
+                    DataSource.ParcelArr[i] = new Parcel(DataSource.ParcelArr[i].Id, DataSource.ParcelArr[i].SenderId, DataSource.ParcelArr[i].TargilId,
+                        DataSource.ParcelArr[i].Weight, DataSource.ParcelArr[i].Priority, DataSource.ParcelArr[i].ReQuested, DataSource.ParcelArr[i].Droneld,
+                        DataSource.ParcelArr[i].Schedulet, DataSource.ParcelArr[i].PickedUp, DateTime.Now);
+                    
+                    for (int j = 0; j < DataSource.DronesArr.Count; ++j)
                     {
                         if (DataSource.DronesArr[j].Id == DataSource.ParcelArr[i].Droneld)
-                            DataSource.DronesArr[j].Status = DroneStatuses.vacant;
+                            DataSource.DronesArr[j] = new Drone(DataSource.DronesArr[j].Id, DataSource.DronesArr[j].Model, DataSource.DronesArr[j].MaxWeight
+                                , DroneStatuses.vacant, DataSource.DronesArr[j].Battery);
                     }
                     break;
                 }
             }
-            if (i == DataSource.DronesArr.Count)
+            if (check == false)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
         }
         /// <summary>
