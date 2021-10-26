@@ -10,7 +10,7 @@ namespace DalObject
     public class DalObject
     {
         /// <summary>
-        /// 
+        /// coter that play the Initialize in DataSoutce
         /// </summary>
         public DalObject()
         {
@@ -22,11 +22,11 @@ namespace DalObject
         /// <param name="station">the new station to add</param>
         public void AddStation(Station station)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Length - 1)
+            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("station's place are full! you can't add a new station!");
             }
-            DataSource.StationsArr[DataSource.Config.stationIndex] = station;
+            DataSource.StationsArr.Add(station);
         }
         /// <summary>
         /// the function add a new drone to the arry
@@ -34,11 +34,11 @@ namespace DalObject
         /// <param name="drone">the new drone to add</param>
         public void AddDrone(Drone drone)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Length - 1)
+            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("drone's place are full! you can't add a new drone!");
             }
-            DataSource.DronesArr[DataSource.Config.droneIndex] = drone;
+            DataSource.DronesArr.Add(drone);
         }
         /// <summary>
         /// the function add a new customer to the arry
@@ -46,11 +46,11 @@ namespace DalObject
         /// <param name="customer">the new customer to add</param>
         public void AddCustomer(Customer customer)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Length - 1)
+            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("customer's place are full! you can't add a new customer!");
             }
-            DataSource.CustomerArr[DataSource.Config.customerIndex] = customer;
+            DataSource.CustomerArr.Add(customer);
         }
         /// <summary>
         /// the function add a new parcel to the arry
@@ -58,17 +58,17 @@ namespace DalObject
         /// <param name="parcel">the new parcel to add</param>
         public void AddParcel(Parcel parcel)
         {
-            if (DataSource.Config.stationIndex > DataSource.StationsArr.Length - 1)
+            if (DataSource.Config.stationIndex > DataSource.StationsArr.Count() - 1)
             {
                 throw new ArgumentException("parcel's place are full! you can't add a new parcel!");
             }
-            DataSource.ParcelArr[DataSource.Config.parcelIndex] = parcel;
+            DataSource.ParcelArr.Add(parcel);
         }
         /// <summary>
-        /// 
+        /// the function contected beetwen parcel and drone
         /// </summary>
-        /// <param name="percelChoose"></param>
-        /// <param name="droneChoose"></param>
+        /// <param name="percelChoose">the choosen percel</param>
+        /// <param name="droneChoose">the drone percel</param>
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
             int i = 0;
@@ -101,6 +101,10 @@ namespace DalObject
             if (j == DataSource.Config.droneIndex)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
         }
+        /// <summary>
+        /// the function pick the percel from the dron
+        /// </summary>
+        /// <param name="percelChoose">the choosen percel</param>
         public void PickParcel(int percelChoose)
         {
             int i = 0;
@@ -115,6 +119,10 @@ namespace DalObject
             if (i == DataSource.Config.droneIndex)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="percelChoose"></param>
         public void Destination(int percelChoose)
         {
             int i = 0;
@@ -135,6 +143,11 @@ namespace DalObject
             if (i == DataSource.Config.droneIndex)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
         }
+        /// <summary>
+        /// return if is empty charge slot in a station
+        /// </summary>
+        /// <param name="station">the choosen station</param>
+        /// <returns></returns>
         private bool isEmptyChargeSlotInStation(Station station)
         {
             int counter = 0;
@@ -152,9 +165,9 @@ namespace DalObject
             return false;
         }
         /// <summary>
-        /// 
+        /// the function find a ststion with empty charge slot and charge the dron
         /// </summary>
-        /// <param name="droenId"></param>
+        /// <param name="droenId">the dron id</param>
         public void ChargeOn(int droenId)
         {
             for (int i = 0; i < DataSource.Config.droneIndex; ++i)
@@ -177,9 +190,9 @@ namespace DalObject
             throw new ArgumentException("no drone whith id: " + droenId);
         }
         /// <summary>
-        /// 
+        /// the function charge of the dron from the charge slot
         /// </summary>
-        /// <param name="droenId"></param>
+        /// <param name="droenId">the dron id</param>
         public void ChargeOf(int droenId)
         {
             for (int i = 0; i < DataSource.Config.droneIndex; ++i)
@@ -192,7 +205,7 @@ namespace DalObject
             throw new ArgumentException("no drone whith id: " + droenId + "in charge slot");
         }
         /// <summary>
-        /// 
+        /// view the choosen station
         /// </summary>
         /// <param name="id">the station id</param>
         /// <returns></returns>
@@ -208,7 +221,7 @@ namespace DalObject
             throw new ArgumentException("not found a station with id = " + id);
         }
         /// <summary>
-        /// 
+        /// view the choosen drone
         /// </summary>
         /// <param name="id">the drone id</param>
         /// <returns></returns>
@@ -224,7 +237,7 @@ namespace DalObject
             throw new ArgumentException("not found a drone with id = " + id);
         }
         /// <summary>
-        /// 
+        /// view the choosen customer
         /// </summary>
         /// <param name="id">the customer id</param>
         /// <returns></returns>
@@ -258,7 +271,7 @@ namespace DalObject
         /// <summary>
         /// 
         /// </summary>
-        public string StationList()
+        public IEnumerable<> StationList()
         {
             string allList = "Station list: " + "\n";
             for (int i = 0; i < DataSource.Config.stationIndex; ++i)
@@ -268,7 +281,7 @@ namespace DalObject
             }
             return allList;
         }
-        public string DroneList()
+        public IEnumerable<> DroneList()
         {
             string allList = "Drone list: " + "\n";
             for (int i = 0; i < DataSource.Config.droneIndex; ++i)
@@ -278,7 +291,7 @@ namespace DalObject
             }
             return allList;
         }
-        public string CustomerList()
+        public IEnumerable<> CustomerList()
         {
             string allList = "Customer list: " + "\n";
             for (int i = 0; i < DataSource.Config.customerIndex; ++i)
@@ -288,7 +301,7 @@ namespace DalObject
             }
             return allList;
         }
-        public string ParcelList()
+        public IEnumerable<> ParcelList()
         {
             string allList = "Parcel list: " + "\n";
             for (int i = 0; i < DataSource.Config.parcelIndex; ++i)
@@ -298,7 +311,7 @@ namespace DalObject
             }
             return allList;
         }
-        public string ParcesWithoutDronelList()
+        public IEnumerable<> ParcesWithoutDronelList()
         {
             string allList = "Parcel Without Drone list: " + "\n";
             int index = 0;
@@ -312,7 +325,7 @@ namespace DalObject
             }
             return allList;
         }
-        public string EmptyChangeSlotlList()
+        public IEnumerable<> EmptyChangeSlotlList()
         {
             string allList = "Empty Change Slotl List: " + "\n";
             int index = 0;
