@@ -16,28 +16,20 @@ namespace IDAL
             /// <param name="Id">Id of the dron</param>
             /// <param name="Model">The drones model</param>
             /// <param name="MaxWeight">The max weight that the drone can bag</param>
-            /// <param name="Status">The drone status</param>
-            /// <param name="Battery">The amount of the energy</param>
-            public Drone(int id, string model, WeightCategories maxWeight, DroneStatuses status, double battery)
+            public Drone(int id, string model, WeightCategories maxWeight)
             {
                 Id = id;
                 Model = model;
                 MaxWeight = maxWeight;
-                Status = status;
-                Battery = battery;
             }
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
-            public DroneStatuses Status { get; set; }
-            public double Battery { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"
                     + "Model: " + Model + "\n"
-                    + "MaxWeight: " + MaxWeight + "\n"
-                     + "Status: " + Status + "\n"
-                     + "Battery: " + Battery;
+                    + "MaxWeight: " + MaxWeight;
             }
         }
     }

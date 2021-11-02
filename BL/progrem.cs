@@ -1,6 +1,8 @@
 ﻿using System;
-using IDAL.DO;
-namespace ConsoleUI
+using System.Collections.Generic;
+using System.Text;
+
+namespace BL
 {
     public class Program
     {
@@ -121,8 +123,8 @@ namespace ConsoleUI
                             choos = int.Parse(Console.ReadLine());
                             switch (choos)
                             {
-                                case (int) UPDATE.PARCELTODRONE:
-                                    {                              
+                                case (int)UPDATE.PARCELTODRONE:
+                                    {
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
                                         Console.WriteLine("Choose a drone (id)");
@@ -134,7 +136,7 @@ namespace ConsoleUI
                                     }
                                 case (int)UPDATE.PICKPARCEL:
                                     {
-                                       
+
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
                                         DalObject.PickParcel(percelChoose);
@@ -189,7 +191,8 @@ namespace ConsoleUI
                                     {
                                         Console.WriteLine("enter station id to view");
                                         int i = int.Parse(Console.ReadLine());
-                                        try {
+                                        try
+                                        {
                                             Station station = DalObject.ViewStation(i);
                                             Console.WriteLine(station.ToString());
                                         }

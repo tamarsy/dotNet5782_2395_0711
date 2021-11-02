@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace IDAL
+namespace IBL
 {
-    namespace DO
+    namespace BO
     {
         public enum WeightCategories
         {
@@ -15,6 +13,10 @@ namespace IDAL
         public enum Priorities
         {
             regular, fast, emergancy
+        }
+        public enum DroneStatuses
+        {
+            vacant, maintanance, sending
         }
     }
 }

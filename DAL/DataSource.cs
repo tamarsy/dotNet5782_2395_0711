@@ -17,6 +17,12 @@ namespace DalObject
         static internal List<Parcel> ParcelArr = new List<Parcel>();
         internal class Config
         {
+            static public double vacent { get; set; }
+            static public double LightWeightCarrier { get; set; }
+            static public double MediumWeightCarrier { get; set; }
+            static public double heavyWeightCarrier { get; set; }
+
+            static public double SkimmerLoadingRate { get; set; }
             const int NUMOFDRONES = 5;
             public static int runNumForParcel = 0;
             public static void Initialize()
@@ -24,7 +30,7 @@ namespace DalObject
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
                 {
-                    DronesArr.Add(new Drone(i, "mavic_JDL" + i, (WeightCategories)(i % 3), (DroneStatuses)(i % 3), 99.9));
+                    DronesArr.Add(new Drone(i, "mavic_JDL" + i, (WeightCategories)(i % 3)));
                 }
 
                 for (int i = 0; i < NUMOFDRONES / 2; ++i)
@@ -41,7 +47,7 @@ namespace DalObject
 
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
                 {
-                    CustomerArr.Add(new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i], phones[i]));
+                    CustomerArr.Add(new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i%(names.Count())], phones[i % (names.Count())]));
                 }
 
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
