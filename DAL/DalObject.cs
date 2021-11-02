@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    public class DalObject:IDal.IDal
+    public class DalObject : IDal.IDal
     {
         /// <summary>
         /// coter that play the Initialize in DataSoutce
@@ -84,13 +84,13 @@ namespace DalObject
                     break;
                 }
             }
-            if (check==false)
+            if (check == false)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
 
             int itemParcelDrone = 0;
             DateTime itemParcelSchedulet;
             check = false;
-            foreach ( var item in DataSource.ParcelArr)
+            foreach (var item in DataSource.ParcelArr)
             {
                 if (item.Id == percelChoose)
                 {
@@ -151,7 +151,7 @@ namespace DalObject
                     DataSource.ParcelArr[i] = new Parcel(DataSource.ParcelArr[i].Id, DataSource.ParcelArr[i].SenderId, DataSource.ParcelArr[i].TargilId,
                         DataSource.ParcelArr[i].Weight, DataSource.ParcelArr[i].Priority, DataSource.ParcelArr[i].ReQuested, DataSource.ParcelArr[i].Droneld,
                         DataSource.ParcelArr[i].Schedulet, DataSource.ParcelArr[i].PickedUp, DateTime.Now);
-                    
+
                     for (int j = 0; j < DataSource.DronesArr.Count; ++j)
                     {
                         if (DataSource.DronesArr[j].Id == DataSource.ParcelArr[i].Droneld)
@@ -369,10 +369,25 @@ namespace DalObject
             }
             return stationWithEmptyChargeSlot;
         }
-
+        /// <summary>
+        /// the function return an 5 doubls:
+        /// 1 vacent
+        /// 2 LightWeightCarrier
+        /// 3 MediumWeightCarrier
+        /// 4 heavyWeightCarrier
+        /// 5 SkimmerLoadingRate
+        /// </summary>
+        /// <returns></returns>
         public double[] PowerConsumptionRequest()
         {
-            
+            return (new double[5]
+            {
+                DataSource.Config.vacent,
+                DataSource.Config.LightWeightCarrier,
+                DataSource.Config.MediumWeightCarrier,
+                DataSource.Config.heavyWeightCarrier,
+                DataSource.Config.SkimmerLoadingRate
+            });
         }
     }
 }

@@ -5,10 +5,17 @@ using IBL.BO;
 
 namespace BL
 {
-    class BL: IBL.IBL
+    partial class BL: IBL.IBL
     {
-        IDal DalObject = new DalObject();
-        public void AddStation(Station newStation)
+        List<Drone> dones;
+        public BL()
+        {
+            IDal dalObject = new DalObject();
+            //
+            //dones = dalObject.
+
+        }
+        public void AddStation()
         {
 
         }
