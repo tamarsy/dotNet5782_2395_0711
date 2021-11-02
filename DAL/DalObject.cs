@@ -74,11 +74,15 @@ namespace DalObject
             WeightCategories itemDroneWeight = 0;
             DroneStatuses itemDroneStatus = 0;
             bool check = false;
+            int i = 0;
             foreach (var item in DataSource.DronesArr)
             {
                 if (item.Id == droneChoose)
                 {
                     check = true;
+                    DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model,
+                    item.MaxWeight,
+                    item.Status, DataSource.DronesArr[i].Battery);
                     itemDroneWeight = item.MaxWeight;
                     itemDroneStatus = item.Status;
                     break;
@@ -95,6 +99,10 @@ namespace DalObject
                 if (item.Id == percelChoose)
                 {
                     check = true;
+                    DataSource.ParcelArr[i] = new Parcel(DataSource.ParcelArr[i].Id, DataSource.ParcelArr[i].SenderId,
+                 DataSource.ParcelArr[i].TargilId, DataSource.ParcelArr[i].Weight, DataSource.ParcelArr[i].Priority,
+                 DataSource.ParcelArr[i].ReQuested, item.Droneld, item.Schedulet,
+                 DataSource.ParcelArr[i].PickedUp, DataSource.ParcelArr[i].Delivered);
                     itemParcelDrone = item.Droneld;
                     itemParcelSchedulet = item.Schedulet;
                     if (item.Weight > itemDroneWeight)
@@ -118,23 +126,23 @@ namespace DalObject
         /// <param name="percelChoose">the choosen percel</param>
         public void PickParcel(int percelChoose)
         {
-            /*int i = 0;
+            bool check = false;
+            int i = 0;
             for (; i < DataSource.ParcelArr.Count; i++)
             {
                 if (DataSource.ParcelArr[i].Id == percelChoose)
                 {
-                    //itemParcelPickedUp = DataSource.ParcelArr[i].PickedUp;
+                    check = true;
                     //itemParcelPickedUp = DataSource.ParcelArr[i].PickedUp;
                     DataSource.ParcelArr[i] = new Parcel(DataSource.ParcelArr[i].Id, DataSource.ParcelArr[i].SenderId,
                     DataSource.ParcelArr[i].TargilId, DataSource.ParcelArr[i].Weight, DataSource.ParcelArr[i].Priority,
                     DataSource.ParcelArr[i].ReQuested, DataSource.ParcelArr[i].Droneld, DataSource.ParcelArr[i].Schedulet,
-                    DataSource.ParcelArr[i].PickedUp=DateTime.Now, DataSource.ParcelArr[i].Delivered);
-                    break;
+                    DateTime.Now, DataSource.ParcelArr[i].Delivered);
                     break;
                 }
             }
-            if (i == DataSource.Config.droneIndex)
-                throw new ArgumentException("Error!! Ther is no drone with this id");*/
+            if (check==false)
+                throw new ArgumentException("Error!! Ther is no drone with this id");
         }
         /// <summary>
         /// 
