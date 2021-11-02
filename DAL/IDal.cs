@@ -29,6 +29,7 @@ namespace IDal
         public IEnumerable<Parcel> ParcelList();
         public IEnumerable<Parcel> ParcesWithoutDronelList();
         public IEnumerable<Station> EmptyChangeSlotlList();
+        public double[] PowerConsumptionRequest();
     }
 }
 

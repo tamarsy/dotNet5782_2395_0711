@@ -369,5 +369,10 @@ namespace DalObject
             }
             return stationWithEmptyChargeSlot;
         }
+
+        public double[] PowerConsumptionRequest()
+        {
+            
+        }
     }
 }

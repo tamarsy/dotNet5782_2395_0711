@@ -20,8 +20,18 @@ namespace ConsoleUI
         {
             PARCELTODRONE, PICKPARCEL, DESTINATION, CHARGEON, CHARGEOF
         }
+
+        static private bool chackID(int ID)
+        {
+            if (ID < 111111111 || ID > 999999999)
+            {
+                return false;
+            }
+            return true;
+        }
         static void Main(string[] args)
         {
+            Console.WriteLine(434.GetType());
             IDal.IDal DalObject = new DalObject.DalObject();
             Console.WriteLine("Welcome to the drones sending\n" +
                 "Choos your option: Add, Update, View, ShowList, Exit (1-5)");
@@ -67,6 +77,11 @@ namespace ConsoleUI
                                         Console.WriteLine("enter customer details:");
                                         Customer customer = new Customer();
                                         customer.Id = int.Parse(Console.ReadLine());
+                                        while (!chackID(customer.Id))
+                                        {
+                                            Console.WriteLine("weung id");
+                                            customer.Id = int.Parse(Console.ReadLine());
+                                        }
                                         customer.Lattitude = double.Parse(Console.ReadLine());
                                         customer.Longitude = double.Parse(Console.ReadLine());
                                         customer.Name = Console.ReadLine();
@@ -82,6 +97,7 @@ namespace ConsoleUI
                                         parcel.Droneld = int.Parse(Console.ReadLine());
                                         parcel.Delivered = new DateTime(int.Parse(Console.ReadLine()));
                                         parcel.Id = int.Parse(Console.ReadLine());
+
                                         parcel.PickedUp = new DateTime(int.Parse(Console.ReadLine()));
                                         parcel.Priority = (Priorities)int.Parse(Console.ReadLine());
                                         parcel.ReQuested = new DateTime(int.Parse(Console.ReadLine()));
