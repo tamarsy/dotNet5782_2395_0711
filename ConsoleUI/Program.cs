@@ -20,9 +20,19 @@ namespace ConsoleUI
         {
             PARCELTODRONE, PICKPARCEL, DESTINATION, CHARGEON, CHARGEOF
         }
+
+        static private bool chackID(int ID)
+        {
+            if (ID < 111111111 || ID > 999999999)
+            {
+                return false;
+            }
+            return true;
+        }
         static void Main(string[] args)
         {
-            DalObject.DalObject dalObject = new DalObject.DalObject();
+            Console.WriteLine(434.GetType());
+            IDal.IDal DalObject = new DalObject.DalObject();
             Console.WriteLine("Welcome to the drones sending\n" +
                 "Choos your option: Add, Update, View, ShowList, Exit (1-5)");
             int choos = int.Parse(Console.ReadLine());
@@ -45,7 +55,7 @@ namespace ConsoleUI
                                         station.Lattitude = double.Parse(Console.ReadLine());
                                         station.Longitude = double.Parse(Console.ReadLine());
                                         station.Name = int.Parse(Console.ReadLine());
-                                        try { dalObject.AddStation(station); }
+                                        try { DalObject.AddStation(station); }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
@@ -58,7 +68,7 @@ namespace ConsoleUI
                                         drone.MaxWeight = (WeightCategories)int.Parse(Console.ReadLine());
                                         drone.Model = Console.ReadLine();
                                         drone.Status = (DroneStatuses)int.Parse(Console.ReadLine());
-                                        try { dalObject.AddDrone(drone); }
+                                        try { DalObject.AddDrone(drone); }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
@@ -67,11 +77,16 @@ namespace ConsoleUI
                                         Console.WriteLine("enter customer details:");
                                         Customer customer = new Customer();
                                         customer.Id = int.Parse(Console.ReadLine());
+                                        while (!chackID(customer.Id))
+                                        {
+                                            Console.WriteLine("weung id");
+                                            customer.Id = int.Parse(Console.ReadLine());
+                                        }
                                         customer.Lattitude = double.Parse(Console.ReadLine());
                                         customer.Longitude = double.Parse(Console.ReadLine());
                                         customer.Name = Console.ReadLine();
                                         customer.Phone = Console.ReadLine();
-                                        try { dalObject.AddCustomer(customer); }
+                                        try { DalObject.AddCustomer(customer); }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
@@ -82,6 +97,7 @@ namespace ConsoleUI
                                         parcel.Droneld = int.Parse(Console.ReadLine());
                                         parcel.Delivered = new DateTime(int.Parse(Console.ReadLine()));
                                         parcel.Id = int.Parse(Console.ReadLine());
+
                                         parcel.PickedUp = new DateTime(int.Parse(Console.ReadLine()));
                                         parcel.Priority = (Priorities)int.Parse(Console.ReadLine());
                                         parcel.ReQuested = new DateTime(int.Parse(Console.ReadLine()));
@@ -89,7 +105,7 @@ namespace ConsoleUI
                                         parcel.SenderId = int.Parse(Console.ReadLine());
                                         parcel.TargilId = int.Parse(Console.ReadLine());
                                         parcel.Weight = (WeightCategories)int.Parse(Console.ReadLine());
-                                        try { dalObject.AddParcel(parcel); }
+                                        try { DalObject.AddParcel(parcel); }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
@@ -111,7 +127,9 @@ namespace ConsoleUI
                                         int percelChoose = int.Parse(Console.ReadLine());
                                         Console.WriteLine("Choose a drone (id)");
                                         int droneChoose = int.Parse(Console.ReadLine());
-                                        dalObject.ParcelToDrone(percelChoose, droneChoose);
+                                        DalObject.ParcelToDrone(percelChoose, droneChoose);
+                                        try { DalObject.ParcelToDrone(percelChoose, droneChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.PICKPARCEL:
@@ -119,14 +137,18 @@ namespace ConsoleUI
                                        
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
-                                        dalObject.PickParcel(percelChoose);
+                                        DalObject.PickParcel(percelChoose);
+                                        try { DalObject.PickParcel(percelChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.DESTINATION:
                                     {
                                         Console.WriteLine("Choose a parcel (id)");
                                         int percelChoose = int.Parse(Console.ReadLine());
-                                        dalObject.Destination(percelChoose);
+                                        DalObject.Destination(percelChoose);
+                                        try { DalObject.Destination(percelChoose); }
+                                        catch (Exception e) { Console.WriteLine(e); }
                                         break;
                                     }
                                 case (int)UPDATE.CHARGEON:
@@ -135,7 +157,7 @@ namespace ConsoleUI
                                         int droenId = int.Parse(Console.ReadLine());
                                         try
                                         {
-                                            dalObject.ChargeOn(droenId);
+                                            DalObject.ChargeOn(droenId);
                                         }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
@@ -146,7 +168,7 @@ namespace ConsoleUI
                                         int droenId = int.Parse(Console.ReadLine());
                                         try
                                         {
-                                            dalObject.ChargeOf(droenId);
+                                            DalObject.ChargeOf(droenId);
                                         }
                                         catch (Exception e) { Console.WriteLine(e); }
                                         break;
@@ -168,7 +190,7 @@ namespace ConsoleUI
                                         Console.WriteLine("enter station id to view");
                                         int i = int.Parse(Console.ReadLine());
                                         try {
-                                            Station station = dalObject.ViewStation(i);
+                                            Station station = DalObject.ViewStation(i);
                                             Console.WriteLine(station.ToString());
                                         }
                                         catch (Exception e) { Console.WriteLine(e); }
@@ -180,7 +202,7 @@ namespace ConsoleUI
                                         int i = int.Parse(Console.ReadLine());
                                         try
                                         {
-                                            Drone drone = dalObject.ViewDrone(i);
+                                            Drone drone = DalObject.ViewDrone(i);
                                             Console.WriteLine(drone.ToString());
                                         }
                                         catch (Exception e) { Console.WriteLine(e); }
@@ -192,7 +214,7 @@ namespace ConsoleUI
                                         int i = int.Parse(Console.ReadLine());
                                         try
                                         {
-                                            Customer customer = dalObject.ViewCustomer(i);
+                                            Customer customer = DalObject.ViewCustomer(i);
                                             Console.WriteLine(customer.ToString());
                                         }
                                         catch (Exception e) { Console.WriteLine(e); }
@@ -204,7 +226,7 @@ namespace ConsoleUI
                                         int i = int.Parse(Console.ReadLine());
                                         try
                                         {
-                                            Parcel parcel = dalObject.ViewParcel(i);
+                                            Parcel parcel = DalObject.ViewParcel(i);
                                             Console.WriteLine(parcel.ToString());
                                         }
                                         catch (Exception e) { Console.WriteLine(e); }
@@ -224,32 +246,50 @@ namespace ConsoleUI
                             {
                                 case (int)LIST.STATION:
                                     {
-                                        Console.WriteLine(dalObject.StationList());
+                                        foreach (var item in DalObject.StationList())
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        };
                                         break;
                                     }
                                 case (int)LIST.DRONE:
                                     {
-                                        Console.WriteLine(dalObject.DroneList());
+                                        foreach (var item in DalObject.DroneList())
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        };
                                         break;
                                     }
                                 case (int)LIST.CUSTOMER:
                                     {
-                                        Console.WriteLine(dalObject.CustomerList());
+                                        foreach (var item in DalObject.CustomerList())
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        };
                                         break;
                                     }
                                 case (int)LIST.PARCEL:
                                     {
-                                        Console.WriteLine(dalObject.ParcelList());
+                                        foreach (var item in DalObject.ParcelList())
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        };
                                         break;
                                     }
                                 case (int)LIST.PARCELSWITHOUTDRONE:
                                     {
-                                        Console.WriteLine(dalObject.ParcesWithoutDronelList());
+                                        foreach (var item in DalObject.ParcesWithoutDronelList())
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        };
                                         break;
                                     }
                                 case (int)LIST.EMPTYCHARGESLOT:
                                     {
-                                        Console.WriteLine(dalObject.EmptyChangeSlotlList());
+                                        foreach (var item in DalObject.EmptyChangeSlotlList())
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        };
                                         break;
                                     }
                                 default:
