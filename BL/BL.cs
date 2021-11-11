@@ -21,7 +21,31 @@ namespace BL
 
         private void initializeDrones()
         {
+            foreach (var drone in dal.GetDrones())
+            {
+                drones.Add(new DroneForList
+                {
+                    Id = drone.Id,
+                    Model = drone.Model,
+                    MaxWeight = (WeightCategories)drone.MaxWeight
+                });
+            }
+            //TODO : DeliveryId
+            foreach (var drone in drones)
+            {
+                drone.DeliveryId = 0;
+            }
+            //TODO : Battery & Status
+            foreach (var drone in drones)
+            {
+                drone.Battery = 1;
+                drone.Status = DroneStatuses.Maintenance;
+            }
 
+            foreach (var drone in drones)
+            {
+                drone.Location = findDroneLocation(drone);
+            }
         }
         public void AddStation(int id, string name, int longitude, int lattitude)
         {
