@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using IDAL;
+using DalObject;
 using IBL.BO;
-
 namespace BL
 {
     partial class BL: IBL.IBL
     {
+        IDal dalObject;
         List<Drone> dones;
         public BL()
         {
-            IDal dalObject = new DalObject();
-            //
-            //dones = dalObject.
+            dalObject = new DalObject();
+            dones = new List<DroneForList>();
+            initializeDrones();
+        }
+
+        private void initializeDrones()
+        {
 
         }
-        public void AddStation()
+        public void AddStation(int id, string name, int longitude, int lattitude)
         {
 
         }

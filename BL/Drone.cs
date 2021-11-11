@@ -12,7 +12,7 @@ namespace IBL
         {
             public string ToString()
             {
-                return "cc";
+                return "drone";
             }
         }
     }
