@@ -47,7 +47,12 @@ namespace DalObject
 
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
                 {
+<<<<<<< HEAD
+                    CustomerArr[i] = new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[1], phones[4]);
+                    ++customerIndex;
+=======
                     CustomerArr.Add(new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i%(names.Count())], phones[i % (names.Count())]));
+>>>>>>> bf32c3bdfb5cab40d26a819c499c1bf039f1ef5a
                 }
 
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
