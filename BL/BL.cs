@@ -6,126 +6,214 @@ using System.Threading.Tasks;
 using IDAL;
 using DalObject;
 using IBL.BO;
-namespace BL
+
+namespace IBL
 {
-    partial class BL: IBL.IBL
+    public partial class BL: IBL
     {
-        IDal dalObject;
-        List<Drone> dones;
+        private IDal dalObject;
+        private double[] PowerConsumptionRequest;
+        private List<DroneToList> drones;
+        private static Random rand = new Random();
         public BL()
         {
-            dalObject = new DalObject();
-            dones = new List<DroneForList>();
-            initializeDrones();
+            dalObject = new DalObject.DalObject();
+            PowerConsumptionRequest = new double[] { dalObject.PowerConsumptionRequest() };
+            drones = new List<DroneToList>();
+            initializeDronesList();
         }
 
-        private void initializeDrones()
+        private void initializeDronesList()
         {
-            foreach (var drone in dal.GetDrones())
+            //copy to drones from data
+            foreach (var drone in dalObject.GetDrones())
             {
-                drones.Add(new DroneForList
+                drones.Add(new DroneToList
+                (
+                    drone.Id,
+                    drone.Model,
+                    (WeightCategories)drone.MaxWeight
+                ));
+            }
+            
+            foreach (var drone in drones)
+            {
+                drone.CurrentLocation = findLocation(drone);
+            }
+        }
+
+        private Location findLocation(DroneToList drone)
+        {
+            Location newLoction = new Location();
+
+            if (drone.DroneStatuses == DroneStatuses.sending)
+            {
+                IDAL.DO.Parcel parcel = dalObject.GetParcel(drone.NumOfParcel);
+                if (parcel.PickedUp == null)
                 {
-                    Id = drone.Id,
-                    Model = drone.Model,
-                    MaxWeight = (WeightCategories)drone.MaxWeight
+                    return findClosetStationLocation(drone);
+                }
+                if (parcel.Delivered == null)
+                {
+                    return ViewCustomer(parcel.SenderId).CurrentLocation;
+                }
+            }
+
+
+            if (drone.DroneStatuses == DroneStatuses.maintanance)
+            {
+                drone.BatteryStatuses = rand.Next(20);
+                int stationId = rand.Next(dalObject.StationList().Count());
+                IDAL.DO.Station Station = dalObject.GetStation(stationId);
+                newLoction = new Location(Station.Lattitude, Station.Longitude);
+                return newLoction;
+            }
+
+
+            if (drone.DroneStatuses == DroneStatuses.vacant)
+            {
+                //dalObject.
+                drone.BatteryStatuses = rand.Next(81) + 20;
+            }
+
+            return newLoction;
+        }
+
+        private Location findClosetStationLocation(DroneToList drone)
+        {
+            List<Station> locations = new List<Station>();
+            foreach (var Station in dalObject.GetStations())
+            {
+                locations.Add(new Station
+                {
+                    CurrentSiting = new Location
+                    {
+                        Latitude = Station.Latitude,
+                        Longitude = Station.Longitude
+                    }
                 });
             }
-            //TODO : DeliveryId
-            foreach (var drone in drones)
+            Location location = locations[0].Location;
+            double distance = drone.Distance(locations[0]);
+            for (int i = 1; i < locations.Count; i++)
             {
-                drone.DeliveryId = 0;
+                if (drone.Distance(locations[i]) < distance)
+                {
+                    location = locations[i].Location;
+                    distance = drone.Distance(locations[i]);
+                }
             }
-            //TODO : Battery & Status
-            foreach (var drone in drones)
-            {
-                drone.Battery = 1;
-                drone.Status = DroneStatuses.Maintenance;
-            }
-
-            foreach (var drone in drones)
-            {
-                drone.Location = findDroneLocation(drone);
-            }
+            return location;
         }
-        public void AddStation(int id, string name, int longitude, int lattitude)
-        {
 
+        public void AddStation(int id, string name, Location location, int chargeSlots)
+        {
+            throw new NotImplementedException();
         }
-        public void AddDrone(Drone newDrone)
-        {
 
+        public void AddDrone(int id, string model, WeightCategories maxWeight, int stationId)
+        {
+            throw new NotImplementedException();
         }
-        public void AddCustomer(Customer newCustomer)
-        {
 
+        public void AddCustomer(int id, string name, string phone, Location location)
+        {
+            throw new NotImplementedException();
         }
-        public void AddParcel(Parcel newpParcel)
-        {
 
+        public void AddParcel(int sid, int tid, WeightCategories weigth, Priorities priority)
+        {
+            throw new NotImplementedException();
         }
-        public void ParcelToDrone(int percelChoose, int droneChoose)
-        {
 
+        public void UpdateStation(int id, string name, int numOfChargeSlot)
+        {
+            throw new NotImplementedException();
         }
-        public void PickParcel(int percelChoose)
-        {
 
+        public void UpdateDrone(int id, string model)
+        {
+            throw new NotImplementedException();
         }
-        public void Destination(int percelChoose)
-        {
 
+        public void UpdateCusomer(int id, string name, string phone)
+        {
+            throw new NotImplementedException();
         }
-        public void ChargeOn(int droenId)
-        {
 
+        public void ChargeOn(int id)
+        {
+            throw new NotImplementedException();
         }
-        public void ChargeOf(int droenId)
-        {
 
+        public void ChargeOf(int id, float timeInCharge)
+        {
+            throw new NotImplementedException();
         }
-        public Station ViewStation(int id)
-        {
 
+        public void ParcelToDrone(int id)
+        {
+            throw new NotImplementedException();
         }
-        public Drone ViewDrone(int id)
-        {
 
+        public void PickParcel(int id)
+        {
+            throw new NotImplementedException();
         }
-        public Customer ViewCustomer(int id)
-        {
 
+        public void Destination(int id)
+        {
+            throw new NotImplementedException();
         }
-        public Parcel ViewParcel(int id)
-        {
 
+        public Station GetStation(int requestedId)
+        {
+            throw new NotImplementedException();
         }
-        public IEnumerable<Station> StationList()
-        {
 
+        public Drone GetDrone(int requestedId)
+        {
+            throw new NotImplementedException();
         }
-        public IEnumerable<Drone> DroneList()
-        {
 
+        public Customer GetCustomer(int requestedId)
+        {
+            throw new NotImplementedException();
         }
-        public IEnumerable<Customer> CustomerList()
-        {
 
+        public Parcel GetParcel(int requestedId)
+        {
+            throw new NotImplementedException();
         }
-        public IEnumerable<Parcel> ParcelList()
-        {
 
+        public IEnumerable<StationToList> GetStations()
+        {
+            throw new NotImplementedException();
         }
-        public IEnumerable<Parcel> ParcesWithoutDronelList()
-        {
 
+        public IEnumerable<DroneToList> GetDrones()
+        {
+            throw new NotImplementedException();
         }
-        public IEnumerable<Station> EmptyChangeSlotlList()
-        {
 
+        public IEnumerable<Customer> GetCustomers()
+        {
+            throw new NotImplementedException();
         }
-        public double[] PowerConsumptionRequest()
-        {
 
+        public IEnumerable<Parcel> GetParcels()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Parcel> EmptyChangeSlotlList()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Station> ParcesWithoutDronelList()
+        {
+            throw new NotImplementedException();
         }
     }
 }
