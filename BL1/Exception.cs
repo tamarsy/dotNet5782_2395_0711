@@ -2,22 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BL
+namespace IBL
 {
-    class BlException:Exception
+    namespace IBL
     {
-        public BlException():base()
+        class BlException : Exception
         {
-        }
-       
-        public BlException(string? message):base(message)
-        {
+            public BlException() : base()
+            {
+            }
 
-        }
-       
-        public BlException(string? message, Exception? innerException):base(message, innerException)
-        {
+            public BlException(string? message) : base(message)
+            {
 
+            }
+
+            public BlException(string? message, Exception? innerException) : base(message, innerException)
+            {
+
+            }
         }
     }
 }

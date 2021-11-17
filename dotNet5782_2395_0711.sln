@@ -21,7 +21,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\Cons
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL1\BL.csproj", "{A493B0E3-CE3C-4DF3-B639-62713F077462}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleUI_BL", "ConsoleUI_BL\ConsoleUI_BL.csproj", "{6ED65C0D-3801-412B-9E96-12225EB46B04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI_BL", "ConsoleUI_BL\ConsoleUI_BL.csproj", "{6ED65C0D-3801-412B-9E96-12225EB46B04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IBL", "IBL", "{9EC5DF0C-6776-4412-8FF3-40F4AF757ACA}"
+	ProjectSection(SolutionItems) = preProject
+		BL1\IBL.cs = BL1\IBL.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BO", "BO", "{1D0D45C5-C259-478F-B7A7-5F9B1F2702CA}"
+	ProjectSection(SolutionItems) = preProject
+		BL1\Exception.cs = BL1\Exception.cs
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +62,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1D0D45C5-C259-478F-B7A7-5F9B1F2702CA} = {9EC5DF0C-6776-4412-8FF3-40F4AF757ACA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ACEAD650-F0C2-48CA-8C45-491F39F3BD94}

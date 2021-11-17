@@ -10,19 +10,12 @@ namespace IBL
     {
         class CustomerToList
         {
-            public CustomerToList(int id, string name, string phone,
-                NumOfParcelsDefined numOfParcelsDefined,
-                NumOfParcelsAscribed numOfParcelsAscribed,
-                NumOfParcelsCollected numOfParcelsCollected,
-                NumOfParcelsSupplied numOfParcelsSupplied)
+            public CustomerToList(int id, string name, string phone)
             {
                 Id = id;
                 Name = name;
                 Phone = phone;
-                NumOfParcelsDefined = numOfParcelsDefined;
-                NumOfParcelsAscribed = numOfParcelsAscribed;
-                NumOfParcelsCollected = numOfParcelsCollected;
-                NumOfParcelsSupplied = numOfParcelsSupplied;
+                
             }
             public int Id { get; set; }
             public string Name { get; set; }
@@ -31,9 +24,8 @@ namespace IBL
             {
                 return "Id: " + Id + "\n"
                     + "Name: " + Name + "\n"
-                    + "Phone: " + Phone + "\n"
-                     + "Longitude: " + Longitude + "\n"
-                     + "Lattitude: " + Lattitude;
+                    + "Phone: " + Phone;
             }
         }
     }
+}
