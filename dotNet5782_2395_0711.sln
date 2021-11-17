@@ -33,6 +33,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BO", "BO", "{1D0D45C5-C259-
 		BL1\Exception.cs = BL1\Exception.cs
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL2", "BL2\BL2.csproj", "{A7DF4A74-5C92-4506-A223-31B3306C52FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{6ED65C0D-3801-412B-9E96-12225EB46B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ED65C0D-3801-412B-9E96-12225EB46B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ED65C0D-3801-412B-9E96-12225EB46B04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7DF4A74-5C92-4506-A223-31B3306C52FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7DF4A74-5C92-4506-A223-31B3306C52FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7DF4A74-5C92-4506-A223-31B3306C52FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7DF4A74-5C92-4506-A223-31B3306C52FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
