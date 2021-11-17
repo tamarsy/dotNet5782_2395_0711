@@ -279,28 +279,28 @@ namespace ConsoleUI_BL
                             float timeOfCharge;
                             Console.WriteLine("enter an id of drone and time of charge");
                             if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(), out timeOfCharge))
-                                bl.ChargeOf(id, timeOfCharge);
+                                bl.ChargeOn(id, timeOfCharge);
                             break;
                         }
                     case Update.AssingParcelToDrone:
                         {
                             Console.WriteLine("enter an id of drone");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                bl.ParcelToDrone(id);
+                                bl.AssingParcellToDrone(id);
                             break;
                         }
                     case Update.CollectParcelByDrone:
                         {
                             Console.WriteLine("enter an id of drone");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                bl.PickParcel(id);
+                                bl.ParcelCollectionByDrone(id);
                             break;
                         }
                     case Update.SupplyParcelToDestination:
                         {
                             Console.WriteLine("enter an id of parcel");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                bl.Destination(id);
+                                bl.DeliveryParcelByDrone(id);
                             break;
                         }
                     default:
@@ -353,6 +353,7 @@ namespace ConsoleUI_BL
                 }
             }
             /// <summary>
+            /// Receives input from the user and calls the printing method accordingly 
             /// </summary>
             /// <param name="dalObject"></param>
             public static void switchDisplayList(ref IBL.IBL bl)

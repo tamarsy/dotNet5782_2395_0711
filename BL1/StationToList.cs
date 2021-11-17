@@ -10,17 +10,18 @@ namespace IBL
     {
         public class StationToList
         {
-            public StationToList(int id, int name, int numOfChargeSlots)
+            public StationToList(int id, int name, int numOfEmptyChargeSlots, int numOfCatchChargeSlots)
             {
                 Id = id;
                 Name = name;
-                NumOfChargeSlots = numOfChargeSlots;
+                ThisLocation = thisLocation;
+                NumOfEmptyChargeSlots = numOfEmptyChargeSlots;
+                NumOfCatchChargeSlots = numOfCatchChargeSlots;
             }
             public int Id { get; set; }
             public int Name { get; set; }
-            public double Longitude { get; set; }
-            public double Lattitude { get; set; }
-            public int NumOfChargeSlots { get; set; }
+            public int NumOfEmptyChargeSlots { get; set; }
+            public int NumOfCatchChargeSlots { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"

@@ -104,6 +104,10 @@ namespace DalObject
                     if (item.Weight > itemDroneWeight)
                         throw new ArgumentException("Error!! The drone cannot carry this weight");
 
+                    if (itemDroneStatus != DroneStatuses.vacant)
+                        throw new ArgumentException("We can't send this drone");
+
+                    itemDroneStatus = DroneStatuses.sending;
                     itemParcelDrone = item.Id;
                     itemParcelSchedulet = DateTime.Now;
                     break;
@@ -233,23 +237,22 @@ namespace DalObject
                     }
                     DataSource.DronesArr[i].Status = DroneStatuses.vacant;
                     //remove from the list Of Charge Slot in DataSource
-                    for (int j; j < DataSource.listOfChargeSlot.Count(); ++j)
+                    for (int j ; j< DataSource.listOfChargeSlot.Count(); ++j)
                     {
                         if (DataSource.listOfChargeSlot.DroneId == DataSource.DronesArr[i].Id)
-                            DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model, DataSource.DronesArr[i].MaxWeight,
-                                DroneStatuses.vacant, DataSource.DronesArr[i].Battery);
-                        //remove from the list Of Charge Slot in DataSource
-                        for (int j = 0; j < DataSource.listOfChargeSlot.Count(); ++j)
+                    DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model, DataSource.DronesArr[i].MaxWeight,
+                        DroneStatuses.vacant, DataSource.DronesArr[i].Battery);
+                    //remove from the list Of Charge Slot in DataSource
+                    for (int j = 0; j < DataSource.listOfChargeSlot.Count(); ++j)
+                    {
+                        if (DataSource.listOfChargeSlot[j].DroneId == DataSource.DronesArr[i].Id)
                         {
-                            if (DataSource.listOfChargeSlot[j].DroneId == DataSource.DronesArr[i].Id)
-                            {
-                                DataSource.listOfChargeSlot.RemoveAt(j);
-                            }
+                            DataSource.listOfChargeSlot.RemoveAt(j);
                         }
                     }
                 }
-                throw new ArgumentException("no drone whith id: " + droenId + "in charge slot");
             }
+            throw new ArgumentException("no drone whith id: " + droenId + "in charge slot");
         }
         /// <summary>
         /// view the choosen station

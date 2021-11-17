@@ -18,14 +18,25 @@ namespace IBL
         public BL()
         {
             dalObject = new DalObject.DalObject();
-            PowerConsumptionRequest = new double[] { dalObject.PowerConsumptionRequest() };
+            //PowerConsumptionRequest = new double { dalObject.PowerConsumptionRequest() };
             drones = new List<DroneToList>();
             initializeDronesList();
         }
 
         private void initializeDronesList()
         {
-            //copy to drones from data
+            /*//TODO : DeliveryId
+            foreach (var drone in drones)
+            {
+                drone.NumOfParcel = 0;
+            }
+            //TODO : Battery & Status
+            foreach (var drone in drones)
+            {
+                drone.Battery = 1;
+                drone.Status = DroneStatuses.Maintenance;
+            }
+            */
             foreach (var drone in dalObject.GetDrones())
             {
                 drones.Add(new DroneToList
@@ -35,7 +46,7 @@ namespace IBL
                     (WeightCategories)drone.MaxWeight
                 ));
             }
-            
+
             foreach (var drone in drones)
             {
                 drone.CurrentLocation = findLocation(drone);
@@ -44,9 +55,15 @@ namespace IBL
 
         private Location findLocation(DroneToList drone)
         {
-            Location newLoction = new Location();
+            if (drone.DroneStatuses == DroneStatuses.Maintenance)
+            {
+                int stationId = rand.Next(dalObject.GetStations().Count());
+                IDAL.DO.Station Station = dalObject.GetStation(stationId);
+                Location l = new Location( Station.Lattitude, Station.Longitude );
+                return l;
+            }
 
-            if (drone.DroneStatuses == DroneStatuses.sending)
+            if (drone.DroneStatuses == DroneStatuses.Delivery)
             {
                 IDAL.DO.Parcel parcel = dalObject.GetParcel(drone.NumOfParcel);
                 if (parcel.PickedUp == null)
@@ -58,25 +75,11 @@ namespace IBL
                     return ViewCustomer(parcel.SenderId).CurrentLocation;
                 }
             }
-
-
-            if (drone.DroneStatuses == DroneStatuses.maintanance)
+            if (drone.DroneStatuses == DroneStatuses.Available)
             {
-                drone.BatteryStatuses = rand.Next(20);
-                int stationId = rand.Next(dalObject.StationList().Count());
-                IDAL.DO.Station Station = dalObject.GetStation(stationId);
-                newLoction = new Location(Station.Lattitude, Station.Longitude);
-                return newLoction;
+                //TODO: find customer location
             }
-
-
-            if (drone.DroneStatuses == DroneStatuses.vacant)
-            {
-                //dalObject.
-                drone.BatteryStatuses = rand.Next(81) + 20;
-            }
-
-            return newLoction;
+            return new Location();
         }
 
         private Location findClosetStationLocation(DroneToList drone)
@@ -105,63 +108,34 @@ namespace IBL
             }
             return location;
         }
+        
 
-        public void AddStation(int id, string name, Location location, int chargeSlots)
+        public void AddStation(string stationName, int positions)
+        {
+            
+        }
+
+        public int AddDrone()
         {
             throw new NotImplementedException();
         }
 
-        public void AddDrone(int id, string model, WeightCategories maxWeight, int stationId)
+        public void AssignmentParcelToDrone(int parcelId, int droneId)
         {
             throw new NotImplementedException();
         }
 
-        public void AddCustomer(int id, string name, string phone, Location location)
+        public void PickedupParcel(int parcelId)
         {
             throw new NotImplementedException();
         }
 
-        public void AddParcel(int sid, int tid, WeightCategories weigth, Priorities priority)
+        public void SendDroneToRecharge(int droneId, int baseStationId)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateStation(int id, string name, int numOfChargeSlot)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateDrone(int id, string model)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateCusomer(int id, string name, string phone)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ChargeOn(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ChargeOf(int id, float timeInCharge)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ParcelToDrone(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void PickParcel(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Destination(int id)
+        public void ReleaseDroneFromRecharge(int droneId)
         {
             throw new NotImplementedException();
         }
@@ -206,12 +180,12 @@ namespace IBL
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Parcel> EmptyChangeSlotlList()
+        public IEnumerable<Parcel> UnAssignmentParcels()
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Station> ParcesWithoutDronelList()
+        public IEnumerable<Station> AvailableChargingStations()
         {
             throw new NotImplementedException();
         }

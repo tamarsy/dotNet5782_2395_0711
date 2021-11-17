@@ -5,16 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IBL.BO
+{
+    public class DroneDelivery
     {
-       class DroneCharge
-    {
-        public DroneCharge(int id, double batteryStatuses)
+        public DroneDelivery(int id, double batteryStatuses, Location curentLocation)
         {
             Id = id;
             BatteryStatuses = batteryStatuses;
+            CurentLocation = curentLocation;
         }
         public int Id { get; set; }
-        public double BatteryStatuses { get; set; }
-    }
+        public Double BatteryStatuses { get; set; }
+        public Location CurentLocation { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class Customer
+         class Customer
         {
             public Customer(int id, string name, string phone, Location currentLocation, List<CustomerDelivery> fromCustomer,
                 List<CustomerDelivery> toCustomer)
