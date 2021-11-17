@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-       class DroneToList
+       public class DroneToList
         {
             public DroneToList(int id, string model, WeightCategories maxWeight)
             {
@@ -17,7 +17,7 @@ namespace IBL
                 MaxWeight = maxWeight;
                 //double BatteryStatuses = batteryStatuses;
                 //DroneStatuses DroneStatuses = droneStatuses;
-                //Siting CurrentSiting = currentSiting;
+                //Location CurrentLocation = currentLocation;
                 //int? NumOfParcel = numOfParcel;
             }
             public int Id { get; set; }
@@ -25,7 +25,7 @@ namespace IBL
             public WeightCategories MaxWeight { get; set; }
             public double BatteryStatuses { get; set; }
             public DroneStatuses DroneStatuses { get; set; }
-            public Siting CurrentSiting { get; set; }
+            public Location CurrentLocation { get; set; }
             public int? NumOfParcel { get; set; }
             public override string ToString()
             {
@@ -34,7 +34,7 @@ namespace IBL
                     + "MaxWeight: " + MaxWeight + "\n"
                     + "BatteryStatuses: " + BatteryStatuses + "\n"
                     + "DroneStatuses: " + DroneStatuses + "\n"
-                    + "CurrentSiting: " + CurrentSiting + "\n"
+                    + "CurrentSiting: " + CurrentLocation + "\n"
                     + "NumOfParcel: " + NumOfParcel;
             }
         }

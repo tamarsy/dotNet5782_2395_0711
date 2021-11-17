@@ -4,19 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace IBL
 {
     namespace BO
     {
         public class Location
         {
-            public Location(int latitude, int longitude)
+            public Location(double latitude, double longitude)
             {
                 Latitude = latitude;
                 Longitude = longitude;
             }
-            public int Latitude {get;set;}
-            public int Longitude { get;set; }
+            public Location()
+            {
+
+            }
+            public double Latitude {get;set;}
+            public double Longitude { get;set; }
         }
     }
 }

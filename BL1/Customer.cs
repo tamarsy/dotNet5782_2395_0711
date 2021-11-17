@@ -8,30 +8,30 @@ namespace IBL
 {
     namespace BO
     {
-        class Customer
+        public class Customer
         {
-            public Customer(int id, string name, string phone, Siting currentSiting, List<delivery> fromCustomer,
-                List<delivery> toCustomer)
+            public Customer(int id, string name, string phone, Location currentLocation, List<CustomerDelivery> fromCustomer,
+                List<CustomerDelivery> toCustomer)
             {
                 Id = id;
                 Name = name;
                 Phone = phone;
-                Siting CurrentSiting = currentSiting;
-                List<delivery> FromCustomer = fromCustomer;
-                List<delivery> ToCustomer = toCustomer;
+                Location CurrentLocation = currentLocation;
+                List<CustomerDelivery> FromCustomer = fromCustomer;
+                List<CustomerDelivery> ToCustomer = toCustomer;
             }
             public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
-            public Siting CurrentSiting { get; set; }
-            public List<delivery> FromCustomer { get; set; }
-            public List<delivery> ToCustomer { get; set; }
+            public Location CurrentLocation { get; set; }
+            public List<CustomerDelivery> FromCustomer { get; set; }
+            public List<CustomerDelivery> ToCustomer { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"
                     + "Name: " + Name + "\n"
                     + "Phone: " + Phone + "\n"
-                    + "CurrentSiting: " + CurrentSiting + "\n"
+                    + "CurrentSiting: " + CurrentLocation + "\n"
                      + "FromCustomer: " + FromCustomer + "\n"
                      + "ToCustomer: " + ToCustomer;
             }

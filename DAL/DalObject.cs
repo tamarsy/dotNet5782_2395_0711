@@ -204,13 +204,10 @@ namespace DalObject
                 if (droenId == DataSource.DronesArr[i].Id)
                 {
                     if (DataSource.DronesArr[i].Status == DroneStatuses.sending)
-<<<<<<< HEAD
                     {
                         throw new ArgumentException("cant charge on this drone is sending");
                     }
                     for (int j = 0; j < DataSource.Config.stationIndex; ++j)
-=======
->>>>>>> bf32c3bdfb5cab40d26a819c499c1bf039f1ef5a
                     {
                         throw new ArgumentException("cant charge on this drone is sending");
                     }
@@ -219,8 +216,7 @@ namespace DalObject
                         if (isEmptyChargeSlotInStation(item.Id, item.ChargeSlot))
                         {
                             DroneCharge d = new DroneCharge(droenId, DataSource.StationsArr[i].Id);
-                            DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model, DataSource.DronesArr[i].MaxWeight,
-                                DroneStatuses.maintanance, 99);
+                            DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model, DataSource.DronesArr[i].MaxWeight);
                             return;
                         }
                     }

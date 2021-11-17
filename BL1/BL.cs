@@ -39,45 +39,46 @@ namespace BL
             }
         }
 
-        private location findLocation(Drone drone)
+        private Location findLocation(DroneToList drone)
         {
             if (drone.DroneStatuses == DroneStatuses.Maintenance)
             {
-                int stationId = rand.Next(dalObject.GetBaseStations().Count());
-                IDAL.DO.BaseStation baseStation = dalObject.GetBaseStation(stationId);
-                return new Location { Latitude = baseStation.Latitude, Longitude = baseStation.Longitude };
+                int stationId = rand.Next(dalObject.GetStations().Count());
+                IDAL.DO.Station Station = dalObject.GetStation(stationId);
+                Location l = new Location( Station.Lattitude, Station.Longitude );
+                return l;
             }
 
-            if (drone.Status == DroneStatuses.Delivery)
+            if (drone.DroneStatuses == DroneStatuses.Delivery)
             {
-                IDAL.DO.Parcel parcel = dalObject.GetParcel(drone.DeliveryId);
+                IDAL.DO.Parcel parcel = dalObject.GetParcel(drone.NumOfParcel);
                 if (parcel.PickedUp == null)
                 {
-                    return findClosetBaseStationLocation(drone);
+                    return findClosetStationLocation(drone);
                 }
                 if (parcel.Delivered == null)
                 {
-                    return GetCustomer(parcel.SenderId).Location;
+                    return ViewCustomer(parcel.SenderId).CurrentLocation;
                 }
             }
-            if (drone.Status == DroneStatuses.Available)
+            if (drone.DroneStatuses == DroneStatuses.Available)
             {
                 //TODO: find customer location
             }
             return new Location();
         }
 
-        private Location findClosetBaseStationLocation(DroneForList drone)
+        private Location findClosetStationLocation(DroneToList drone)
         {
             List<Station> locations = new List<Station>();
-            foreach (var baseStation in dalObject.GetStations())
+            foreach (var Station in dalObject.GetStations())
             {
                 locations.Add(new Station
                 {
                     CurrentSiting = new Location
                     {
-                        Latitude = baseStation.Latitude,
-                        Longitude = baseStation.Longitude
+                        Latitude = Station.Latitude,
+                        Longitude = Station.Longitude
                     }
                 });
             }
@@ -93,88 +94,83 @@ namespace BL
             }
             return location;
         }
-        public void AddStation(Station station)
-        {
 
-        }
-        public void AddDrone(Drone newDrone)
+        public void AddStation(string stationName, int positions)
         {
-
-        }
-        public void AddCustomer(Customer newCustomer)
-        {
-
-        }
-        public void AddParcel(Parcel newpParcel)
-        {
-
-        }
-        public void ParcelToDrone(int percelChoose, int droneChoose)
-        {
-
-        }
-        public void PickParcel(int percelChoose)
-        {
-
-        }
-        public void Destination(int percelChoose)
-        {
-
-        }
-        public void ChargeOn(int droenId)
-        {
-
-        }
-        public void ChargeOf(int droenId)
-        {
-
-        }
-        public Station ViewStation(int id)
-        {
-
-        }
-        public Drone ViewDrone(int id)
-        {
-
-        }
-        public Customer ViewCustomer(int id)
-        {
-
-        }
-        public Parcel ViewParcel(int id)
-        {
-
-        }
-        public IEnumerable<Station> StationList()
-        {
-
-        }
-        public IEnumerable<Drone> DroneList()
-        {
-
-        }
-        public IEnumerable<Customer> CustomerList()
-        {
-
-        }
-        public IEnumerable<Parcel> ParcelList()
-        {
-
-        }
-        public IEnumerable<Parcel> ParcesWithoutDronelList()
-        {
-
-        }
-        public IEnumerable<Station> EmptyChangeSlotlList()
-        {
-
-        }
-        public double[] PowerConsumptionRequest()
-        {
-
+            throw new NotImplementedException();
         }
 
-        public void AddStation(Station newStation)
+        public int AddDrone()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AssignmentParcelToDrone(int parcelId, int droneId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PickedupParcel(int parcelId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SendDroneToRecharge(int droneId, int baseStationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReleaseDroneFromRecharge(int droneId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Station GetStation(int requestedId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Drone GetDrone(int requestedId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Customer GetCustomer(int requestedId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Parcel GetParcel(int requestedId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<StationToList> GetStations()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DroneToList> GetDrones()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Customer> GetCustomers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Parcel> GetParcels()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Parcel> UnAssignmentParcels()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<Station> AvailableChargingStations()
         {
             throw new NotImplementedException();
         }
