@@ -7,26 +7,33 @@ namespace IBL
 {
     public interface IBL
     {
-        public void AddStation(Station newStation);
-        public void AddDrone(Drone newDrone);
-        public void AddCustomer(Customer newCustomer);
-        public void AddParcel(Parcel newpParcel);
-        public void ParcelToDrone(int percelChoose, int droneChoose);
-        public void PickParcel(int percelChoose);
-        public void Destination(int percelChoose);
-        public void ChargeOn(int droenId);
-        public void ChargeOf(int droenId);
-        public Station ViewStation(int id);
-        public Drone ViewDrone(int id);
-        public Customer ViewCustomer(int id);
-        public Parcel ViewParcel(int id);
-        public IEnumerable<Station> StationList();
-        public IEnumerable<Drone> DroneList();
-        public IEnumerable<Customer> CustomerList();
-        public IEnumerable<Parcel> ParcelList();
-        public IEnumerable<Parcel> ParcesWithoutDronelList();
-        public IEnumerable<Station> EmptyChangeSlotlList();
-        public double[] PowerConsumptionRequest();
+        void AddStation(int id, string name, Location location, int chargeSlots);
+        void AddDrone(int id, string model, WeightCategories maxWeight, int stationId);
+        void AddCustomer(int id, string name, string phone, Location location);
+        void AddParcel(int sid, int tid, WeightCategories weigth, Priorities priority);
+
+
+        void UpdateStation(int id, string name, int numOfChargeSlot);
+        void UpdateDrone(int id, string model);
+        void UpdateCusomer(int id, string name, string phone);
+        void ChargeOn(int id);
+        void ChargeOf(int id, float timeInCharge);
+
+
+
+        //void PickedupParcel(int parcelId);
+        //void SendDroneToRecharge(int droneId, int baseStationId);
+        //void ReleaseDroneFromRecharge(int droneId);
+        Station GetStation(int requestedId);
+        Drone GetDrone(int requestedId);
+        Customer GetCustomer(int requestedId);
+        BO.Parcel GetParcel(int requestedId);
+        IEnumerable<BO.StationToList> GetStations();
+        IEnumerable<DroneToList> GetDrones();
+        IEnumerable<Customer> GetCustomers();
+        IEnumerable<Parcel> GetParcels();
+        //IEnumerable<Parcel> UnAssignmentParcels();
+        //IEnumerable<Station> AvailableChargingStations();
     }
 }
 

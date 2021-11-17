@@ -8,10 +8,10 @@ namespace IBL
 {
     namespace BO
     {
-        class Drone
+        public class Drone
         {
             public Drone(int id, string model, WeightCategories maxWeight, double batteryStatuses,
-              DroneStatuses droneStatuses, Location currentLocation, NumOfParcel numOfParcel)
+              DroneStatuses droneStatuses, Location currentLocation, int? numOfParcel)
             {
                 Id = id;
                 Model = model;

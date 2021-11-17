@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class Station
+        public class Station
         {
             public Station(int id, int name, int chargeSlot, Location currentSiting)
             {
@@ -20,7 +20,7 @@ namespace IBL
             }
             public int Id { get; set; }
             public int Name { get; set; }
-            public Siting CurrentSiting { get; set; }
+            public Location CurrentSiting { get; set; }
             public int ChargeSlot { get; set; }
             public override string ToString()
             {

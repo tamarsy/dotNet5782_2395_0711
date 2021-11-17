@@ -8,9 +8,9 @@ namespace IBL
 {
     namespace BO
     {
-        class StationToList
+        public class StationToList
         {
-            public Station(int id, int name, int numOfChargeSlots)
+            public StationToList(int id, int name, int numOfChargeSlots)
             {
                 Id = id;
                 Name = name;

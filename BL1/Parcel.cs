@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class Parcel
+        public class Parcel
         {
             public Parcel(int id, int senderId, int targilId, WeightCategories weight, Priorities priority)
             {

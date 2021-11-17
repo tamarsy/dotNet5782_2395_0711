@@ -72,7 +72,6 @@ namespace DalObject
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
             WeightCategories itemDroneWeight = 0;
-            DroneStatuses itemDroneStatus = 0;
             bool check = false;
             int i = 0;
             foreach (var item in DataSource.DronesArr)
@@ -81,10 +80,7 @@ namespace DalObject
                 {
                     check = true;
                     DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model,
-                    item.MaxWeight,
-                    item.Status, DataSource.DronesArr[i].Battery);
-                    itemDroneWeight = item.MaxWeight;
-                    itemDroneStatus = item.Status;
+                    item.MaxWeight);
                     break;
                 }
             }
@@ -239,20 +235,17 @@ namespace DalObject
                     {
                         throw new ArgumentException("cant charge of this drone is not charging now");
                     }
-<<<<<<< HEAD
                     DataSource.DronesArr[i].Status = DroneStatuses.vacant;
                     //remove from the list Of Charge Slot in DataSource
                     for (int j ; j< DataSource.listOfChargeSlot.Count(); ++j)
                     {
                         if (DataSource.listOfChargeSlot.DroneId == DataSource.DronesArr[i].Id)
-=======
                     DataSource.DronesArr[i] = new Drone(DataSource.DronesArr[i].Id, DataSource.DronesArr[i].Model, DataSource.DronesArr[i].MaxWeight,
                         DroneStatuses.vacant, DataSource.DronesArr[i].Battery);
                     //remove from the list Of Charge Slot in DataSource
                     for (int j = 0; j < DataSource.listOfChargeSlot.Count(); ++j)
                     {
                         if (DataSource.listOfChargeSlot[j].DroneId == DataSource.DronesArr[i].Id)
->>>>>>> bf32c3bdfb5cab40d26a819c499c1bf039f1ef5a
                         {
                             DataSource.listOfChargeSlot.RemoveAt(j);
                         }

@@ -7,30 +7,44 @@ using IDAL;
 using DalObject;
 using IBL.BO;
 
-namespace BL
+namespace IBL
 {
-    partial class BL: IBL.IBL
+    public partial class BL: IBL
     {
         private IDal dalObject;
+        private double[] PowerConsumptionRequest;
         private List<DroneToList> drones;
         private static Random rand = new Random();
         public BL()
         {
             dalObject = new DalObject.DalObject();
+            //PowerConsumptionRequest = new double { dalObject.PowerConsumptionRequest() };
             drones = new List<DroneToList>();
             initializeDronesList();
         }
 
         private void initializeDronesList()
         {
+            /*//TODO : DeliveryId
+            foreach (var drone in drones)
+            {
+                drone.NumOfParcel = 0;
+            }
+            //TODO : Battery & Status
+            foreach (var drone in drones)
+            {
+                drone.Battery = 1;
+                drone.Status = DroneStatuses.Maintenance;
+            }
+            */
             foreach (var drone in dalObject.GetDrones())
             {
                 drones.Add(new DroneToList
-                {
-                    Id = drone.Id,
-                    Model = drone.Model,
-                    MaxWeight = (WeightCategories)drone.MaxWeight
-                });
+                (
+                    drone.Id,
+                    drone.Model,
+                    (WeightCategories)drone.MaxWeight
+                ));
             }
 
             foreach (var drone in drones)
@@ -94,10 +108,11 @@ namespace BL
             }
             return location;
         }
+        
 
         public void AddStation(string stationName, int positions)
         {
-            throw new NotImplementedException();
+            
         }
 
         public int AddDrone()

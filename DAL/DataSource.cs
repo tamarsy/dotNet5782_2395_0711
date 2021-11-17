@@ -21,7 +21,6 @@ namespace DalObject
             static public double LightWeightCarrier { get; set; }
             static public double MediumWeightCarrier { get; set; }
             static public double heavyWeightCarrier { get; set; }
-
             static public double SkimmerLoadingRate { get; set; }
             const int NUMOFDRONES = 5;
             public static int runNumForParcel = 0;
