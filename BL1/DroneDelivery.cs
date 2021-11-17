@@ -17,5 +17,12 @@ namespace IBL.BO
         public int Id { get; set; }
         public Double BatteryStatuses { get; set; }
         public Location CurentLocation { get; set; }
+          public override string ToString()
+            {
+                return "Id: " + Id + "\n"
+                     + "BatteryStatuses: " + BatteryStatuses + "\n"
+                     + "CurentLocation: " + CurentLocation + "\n"
+            }
     }
+
 }

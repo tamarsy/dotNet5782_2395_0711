@@ -31,4 +31,16 @@ namespace IBL.BO
         public Location DeliveryDestination { get; set; }
         public double Distance { get; set; }
     }
+    public override string ToString()
+    {
+        return "Id: " + Id + "\n"
+            + "StatusParcel: " + StatusParcel + "\n"
+            + "Priority: " + Priority + "\n"
+            + "Weight: " + Weight + "\n"
+            + "SenderId: " + SenderId + "\n"
+            + "GetterId;" + GetterId + "\n"
+            + "Collecting;" + Collecting + "\n"
+            + "DeliveryDestination;" + DeliveryDestination + "\n"
+            + "Distance;" + Distance;
+    }
 }

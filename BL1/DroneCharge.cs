@@ -5,20 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IBL.BO
-{
-     public class DeliveryCustomer
     {
-        public DeliveryCustomer(int id, string name)
+       class DroneCharge
+    {
+        public DroneCharge(int id, double batteryStatuses)
         {
             Id = id;
-            Name = name;
+            BatteryStatuses = batteryStatuses;
         }
         public int Id { get; set; }
-        public string Name { get; set; }
+        public double BatteryStatuses { get; set; }
            public override string ToString()
             {
                 return "Id: " + Id + "\n"
-                     + "Name: " + Name + "\n"
+                     + "BatteryStatuses: " + BatteryStatuses + "\n"
             }
+    }
     }
 }

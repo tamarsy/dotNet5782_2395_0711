@@ -8,25 +8,26 @@ namespace IBL
 {
     namespace BO
     {
-        public class StationToList
+        public class Station
         {
-            public StationToList(int id, int name, int numOfEmptyChargeSlots, int numOfCatchChargeSlots)
+            public Station(int id, int name, int chargeSlot, Location currentSiting)
             {
                 Id = id;
                 Name = name;
-                ThisLocation = thisLocation;
-                NumOfEmptyChargeSlots = numOfEmptyChargeSlots;
-                NumOfCatchChargeSlots = numOfCatchChargeSlots;
+                Location CurrentSiting = currentSiting;
+                ChargeSlot = chargeSlot;
+                List<Drone> DronesInCharge = new List<Drone>();
             }
             public int Id { get; set; }
             public int Name { get; set; }
-            public int NumOfEmptyChargeSlots { get; set; }
-            public int NumOfCatchChargeSlots { get; set; }
+            public Location CurrentSiting { get; set; }
+            public int ChargeSlot { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"
                     + "Name: " + Name + "\n"
-                    + "NumOfChargeSlots: " + NumOfChargeSlots;
+                    + "CurrentSiting:" + CurrentSiting + "\n"
+                    + "ChargeSlot: " + ChargeSlot;
             }
         }
     }

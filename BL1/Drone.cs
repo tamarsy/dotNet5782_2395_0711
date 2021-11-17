@@ -11,15 +11,15 @@ namespace IBL
         public class Drone
         {
             public Drone(int id, string model, WeightCategories maxWeight, double batteryStatuses,
-              DroneStatuses droneStatuses, Location currentLocation, ParcelDelivery parcel)
+              DroneStatuses droneStatuses, Location currentLocation, int? numOfParcel)
             {
                 Id = id;
                 Model = model;
                 MaxWeight = maxWeight;
-                BatteryStatuses = batteryStatuses;
-                DroneStatuses = droneStatuses;
-                CurrentLocation = currentLocation;
-                Parcel = parcel;
+                double BatteryStatuses = batteryStatuses;
+                DroneStatuses DroneStatuses = droneStatuses;
+                Location CurrentLocation = currentLocation;
+                int? NumOfParcel = numOfParcel;
             }
             public int Id { get; set; }
             public string Model { get; set; }
@@ -27,7 +27,7 @@ namespace IBL
             public double BatteryStatuses { get; set; }
             public DroneStatuses DroneStatuses { get; set; }
             public Location CurrentLocation { get; set; }
-            public ParcelDelivery Parcel { get; set; }
+            public int? NumOfParcel { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"
@@ -36,7 +36,7 @@ namespace IBL
                     + "BatteryStatuses: " + BatteryStatuses + "\n"
                     + "DroneStatuses: " + DroneStatuses + "\n"
                     + "CurrentSiting: " + CurrentLocation + "\n"
-                    + "ParcelDelivery: " + ParcelDelivery;
+                    + "NumOfParcel: " + NumOfParcel;
             }
         }
     }
