@@ -36,7 +36,8 @@ namespace IBL
                     + "SenderId: " + SenderId + "\n"
                     + "TargilId: " + TargilId + "\n"
                      + "Weight: " + Weight + "\n"
-                     + "Priority: " + Priority;
+                     + "Priority: " + Priority+"\n"
+                     +"ParcelStatuses"+ParcelStatuses;
             }
         }
     }
