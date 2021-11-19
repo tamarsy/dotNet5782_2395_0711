@@ -211,8 +211,14 @@ namespace IBL
             throw new NotImplementedException();
         }
 
-        public Drone ViewDrone(int requestedId)
+        //public BO.Drone ViewDrone(int requestedId)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        public BO.Drone GetDrone(int requestedId)
         {
+
             throw new NotImplementedException();
         }
 
@@ -315,5 +321,20 @@ namespace IBL
 
             return parcesWithoutDrone;
         }
+        public BO.Drone detailsDrone(IDAL.DO.Drone drone)
+        {
+            DroneToList droneToList = drones.Find(item => item.Id == drone.Id);
+            return new Drone()
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                MaxWeight = (WeightCategories)drone.MaxWeight,
+                BatteryStatuses = droneToList.BatteryStatuses,
+                DroneStatuses = droneToList.DroneStatuses,
+                CurrentLocation = droneToList.CurrentLocation,
+                Parcel = droneToList.NumOfParcel != null ? throw("finish") : null;
+            };
+        }
+        public BO.Customer 
     }
 }

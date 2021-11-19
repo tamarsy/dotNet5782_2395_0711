@@ -36,7 +36,7 @@ namespace IBL
                     + "BatteryStatuses: " + BatteryStatuses + "\n"
                     + "DroneStatuses: " + DroneStatuses + "\n"
                     + "CurrentSiting: " + CurrentLocation + "\n"
-                    + "ParcelDelivery: " + ParcelDelivery;
+                    + "Parcel: " + Parcel;
             }
         }
     }

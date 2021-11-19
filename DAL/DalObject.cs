@@ -285,6 +285,8 @@ namespace DalObject
         /// </summary>
         /// <param name="id">the drone id</param>
         /// <returns></returns>
+        public Drone GetDrone(int id) => DataSource.DronesArr.First(item => item.Id == id);
+        public IEnumerable<Drone> getDrones() => DataSource.DronesArr;
         public Drone ViewDrone(int id)
         {
             foreach (var item in DataSource.DronesArr)
