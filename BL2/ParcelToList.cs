@@ -8,9 +8,9 @@ namespace IBL
 {
     namespace BO
     {
-        class ParcelTOList
+        public class ParcelToList
         {
-            public ParcelTOList(int id, int senderId, int targilId, WeightCategories weight,
+            public ParcelToList(int id, int senderId, int targilId, WeightCategories weight,
                 Priorities priority,DroneStatuses parcelStatuses)
             {
                 Id = id;

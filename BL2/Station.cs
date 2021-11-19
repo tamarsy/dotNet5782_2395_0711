@@ -8,25 +8,25 @@ namespace IBL
 {
     namespace BO
     {
-        public class Station
+        public class Station : Ilocatable
         {
-            public Station(int id, int name, int chargeSlot, Location currentSiting)
+            public Station(int id, int name, int chargeSlot, Location currentLocation)
             {
                 Id = id;
                 Name = name;
-                Location CurrentSiting = currentSiting;
+                Location CurrentLocation = currentLocation;
                 ChargeSlot = chargeSlot;
                 List<Drone> DronesInCharge = new List<Drone>();
             }
             public int Id { get; set; }
             public int Name { get; set; }
-            public Location CurrentSiting { get; set; }
+            public Location CurrentLocation { get; set; }
             public int ChargeSlot { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"
                     + "Name: " + Name + "\n"
-                    + "CurrentSiting:" + CurrentSiting + "\n"
+                    + "CurrentSiting:" + CurrentLocation + "\n"
                     + "ChargeSlot: " + ChargeSlot;
             }
         }

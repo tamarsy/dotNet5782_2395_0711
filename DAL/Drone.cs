@@ -5,8 +5,6 @@ namespace IDAL
     {
         public struct Drone
         {
-            public double Battery;
-
             /// <summary>
             /// Drone class
             /// </summary>
@@ -22,8 +20,6 @@ namespace IDAL
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
-            internal global::ConsoleUI.DroneStatuses Status { get; public set; }
-
             public override string ToString()
             {
                 return "Id: " + Id + "\n"

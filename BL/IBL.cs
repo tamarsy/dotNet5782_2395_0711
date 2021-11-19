@@ -24,15 +24,16 @@ namespace IBL
 
 
 
-        Station GetStation(int requestedId);
-        Drone GetDrone(int requestedId);
-        Customer GetCustomer(int requestedId);
-        BO.Parcel GetParcel(int requestedId);
-        IEnumerable<BO.StationToList> GetStations();
-        IEnumerable<DroneToList> GetDrones();
-        IEnumerable<Customer> GetCustomers();
-        IEnumerable<Parcel> GetParcels();
-        IEnumerable<Parcel> EmptyChangeSlotlList();
-        IEnumerable<Station> ParcesWithoutDronelList();
+        Station ViewStation(int requestedId);
+        Drone ViewDrone(int requestedId);
+        Customer ViewCustomer(int requestedId);
+        BO.Parcel ViewParcel(int requestedId);
+        IEnumerable<BO.StationToList> StationsList();
+        IEnumerable<BO.DroneToList> DronesList();
+        IEnumerable<CustomerToList> CustomersList();
+        IEnumerable<ParcelToList> ParcelsList();
+        IEnumerable<StationToList> EmptyChangeSlotlList();
+        IEnumerable<ParcelToList> ParcesWithoutDronelList();
     }
 }
+

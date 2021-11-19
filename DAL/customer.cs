@@ -32,7 +32,5 @@ namespace IDAL
                      + "Lattitude: " + Lattitude;
             }
         }
-
-        //jg
     }
 }

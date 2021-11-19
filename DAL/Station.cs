@@ -18,7 +18,7 @@ namespace IDAL
             /// <param name="Longitude">Station Longitude</param>
             /// <param name="Lattitude">Station Lattitude</param>
             /// <param name="ChargeSlot">Station ChargeSlot</param>
-            public Station(int id, int name, double longitude, double lattitude, int chargeSlot)
+            public Station(int id, string name, double longitude, double lattitude, int chargeSlot)
             {
                 Id = id;
                 Name = name;
@@ -27,7 +27,7 @@ namespace IDAL
                 ChargeSlot = chargeSlot;
             }
             public int Id { get; set; }
-            public int Name { get; set; }
+            public string Name { get; set; }
             public double Longitude { get; set; }
             public double Lattitude { get; set; }
             public int ChargeSlot { get; set; }

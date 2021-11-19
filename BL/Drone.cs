@@ -4,29 +4,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace IBL
 {
-        public class Drone : Ilocatable
+    namespace BO
+    {
+        public class Drone
         {
-<<<<<<< HEAD
-            public int Id { get; set; }
-            public int Model { get; set; }
-            public WeightCategories MaxWeiht { get; set; }
-            public double Battery { get; set; }
-            public DroneStatuses Status { get; set; }
-            public Location Location { get; set; }
-           
-           
-            //public string ToString()
-            //{
-            //    return "cc";
-            //}
-=======
-            public string ToString()
+            public Drone(int id, string model, WeightCategories maxWeight, double batteryStatuses,
+              DroneStatuses droneStatuses, Location currentLocation, ParcelDelivery parcel)
             {
-                return "drone";
+                Id = id;
+                Model = model;
+                MaxWeight = maxWeight;
+                BatteryStatuses = batteryStatuses;
+                DroneStatuses = droneStatuses;
+                CurrentLocation = currentLocation;
+                Parcel = parcel;
             }
->>>>>>> 38d0674abd17b0bc6c81d9a6b64a0614c75896bc
+            public int Id { get; set; }
+            public string Model { get; set; }
+            public WeightCategories MaxWeight { get; set; }
+            public double BatteryStatuses { get; set; }
+            public DroneStatuses DroneStatuses { get; set; }
+            public Location CurrentLocation { get; set; }
+            public ParcelDelivery Parcel { get; set; }
+            public override string ToString()
+            {
+                return "Id: " + Id + "\n"
+                    + "Model: " + Model + "\n"
+                    + "MaxWeight: " + MaxWeight + "\n"
+                    + "BatteryStatuses: " + BatteryStatuses + "\n"
+                    + "DroneStatuses: " + DroneStatuses + "\n"
+                    + "CurrentSiting: " + CurrentLocation + "\n"
+                    + "ParcelDelivery: " + ParcelDelivery;
+            }
         }
-    
+    }
 }

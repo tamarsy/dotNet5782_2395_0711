@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IBL.BO
 {
-    class CustomerDelivery
+    public class CustomerDelivery
     {
         public CustomerDelivery(int id, WeightCategories weight, Priorities priority,  ParcelStatuses status,  int sender, int target)
         {
