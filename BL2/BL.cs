@@ -18,7 +18,6 @@ namespace IBL
         public BL()
         {
             dalObject = new DalObject.DalObject();
-            //
             PowerConsumptionRequest = new double[dalObject.PowerConsumptionRequest().Length];
             int i = 0;
             foreach (var item in dalObject.PowerConsumptionRequest())
@@ -32,24 +31,53 @@ namespace IBL
 
         private void initializeDronesList()
         {
-            //copy to drones from data
             foreach (var drone in dalObject.DroneList())
             {
-                drones.Add(new DroneToList
-                (
-                    drone.Id,
-                    drone.Model,
-                    (WeightCategories)drone.MaxWeight
-                ));
-            }
+                DroneToList newDrone = new()
+                {
+                    Id = drone.Id,
+                    Model = drone.Model,
+                    MaxWeight = (WeightCategories)drone.MaxWeight
+                };
 
-            foreach (var drone in drones)
-            {
-                drone.CurrentLocation = findLocation(drone);
+                foreach (var parcel in dalObject.ParcelList())
+                {
+                    if (parcel.Droneld == drone.Id && parcel.Delivered != null)
+                    {
+                        newDrone.DroneStatuses = DroneStatuses.sending;
+                        newDrone.NumOfParcel = parcel.Id;
+                        newDrone.CurrentLocation = FindLocation(newDrone);
+                        double distance = FindLocationOfCloseChargeSlot((Ilocatable)ViewCustomer(parcel.TargilId).CurrentLocation);
+                        newDrone.BatteryStatuses = rand.Next(MinPowerForDistance(distance), 100);
+                    }
+                }
             }
         }
 
-        private Location findLocation(DroneToList drone)
+        private double FindLocationOfCloseChargeSlot(Ilocatable location)
+        {
+            double minDistance = double.MaxValue;
+            dalObject.EmptyChangeSlotlList().Min<station=>{ FindLocationOfCloseChargeSlot}>
+
+                customer => customer.NumParcelReceived > 0
+
+            foreach (var station in dalObject.EmptyChangeSlotlList())
+            {
+                double newDistance = location.Distance((Ilocatable)new Location(station.Lattitude, station.Longitude));
+                if (newDistance < minDistance)
+                {
+                    minDistance = newDistance;
+                }
+            }
+            return 0;
+        }
+
+        private int MinPowerForDistance(double distance)
+        {
+
+        }
+
+        private Location FindLocation(DroneToList drone)
         {
             Location newLoction = new Location();
 
@@ -69,7 +97,6 @@ namespace IBL
 
             if (drone.DroneStatuses == DroneStatuses.maintanance)
             {
-                drone.BatteryStatuses = rand.Next(20);
                 int stationId = rand.Next(dalObject.StationList().Count());
                 IDAL.DO.Station Station = dalObject.ViewStation(stationId);
                 newLoction = new Location(Station.Lattitude, Station.Longitude);
@@ -80,7 +107,6 @@ namespace IBL
             if (drone.DroneStatuses == DroneStatuses.vacant)
             {
                 //dalObject.;
-                drone.BatteryStatuses = rand.Next(81) + 20;
             }
 
             return newLoction;
@@ -208,7 +234,14 @@ namespace IBL
 
         public Station ViewStation(int requestedId)
         {
-            throw new NotImplementedException();
+            IDAL.DO.Station temptation = dalObject.ViewStation(requestedId);
+            Station station = new Station(temptation.Id, temptation.Name, temptation.ChargeSlot, new Location(temptation.Lattitude, temptation.Longitude));
+            foreach (var item in dalObject.)
+            {
+                Drone drone = new Drone();
+                station.DronesInCharge.Add();
+            }
+            return station;
         }
 
         //public BO.Drone ViewDrone(int requestedId)
