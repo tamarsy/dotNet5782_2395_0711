@@ -32,8 +32,8 @@ namespace IBL
                     + "Name: " + Name + "\n"
                     + "Phone: " + Phone + "\n"
                     + "CurrentSiting: " + CurrentLocation + "\n"
-                     + "FromCustomer: " + FromCustomer + "\n"
-                     + "ToCustomer: " + ToCustomer;
+                    + "FromCustomer: " + FromCustomer + "\n"
+                    + "ToCustomer: " + ToCustomer;
             }
         }
 
