@@ -10,16 +10,6 @@ namespace IBL
     {
         public class DroneToList:Ilocatable
         {
-            public DroneToList(int id, string model, WeightCategories maxWeight)
-            {
-                Id = id;
-                Model = model;
-                MaxWeight = maxWeight;
-                //double BatteryStatuses = batteryStatuses;
-                //DroneStatuses DroneStatuses = droneStatuses;
-                //Location CurrentLocation = currentLocation;
-                //int? NumOfParcel = numOfParcel;
-            }
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }

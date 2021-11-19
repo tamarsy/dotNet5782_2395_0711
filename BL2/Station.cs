@@ -10,7 +10,7 @@ namespace IBL
     {
         public class Station : Ilocatable
         {
-            public Station(int id, int name, int chargeSlot, Location currentLocation)
+            public Station(int id, string name, int chargeSlot, Location currentLocation)
             {
                 Id = id;
                 Name = name;
@@ -19,9 +19,10 @@ namespace IBL
                 List<Drone> DronesInCharge = new List<Drone>();
             }
             public int Id { get; set; }
-            public int Name { get; set; }
+            public string Name { get; set; }
             public Location CurrentLocation { get; set; }
             public int ChargeSlot { get; set; }
+            public List<Drone> DronesInCharge { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"

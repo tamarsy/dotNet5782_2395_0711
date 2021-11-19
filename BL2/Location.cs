@@ -14,9 +14,12 @@ namespace IBL
             {
                 Latitude = latitude;
                 Longitude = longitude;
+                CurrentLocation.Latitude = latitude;
+                CurrentLocation.Longitude = longitude;
             }
             public double Latitude { get; set; }
             public double Longitude { get; set; }
+            Location CurrentLocation { get; set; }
 
             public override string ToString()
             {
