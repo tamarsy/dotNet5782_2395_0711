@@ -10,26 +10,34 @@ namespace IDal
 {
     public interface IDal
     {
-        public void AddStation(Station newStation);
-        public void AddDrone(Drone newDrone);
-        public void AddCustomer(Customer newCustomer);
-        public void AddParcel(Parcel newpParcel);
-        public void ParcelToDrone(int percelChoose, int droneChoose);
-        public void PickParcel(int percelChoose);
-        public void Destination(int percelChoose);
-        public void ChargeOn(int droenId);
-        public void ChargeOf(int droenId);
-        public Station ViewStation(int id);
-        public Drone ViewDrone(int id);
-        public Customer ViewCustomer(int id);
-        public Parcel ViewParcel(int id);
-        public IEnumerable<Station> StationList();
-        public IEnumerable<Drone> DroneList();
-        public IEnumerable<Customer> CustomerList();
-        public IEnumerable<Parcel> ParcelList();
-        public IEnumerable<Parcel> ParcesWithoutDronelList();
-        public IEnumerable<Station> EmptyChangeSlotlList();
-        public double[] PowerConsumptionRequest();
+        void AddStation(Station newStation);
+        void AddDrone(Drone newDrone);
+        void AddCustomer(Customer newCustomer);
+        void AddParcel(Parcel newpParcel);
+
+
+        void ParcelToDrone(int percelChoose, int droneChoose);
+        void PickParcel(int percelChoose);
+        void Destination(int percelChoose);
+        void ChargeOn(int droenId);
+        void ChargeOf(int droenId);
+
+
+        Station ViewStation(int id);
+        Drone ViewDrone(int id);
+        Customer ViewCustomer(int id);
+        Parcel ViewParcel(int id);
+
+
+        IEnumerable<Station> StationList();
+        IEnumerable<Drone> DroneList();
+        IEnumerable<Customer> CustomerList();
+        IEnumerable<Parcel> ParcelList();
+        IEnumerable<Parcel> ParcesWithoutDronelList();
+        IEnumerable<Station> EmptyChangeSlotlList();
+
+
+        double[] PowerConsumptionRequest();
     }
 }
 

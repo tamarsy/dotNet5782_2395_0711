@@ -18,5 +18,9 @@ namespace IBL
         {
             vacant, maintanance, sending
         }
+        public enum ParcelStatuses
+        {
+            defined, ascribed, collected, supplied
+        }
     }
 }

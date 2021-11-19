@@ -28,7 +28,6 @@ namespace ConsoleUI_BL
                     DisplayMenus(typeof(Menu));
                     Enum.TryParse(Console.ReadLine(), out option);
                     switch (option)
-
                     {
                         case Menu.Add:
                             {
@@ -83,7 +82,6 @@ namespace ConsoleUI_BL
                                 {
                                     Console.WriteLine("ERROR");
                                 }
-
                                 break;
                             }
                         case Menu.DisplayList:
@@ -98,11 +96,8 @@ namespace ConsoleUI_BL
                                 {
                                     Console.WriteLine("ERROR");
                                 }
-
-
                                 break;
                             }
-
                         case Menu.Exit:
                             break;
                         default:
@@ -110,8 +105,6 @@ namespace ConsoleUI_BL
 
                     }
                 } while (option != Menu.Exit);
-
-
             }
             /// <summary>
             /// </summary>
@@ -279,28 +272,28 @@ namespace ConsoleUI_BL
                             float timeOfCharge;
                             Console.WriteLine("enter an id of drone and time of charge");
                             if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(), out timeOfCharge))
-                                bl.ChargeOn(id, timeOfCharge);
+                                bl.ChargeOf(id, timeOfCharge);
                             break;
                         }
                     case Update.AssingParcelToDrone:
                         {
                             Console.WriteLine("enter an id of drone");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                bl.AssingParcellToDrone(id);
+                                bl.ParcelToDrone(id);
                             break;
                         }
                     case Update.CollectParcelByDrone:
                         {
                             Console.WriteLine("enter an id of drone");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                bl.ParcelCollectionByDrone(id);
+                                bl.PickParcel(id);
                             break;
                         }
                     case Update.SupplyParcelToDestination:
                         {
                             Console.WriteLine("enter an id of parcel");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                bl.DeliveryParcelByDrone(id);
+                                bl.Destination(id);
                             break;
                         }
                     default:
@@ -323,28 +316,28 @@ namespace ConsoleUI_BL
                         {
                             Console.WriteLine("enter an id of station");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                Console.WriteLine(bl.GetStation(id));
+                                Console.WriteLine(bl.ViewStation(id));
                             break;
                         }
                     case Display.Drone:
                         {
                             Console.WriteLine("enter an id of drone");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                Console.WriteLine(bl.GetDrone(id));
+                                Console.WriteLine(bl.ViewDrone(id));
                             break;
                         }
                     case Display.Customer:
                         {
                             Console.WriteLine("enter an id of customer");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                Console.WriteLine(bl.GetCustomer(id));
+                                Console.WriteLine(bl.ViewCustomer(id));
                             break;
                         }
                     case Display.Parcel:
                         {
                             Console.WriteLine("enter an id of parcel");
                             if (int.TryParse(Console.ReadLine(), out id))
-                                Console.WriteLine(bl.GetParcel(id));
+                                Console.WriteLine(bl.ViewParcel(id));
                             break;
                         }
                     default:
@@ -363,16 +356,16 @@ namespace ConsoleUI_BL
                 switch (option)
                 {
                     case DisplayList.Sations:
-                        printList(bl.GetStations());
+                        printList(bl.StationsList());
                         break;
                     case DisplayList.Drones:
-                        printList(bl.GetDrones());
+                        printList(bl.DronesList());
                         break;
                     case DisplayList.Customers:
-                        printList(bl.GetCustomers());
+                        printList(bl.CustomersList());
                         break;
                     case DisplayList.Parcels:
-                        printList(bl.GetParcels());
+                        printList(bl.ParcelsList());
                         break;
                     case DisplayList.AvailableChargingSations:
                         printList(bl.EmptyChangeSlotlList());

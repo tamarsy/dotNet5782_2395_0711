@@ -1,12 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace IBL.BO
+namespace IBL
 {
-    public class Location
+    namespace BO
     {
-        public double Longitude { get; set; }
-        public double Lattitude { get; set; }
+        public class Location
+        {
+            public Location(double latitude = 0, double longitude = 0)
+            {
+                Latitude = latitude;
+                Longitude = longitude;
+            }
+            public double Latitude { get; set; }
+            public double Longitude { get; set; }
+
+            public override string ToString()
+            {
+                return "Latitude: " + Latitude + "\n"
+                     + "Longitude: " + Longitude;
+            }
+        }
     }
 }

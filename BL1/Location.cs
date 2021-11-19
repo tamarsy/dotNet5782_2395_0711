@@ -10,22 +10,18 @@ namespace IBL
     {
         public class Location
         {
-            public Location(double latitude, double longitude)
+            public Location(double latitude = 0, double longitude = 0)
             {
                 Latitude = latitude;
                 Longitude = longitude;
             }
-            //public Location()
-            //{
-
-            //}
             public double Latitude { get; set; }
             public double Longitude { get; set; }
 
             public override string ToString()
             {
                 return "Latitude: " + Latitude + "\n"
-                     + "Longitude: " + Longitude + "\n";
+                     + "Longitude: " + Longitude;
             }
         }
     }
