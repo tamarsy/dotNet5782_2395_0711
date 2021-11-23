@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BL1\BL.csproj" />
     <ProjectReference Include="..\BL2\BL2.csproj" />
   </ItemGroup>
 
