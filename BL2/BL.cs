@@ -368,6 +368,6 @@ namespace IBL
                 Parcel = droneToList.NumOfParcel != null ? throw("finish") : null;
             };
         }
-        public BO.Customer 
+        public BO.Customer  
     }
 }
