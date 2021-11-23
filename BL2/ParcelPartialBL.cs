@@ -9,7 +9,7 @@ using IBL.BO;
 
 namespace IBL
 {
-    partial class BL
+    public partial class BL : IblParcel 
     {
         public void AddParcel(int sid, int tid, WeightCategories weigth, Priorities priority)
         {
@@ -21,53 +21,53 @@ namespace IBL
             catch (DalObject.ObjectAlreadyExistException e)
             {
                 throw new ObjectAlreadyExistException(e.Message);
-            }
+        }
             catch (Exception)
             {
                 throw new Exception();
             }
         }
 
+        public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
 
         public Parcel GetParcel(int requestedId)
         {
+            return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel)); ;
             IDAL.DO.Parcel tempParcel = dalObject.GetParcel(requestedId);
             return new Parcel();
         }
 
-
-        public IEnumerable<ParcelToList> ParcelsList()
         {
-            List<ParcelToList> parcelsList = new List<ParcelToList>();
-
-            foreach (var p in dalObject.ParcelList())
-            {
-                //drone sttus?????????????????????????????????????????? in ParceltoList
-                ParcelToList newParcel = new ParcelToList(p.Id, p.SenderId, p.Getter, (BO.WeightCategories)p.Weight, (BO.Priorities)p.Priority, DroneStatuses.vacant);
-                parcelsList.Add(newParcel);
-            }
+        }
 
             return parcelsList;
         }
 
-        public IEnumerable<ParcelToList> ParcesWithoutDronelList()
+        private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            List<ParcelToList> parcesWithoutDrone = new List<ParcelToList>();
-
-            foreach (var p in dalObject.ParcesWithoutDronelList())
+            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            return new Parcel()
             {
-                //drone sttus?????????????????????????????????????????? in ParceltoList
-                ParcelToList newParcel = new ParcelToList(p.Id, p.SenderId, p.Getter, (BO.WeightCategories)p.Weight, (BO.Priorities)p.Priority, DroneStatuses.vacant);
-                parcesWithoutDrone.Add(newParcel);
-            }
+                Id = parcel.Id,
+                SenderId = MapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
+                TargilId = MapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
+                Weight = (BO.WeightCategories)parcel.Weigth,
+                Priority = (BO.Priorities)parcel.Priority,
+                AssignmentTime = parcel.Sceduled,
+                PickUpTime = parcel.PickedUp,
+                SupplyTime = parcel.Requested,
+                DeliveryTime = parcel.Delivered,
+                Drone = tmpDrone != default ? mapDroneWithParcel(tmpDrone) : null
+            };
+        }
 
             return parcesWithoutDrone;
-        }
+    }
 
 
         public void PickParcel(int id)
         {
 
-        }
+}
     }
 }
