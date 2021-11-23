@@ -23,10 +23,10 @@ namespace IDal
         void ChargeOf(int droenId);
 
 
-        Station ViewStation(int id);
-        Drone ViewDrone(int id);
-        Customer ViewCustomer(int id);
-        Parcel ViewParcel(int id);
+        Station GetStation(int id);
+        Drone GetDrone(int id);
+        Customer GetCustomer(int id);
+        Parcel GetParcel(int id);
 
 
         IEnumerable<Station> StationList();

@@ -10,19 +10,9 @@ namespace IBL
     {
         public class ParcelToList
         {
-            public ParcelToList(int id, int senderId, int targilId, WeightCategories weight,
-                Priorities priority,DroneStatuses parcelStatuses)
-            {
-                Id = id;
-                SenderId = senderId;
-                TargilId = targilId;
-                Weight = weight;
-                Priority = priority;
-                ParcelStatuses = parcelStatuses;
-            }
             public int Id { get; set; }
             public int SenderId { get; set; }
-            public int TargilId { get; set; }
+            public int GetterId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public ParcelStatuses ParcelStatuses { get; set; }
@@ -34,7 +24,7 @@ namespace IBL
             {
                 return "Id: " + Id + "\n"
                     + "SenderId: " + SenderId + "\n"
-                    + "TargilId: " + TargilId + "\n"
+                    + "GetterId: " + GetterId + "\n"
                      + "Weight: " + Weight + "\n"
                      + "Priority: " + Priority;
             }

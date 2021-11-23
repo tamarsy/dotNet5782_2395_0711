@@ -18,14 +18,7 @@ namespace IDAL
             /// <param name="Longitude">Station Longitude</param>
             /// <param name="Lattitude">Station Lattitude</param>
             /// <param name="ChargeSlot">Station ChargeSlot</param>
-            public Station(int id, string name, double longitude, double lattitude, int chargeSlot)
-            {
-                Id = id;
-                Name = name;
-                Longitude = longitude;
-                Lattitude = lattitude;
-                ChargeSlot = chargeSlot;
-            }
+
             public int Id { get; set; }
             public string Name { get; set; }
             public double Longitude { get; set; }
