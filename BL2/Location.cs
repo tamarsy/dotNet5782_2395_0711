@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        public class Location
+        public class Location : Ilocatable
         {
             public Location(double latitude = 0, double longitude = 0)
             {
@@ -19,7 +19,7 @@ namespace IBL
             }
             public double Latitude { get; set; }
             public double Longitude { get; set; }
-            Location CurrentLocation { get; set; }
+            public Location CurrentLocation { get; set; }
 
             public override string ToString()
             {

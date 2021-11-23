@@ -4,23 +4,23 @@ using System.Text;
 
 namespace IBL.BO
 {
+    /// <summary>
+    /// CustomerDelivery:
+    /// </summary>
     public class CustomerDelivery
     {
-        public CustomerDelivery(int id, WeightCategories weight, Priorities priority,  ParcelStatuses status,  int sender, int target)
-        {
-            Id = id;
-            Weight = weight;
-            Priority = priority;
-            Status = status;
-            Sender = sender;
-            Target = target;
-
-        }
         public int Id { get; set; }
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
         public ParcelStatuses Status { get; set; }
-        public int Sender { get; set; }
-        public int Target { get; set; }
+        public DeliveryCustomer Customer { get; set; }
+        public override string ToString()
+        {
+            return "Id: " + Id + "\n"
+                + "Weight: " + Weight + "\n"
+                + "Priority: " + Priority + "\n"
+                + "Status: " + Status + "\n"
+                + "Customer: " + Customer;
+        }
     }
 }

@@ -17,7 +17,6 @@ namespace IBL
             public DroneStatuses DroneStatuses { get; set; }
             public Location CurrentLocation { get; set; }
             public int? NumOfParcel { get; set; }
-            public int DeliveryId { get; set; }
             public override string ToString()
             {
                 return "Id: " + Id + "\n"
@@ -26,7 +25,7 @@ namespace IBL
                     + "BatteryStatuses: " + BatteryStatuses + "\n"
                     + "DroneStatuses: " + DroneStatuses + "\n"
                     + "CurrentSiting: " + CurrentLocation + "\n"
-                    + "deliveryId: " + DeliveryId;
+                    + "deliveryId: " + NumOfParcel;
             }
         }
     }

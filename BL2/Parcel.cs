@@ -10,23 +10,9 @@ namespace IBL
     {
         public class Parcel
         {
-            public Parcel(int id, DeliveryCustomer senderId, DeliveryCustomer targilId, WeightCategories weight, Priorities priority, DroneDelivery droneDelivery, DateTime deliveryTime, DateTime assignmentTime, DateTime pickUpTime, DateTime supplyTime)
-            {
-                Id = id;
-                SenderId = senderId;
-                TargilId = targilId;
-                Weight = weight;
-                Priority = priority;
-                DroneDelivery = droneDelivery;
-                DeliveryTime = deliveryTime;
-                AssignmentTime = assignmentTime;
-                PickUpTime = pickUpTime;
-                SupplyTime = supplyTime;
-
-            }
             public int Id { get; set; }
             public DeliveryCustomer SenderId { get; set; }
-            public DeliveryCustomer TargilId { get; set; }
+            public DeliveryCustomer GetterId { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public DroneDelivery DroneDelivery { get; set; }
@@ -38,7 +24,7 @@ namespace IBL
             {
                 return "Id: " + Id + "\n"
                      + "SenderId: " + SenderId + "\n"
-                     + "TargilId: " + TargilId + "\n"
+                     + "GetterId: " + GetterId + "\n"
                      + "Weight: " + Weight + "\n"
                      + "Priority: " + Priority + "\n"
                      + "DroneDelivery" + DroneDelivery + "\n"

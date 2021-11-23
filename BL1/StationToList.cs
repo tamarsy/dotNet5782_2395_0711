@@ -10,13 +10,6 @@ namespace IBL
     {
         public class StationToList
         {
-            public StationToList(int id, string name, int numOfEmptyChargeSlots, int numOfCatchChargeSlots)
-            {
-                Id = id;
-                Name = name;
-                NumOfEmptyChargeSlots = numOfEmptyChargeSlots;
-                NumOfCatchChargeSlots = numOfCatchChargeSlots;
-            }
             public int Id { get; set; }
             public string Name { get; set; }
             public int NumOfEmptyChargeSlots { get; set; }

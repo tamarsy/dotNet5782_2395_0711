@@ -15,7 +15,7 @@ namespace IBL
 
         void UpdateStation(int id, string name, int numOfChargeSlot);
         void UpdateDrone(int id, string model);
-        void UpdateCusomer(int id, string name, string phone);
+        void UpdateCusomer(int id, string name = default, string phone = default);
         void ChargeOn(int id);
         void ChargeOf(int id, float timeInCharge);
         void ParcelToDrone(int id);
@@ -24,10 +24,12 @@ namespace IBL
 
 
 
-        Station ViewStation(int requestedId);
-        Drone ViewDrone(int requestedId);
-        Customer ViewCustomer(int requestedId);
-        BO.Parcel ViewParcel(int requestedId);
+        Station GetStation(int requestedId);
+        Drone GetDrone(int requestedId);
+        Customer GetCustomer(int requestedId);
+        BO.Parcel GetParcel(int requestedId);
+
+
         IEnumerable<BO.StationToList> StationsList();
         IEnumerable<BO.DroneToList> DronesList();
         IEnumerable<CustomerToList> CustomersList();

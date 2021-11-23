@@ -4,8 +4,31 @@ using System.Text;
 using System.Runtime.Serialization;
 
 
-namespace IBL
+namespace DalObject
 {
+    [Serializable]
+    public class ObjectAlreadyExistException : Exception
+    {
+        public ObjectAlreadyExistException() : base()
+        {
+        }
+        public ObjectAlreadyExistException(string message) : base(message)
+        {
+        }
+        public ObjectAlreadyExistException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+        protected ObjectAlreadyExistException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+        public override string ToString()
+        {
+            return (Message != null)? Message:"The specific object is already exist";
+        }
+    }
+
+
+
     [Serializable]
     public class ObjectNotExistException : Exception
     {
@@ -23,52 +46,7 @@ namespace IBL
         }
         public override string ToString()
         {
-            return (Message != null)? Message:"The specific object is not exist";
-        }
-    }
-
-
-
-
-    public class ObjectAlreadyExistException : Exception
-    {
-        public ObjectAlreadyExistException() : base()
-        {
-        }
-        public ObjectAlreadyExistException(string message) : base(message)
-        {
-        }
-        public ObjectAlreadyExistException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-        protected ObjectAlreadyExistException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-        public override string ToString()
-        {
-            return (Message != null) ? Message : "The specific object is already exist";
-        }
-    }
-
-
-
-    public class NoChangesToUpdateException : Exception
-    {
-        public NoChangesToUpdateException() : base()
-        {
-        }
-        public NoChangesToUpdateException(string message) : base(message)
-        {
-        }
-        public NoChangesToUpdateException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-        protected NoChangesToUpdateException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-        public override string ToString()
-        {
-            return (Message != null) ? Message : "No Changes To Update";
+            return (Message != null) ? Message : "The specific object is not exist";
         }
     }
 

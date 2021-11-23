@@ -26,6 +26,13 @@ namespace DalObject
             public static int runNumForParcel = 0;
             public static void Initialize()
             {
+
+                List<string> names = new List<string>();
+                names.Add("Yoss"); names.Add("Dov"); names.Add("Shay"); names.Add("Gad"); names.Add("Ran");
+
+                List<string> phones = new List<string>();
+                phones.Add("9741945"); phones.Add("9089251"); phones.Add("9090508"); phones.Add("6722027"); phones.Add("8827664");
+
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
                 {
@@ -34,27 +41,44 @@ namespace DalObject
 
                 for (int i = 0; i < NUMOFDRONES / 2; ++i)
                 {
-                    StationsArr.Add(new Station(i, random.Next(1111, 9999), random.Next(0, 99) / 3.7,
-                        random.Next(0, 99) / 3.7, random.Next(2, 10)));
+                    StationsArr.Add(new Station()
+                    {
+                        Id = i,
+                        Name = phones[i % (names.Count())],
+                        Lattitude = random.Next(0, 99) / 3.7,
+                        Longitude = random.Next(0, 99) / 3.7,
+                        ChargeSlot = random.Next(2, 10)
+                    });
                 }
 
-                List<string> names = new List<string>();
-                names.Add("Yoss"); names.Add("Dov"); names.Add("Shay"); names.Add("Gad"); names.Add("Ran");
-
-                List<string> phones = new List<string>();
-                phones.Add("9741945"); phones.Add("9089251"); phones.Add("9090508"); phones.Add("6722027"); phones.Add("8827664");
 
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
                 {
-                    CustomerArr[i] = new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[1], phones[4]);
-                    CustomerArr.Add(new Customer(i, random.Next(0, 99) / 3.7, random.Next(0, 99) / 3.7, names[i%(names.Count())], phones[i % (names.Count())]));
+                    CustomerArr.Add(new Customer()
+                    {
+                        Id = i,
+                        Name = names[i % (names.Count())],
+                        Phone = phones[i % (names.Count())],
+                        Longitude = random.Next(0, 99) / 3.7,
+                        Lattitude = random.Next(0, 99) / 3.7
+                    });
                 }
 
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
                 {
-                    ParcelArr.Add(new Parcel(i, random.Next(111111111, 999999999), random.Next(1, 99), (WeightCategories)(i % 3)
-                        , (Priorities)(i % 3), new DateTime(random.Next(1, 99)), random.Next(0, 5), new DateTime(random.Next(1, 99)),
-                        new DateTime(random.Next(1, 99)), new DateTime(random.Next(1, 99))));
+                    ParcelArr.Add(new Parcel()
+                    {
+                        Id = i,
+                        SenderId = random.Next(111111111, 999999999),
+                        Getter = random.Next(1, 99),
+                        Weight = (WeightCategories)(i % 3),
+                        Priority = (Priorities)(i % 3),
+                        ReQuested = new DateTime(random.Next(1, 99)),
+                        Droneld = random.Next(0, 5),
+                        Schedulet = new DateTime(random.Next(1, 99)),
+                        PickedUp = new DateTime(random.Next(1, 99)),
+                        Delivered = new DateTime(random.Next(1, 99))
+                    });
                 }
             }
         }

@@ -8,18 +8,17 @@ namespace IBL
 {
     namespace BO
     {
-        public class Customer
+        /// <summary>
+        /// the class customer
+        /// id = the customer id
+        /// name = the customer name
+        /// phone = the customer phone
+        /// currentLoction = the customer Location(Latitude and Longitude)
+        /// fromCustomer = a list with the dalivery from the customer
+        /// ToCustomer = a list with the dalivery to the customer
+        /// </summary>
+        public class Customer:Ilocatable
         {
-            public Customer(int id, string name, string phone, Location currentLocation, List<CustomerDelivery> fromCustomer,
-                List<CustomerDelivery> toCustomer)
-            {
-                Id = id;
-                Name = name;
-                Phone = phone;
-                Location CurrentLocation = currentLocation;
-                List<CustomerDelivery> FromCustomer = fromCustomer;
-                List<CustomerDelivery> ToCustomer = toCustomer;
-            }
             public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
@@ -28,12 +27,12 @@ namespace IBL
             public List<CustomerDelivery> ToCustomer { get; set; }
             public override string ToString()
             {
-                return "Id: " + Id + "\n"
-                    + "Name: " + Name + "\n"
-                    + "Phone: " + Phone + "\n"
-                    + "CurrentSiting: " + CurrentLocation + "\n"
-                     + "FromCustomer: " + FromCustomer + "\n"
-                     + "ToCustomer: " + ToCustomer;
+                return $"Id: {Id}\n" +
+                    $"Name: { Name}\n" +
+                    $"Phone: { Phone}\n" +
+                    $"CurrentSiting: { CurrentLocation}\n" +
+                    $"FromCustomer: { FromCustomer}\n" +
+                    $"ToCustomer: { ToCustomer}";
             }
         }
     }

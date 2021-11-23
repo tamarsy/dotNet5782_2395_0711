@@ -10,23 +10,9 @@ namespace IDAL
     {
         public struct Parcel
         {
-            public Parcel(int id, int senderId, int targilId, WeightCategories weight, Priorities priority,
-                DateTime? reQuested = null, int droneld = 0, DateTime? schedulet = null, DateTime? pickedUp = null, DateTime? delivered = null)
-            {
-                Id = id;
-                SenderId = senderId;
-                TargilId = targilId;
-                Weight = weight;
-                Priority = priority;
-                ReQuested = reQuested;
-                Droneld = droneld;
-                Schedulet = schedulet;
-                PickedUp = pickedUp;
-                Delivered = delivered;
-            }
             public int Id { get; set; }
             public int SenderId { get; set; }
-            public int TargilId { get; set; }
+            public int Getter { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public DateTime? ReQuested { get; set; }
@@ -39,7 +25,7 @@ namespace IDAL
             {
                 return "Id: " + Id + "\n"
                     + "SenderId: " + SenderId + "\n"
-                    + "TargilId: " + TargilId + "\n"
+                    + "Getter: " + Getter + "\n"
                      + "Weight: " + Weight + "\n"
                      + "Priority: " + Priority + "\n"
                      + "ReQuested: " + ReQuested + "\n"
