@@ -10,17 +10,6 @@ namespace IBL
     {
         public class Drone
         {
-            public Drone(int id, string model, WeightCategories maxWeight, double batteryStatuses,
-              DroneStatuses droneStatuses, Location currentLocation, ParcelDelivery parcel)
-            {
-                Id = id;
-                Model = model;
-                MaxWeight = maxWeight;
-                BatteryStatuses = batteryStatuses;
-                DroneStatuses = droneStatuses;
-                CurrentLocation = currentLocation;
-                Parcel = parcel;
-            }
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }

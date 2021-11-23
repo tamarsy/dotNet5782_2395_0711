@@ -8,12 +8,6 @@ namespace IBL.BO
 {
     public class DroneDelivery
     {
-        public DroneDelivery(int id, double batteryStatuses, Location curentLocation)
-        {
-            Id = id;
-            BatteryStatuses = batteryStatuses;
-            CurentLocation = curentLocation;
-        }
         public int Id { get; set; }
         public Double BatteryStatuses { get; set; }
         public Location CurentLocation { get; set; }

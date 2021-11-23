@@ -10,14 +10,6 @@ namespace IBL
     {
         public class Station : Ilocatable
         {
-            public Station(int id, string name, int chargeSlot, Location currentLocation)
-            {
-                Id = id;
-                Name = name;
-                Location CurrentLocation = currentLocation;
-                ChargeSlot = chargeSlot;
-                List<Drone> DronesInCharge = new List<Drone>();
-            }
             public int Id { get; set; }
             public string Name { get; set; }
             public Location CurrentLocation { get; set; }
