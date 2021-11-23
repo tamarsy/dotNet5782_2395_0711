@@ -88,22 +88,20 @@ namespace DalObject
         /// </summary>
         /// <param name="id">the drone id</param>
         /// <returns></returns>
-        public Drone GetDrone(int id) => DataSource.DronesArr.First(item => item.Id == id);
+        public Drone GetDrone(int id)
+        {
+            int i = DataSource.DronesArr.FindIndex(item => item.Id == id);
+            if (i < 0)
+            {
+                throw new ObjectNotExistException("id no exist");
+            }
+            return DataSource.DronesArr[i];
+        }
 
         /// <summary>
-        /// אני לא אמורה ליצור חדש בשביל בטיחות אי אפשר סתם לשלוח את הנתונים?
+        /// 
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Drone> DroneList()
-        {
-            List<Drone> DroneList = new List<Drone>();
-            foreach (var item in DataSource.DronesArr)
-            {
-                DroneList.Add(item);
-            }
-            return DroneList;
-        }
-        
-        //public IEnumerable<Drone> DroneList() => DataSource.DronesArr;
+        public IEnumerable<Drone> DroneList() => DataSource.DronesArr;
     }
 }

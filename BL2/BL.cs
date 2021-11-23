@@ -114,21 +114,20 @@ namespace IBL
 
         }
 
-
-        public IEnumerable<ParcelToList> ParcesWithoutDronelList()
+        public Station ViewStation(int requestedId)
         {
-            List<ParcelToList> parcesWithoutDrone = new List<ParcelToList>();
-
-            foreach (var p in dalObject.ParcesWithoutDronelList())
+            IDAL.DO.Station temptation = dalObject.ViewStation(requestedId);
+            Station station = new Station(temptation.Id, temptation.Name, temptation.ChargeSlot, new Location(temptation.Lattitude, temptation.Longitude));
+            foreach (var item in dalObject.)
             {
-                //drone sttus?????????????????????????????????????????? in ParceltoList
-                ParcelToList newParcel = new ParcelToList(p.Id, p.SenderId, p.TargilId, (BO.WeightCategories)p.Weight, (BO.Priorities)p.Priority, DroneStatuses.vacant);
-                parcesWithoutDrone.Add(newParcel);
+                Drone drone = new Drone();
+                station.DronesInCharge.Add();
             }
-
-            return parcesWithoutDrone;
+            return station;
         }
-        public BO.Drone detailsDrone(IDAL.DO.Drone drone)
+
+
+        public Drone detailsDrone(IDAL.DO.Drone drone)
         {
             DroneToList droneToList = drones.Find(item => item.Id == drone.Id);
             return new Drone()
@@ -139,9 +138,9 @@ namespace IBL
                 BatteryStatuses = droneToList.BatteryStatuses,
                 DroneStatuses = droneToList.DroneStatuses,
                 CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.NumOfParcel != null ? throw ("finish") : null
+                Parcel = droneToList.NumOfParcel != null ? throw("finish") : null;
             };
         }
+        public Customer 
     }
 }
-

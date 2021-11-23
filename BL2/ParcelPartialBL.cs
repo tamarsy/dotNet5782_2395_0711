@@ -11,37 +11,26 @@ namespace IBL
 {
     public partial class BL : IblParcel 
     {
-        public void AddParcel(int sid, int tid, WeightCategories weigth, Priorities priority)
+        public object DAL { get; private set; }
+
+        public void AddParcel(Parcel IBL)
         {
-            IDAL.DO.Parcel newParcel = new IDAL.DO.Parcel(0, sid, tid, (IDAL.DO.WeightCategories)weigth, (IDAL.DO.Priorities)priority);
             try
             {
-                dalObject.AddParcel(newParcel);
-            }
-            catch (DalObject.ObjectAlreadyExistException e)
-            {
-                throw new ObjectAlreadyExistException(e.Message);
-        }
-            catch (Exception)
-            {
-                throw new Exception();
+                dal.AddParcel(Parcel_partial_BL.CustomerSender.Id, Parcel_partial_BL.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcelBl.Weight, (IDAL.DO.Priorities)parcelBl.Priority);
             }
         }
 
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
-
-        public Parcel GetParcel(int requestedId)
         {
             return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel)); ;
-            IDAL.DO.Parcel tempParcel = dalObject.GetParcel(requestedId);
-            return new Parcel();
         }
 
+        public IEnumerable<ParcelToList> GetParcels()
         {
+            return dal.GetParcels().Select(parcel => mapParcelToList(parcel));
         }
 
-            return parcelsList;
-        }
 
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
@@ -61,13 +50,7 @@ namespace IBL
             };
         }
 
-            return parcesWithoutDrone;
     }
 
 
-        public void PickParcel(int id)
-        {
-
-}
-    }
 }
