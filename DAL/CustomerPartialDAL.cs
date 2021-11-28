@@ -52,5 +52,11 @@ namespace DalObject
             }
             return CustomerList;
         }
+
+        public void UpdateCustomer(Customer customer)
+        {
+            int i = DataSource.CustomerArr.FindIndex(s => s.Id == customer.Id);
+            DataSource.CustomerArr[i] = customer;
+        }
     }
 }

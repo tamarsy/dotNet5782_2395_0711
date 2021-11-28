@@ -8,7 +8,26 @@ namespace IBL
 {
     namespace BO
     {
-        public class Drone
+        /// <summary>
+        /// Drone:
+        /// Id : the drone id
+        /// Model : the drone model
+        /// MaxWeight : the drone max weight to carry
+        /// BatteryStatuses : the drone battery dtatuses
+        /// DroneStatuses : the drone statuses (vacant, maintanance, sending)
+        /// CurrentLocation : the drone current location
+        /// Parcel : the pacel in drone details:
+        /// Parcel - Id : parcel id
+        /// Parcel - Weight : the parcel weight 
+        /// Parcel - Priority : the parcel priority
+        /// Parcel - StatusParcel : the parcel status
+        /// Parcel - Collecting : the customer sender location
+        /// Parcel - DeliveryDestination : the customer getter location
+        /// Parcel - Distance : the distance for the delivery
+        /// Parcel - SenderId : the Sender id
+        /// Parcel - GetterId : the Getter id  
+        /// </summary>
+        public class Drone:Ilocatable
         {
             public int Id { get; set; }
             public string Model { get; set; }

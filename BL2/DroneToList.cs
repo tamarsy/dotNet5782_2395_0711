@@ -8,6 +8,16 @@ namespace IBL
 {
     namespace BO
     {
+        /// <summary>
+        /// DroneToList:
+        /// Id : the dorone id 
+        /// Model : the dorone model
+        /// MaxWeight : the dorone max weight (easy, medium, heavy)
+        /// BatteryStatuses : the dorone Battery Statuses
+        /// DroneStatuses : the dorone Statuses (vacant, maintanance, sending)
+        /// CurrentLocation : the dorone current location
+        /// NumOfParcel : the parcel id
+        /// </summary>
         public class DroneToList:Ilocatable
         {
             public int Id { get; set; }

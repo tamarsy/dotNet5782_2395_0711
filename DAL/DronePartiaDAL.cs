@@ -34,7 +34,7 @@ namespace DalObject
             Station s;
             try
             {
-                GetDrone(droenId);  s = GetStation(stationId);
+                GetDrone(droenId); s = GetStation(stationId);
             }
             catch (ObjectNotExistException)
             {
@@ -103,5 +103,12 @@ namespace DalObject
         /// </summary>
         /// <returns></returns>
         public IEnumerable<Drone> DroneList() => DataSource.DronesArr;
+
+
+        public void UpdateDrone(Drone drone)
+        {
+            int i = DataSource.DronesArr.FindIndex(s => s.Id == drone.Id);
+            DataSource.DronesArr[i] = drone;
+        }
     }
 }

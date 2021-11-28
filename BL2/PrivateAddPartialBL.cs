@@ -20,16 +20,19 @@ namespace IBL
             if (drone.DroneStatuses == DroneStatuses.sending)
             {
                 IDAL.DO.Parcel parcel = dalObject.GetParcel((int)drone.NumOfParcel);
-                Location targilIdLocation = GetCustomer(parcel.Getter).CurrentLocation;
-                Location chargeSlotLocation = FindCloseStationWithChargeSlot(targilIdLocation).CurrentLocation;
-                double distance = FindDistanceOfRoute(drone.CurrentLocation, targilIdLocation, chargeSlotLocation);
-                return (rand.NextDouble() * (100 - MinPowerForDistance(distance, (WeightCategories)parcel.Weight))) + MinPowerForDistance(distance, (WeightCategories)parcel.Weight);//min to 100
+                Location getterLocation = GetCustomer(parcel.Getter).CurrentLocation;
+                Location chargeSlotLocation = FindCloseStationWithChargeSlot(getterLocation).CurrentLocation;
+                double distanceWithParcel = drone.Distance(getterLocation);
+                double distanceWithOutParcel = getterLocation.Distance(chargeSlotLocation); 
+                double MinPower = FindMinPowerForDistance(distanceWithParcel, (WeightCategories)parcel.Weight) + FindMinPowerForDistance(distanceWithOutParcel, (WeightCategories)parcel.Weight);
+                return (rand.NextDouble() * (100 - MinPower)) + MinPower;//min to 100
             }
             else
             {
                 Location chargeSlotLocation = FindCloseStationWithChargeSlot(drone.CurrentLocation).CurrentLocation;
                 double distance = drone.CurrentLocation.Distance(chargeSlotLocation);
-                return (rand.NextDouble() * (100 - MinPowerForDistance(distance))) + MinPowerForDistance(distance);//min to 100
+                double MinPower = FindMinPowerForDistance(distance);
+                return (rand.NextDouble() * (100 - MinPower)) + MinPower;//min to 100
             }
         }
 
@@ -50,7 +53,7 @@ namespace IBL
 
 
 
-        private double MinPowerForDistance(double distance, WeightCategories? weight = null)
+        private double FindMinPowerForDistance(double distance, WeightCategories? weight = null)
         {
             if (weight == WeightCategories.easy)
                 return lightWeightCarrier * distance;
@@ -82,6 +85,10 @@ namespace IBL
                 return GetStation(stationId).CurrentLocation;
             }
             List<int> idOfCustomers = CustomersList().Where(customer => customer.NumOfParcelsSupplied > 0).Select(customer => customer.Id).ToList();
+            if (idOfCustomers.Count == 0)
+            {
+                return GetCustomer(CustomersList().ToList()[0].Id).CurrentLocation;
+            }
             int customerId = rand.Next(idOfCustomers.Count());
             return GetCustomer(idOfCustomers[customerId]).CurrentLocation;
         }
@@ -89,7 +96,7 @@ namespace IBL
 
 
 
-        private Station FindCloseStationWithChargeSlot(Location location)
+        private Station FindCloseStationWithChargeSlot(Ilocatable location)
         {
             double minDistance = double.MaxValue;
             Station mostCloseLocation = default;
@@ -109,10 +116,10 @@ namespace IBL
 
 
 
-        private Location FindClosetStationLocation(Location currentLoction)
+        private Location FindClosetStationLocation(Ilocatable currentLoction)
         {
             double minDistance = double.MaxValue;
-            Location mostCloseStationLoction = default(Location);
+            Location mostCloseStationLoction = default;
             foreach (var station in dalObject.StationList())
             {
                 Location stationLocation = new Location()

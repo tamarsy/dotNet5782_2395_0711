@@ -8,6 +8,16 @@ namespace IBL
 {
     namespace BO
     {
+        /// <summary>
+        /// CustomerToList:
+        /// Id : the customer id
+        /// Name : the customer name
+        /// Phone : the customer phone
+        /// NumOfParcelsDefined : num Of Parcels Defined
+        /// NumOfParcelsAscribed : num Of Parcels Ascribed
+        /// NumOfParcelsCollected : num Of Parcels Collected
+        /// NumOfParcelsSupplied : num Of Parcels Supplied
+        /// </summary>
         public class CustomerToList
         {
             public int Id { get; set; }

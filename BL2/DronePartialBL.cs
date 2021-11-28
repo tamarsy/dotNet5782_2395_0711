@@ -9,8 +9,18 @@ using IBL.BO;
 
 namespace IBL
 {
+    /// <summary>
+    /// all the function in BL class that conction to drone
+    /// </summary>
     partial class BL
     {
+        /// <summary>
+        /// creat a new drone with the details:
+        /// </summary>
+        /// <param name="id">id of the new drone</param>
+        /// <param name="model">model of the new drone</param>
+        /// <param name="maxWeight">max Weight of the new drone</param>
+        /// <param name="stationId">stationId for the new drone first charging</param>
         public void AddDrone(int id, string model, WeightCategories maxWeight, int stationId)
         {
             IDAL.DO.Drone newDrone = new IDAL.DO.Drone() { Id = id, Model = model, MaxWeight = (IDAL.DO.WeightCategories)maxWeight };
@@ -35,13 +45,17 @@ namespace IBL
                 CurrentLocation = GetStation(stationId).CurrentLocation,
                 DroneStatuses = DroneStatuses.maintanance
             });
-            dalObject.ChargeOn(id);
+            dalObject.ChargeOn(id, stationId);
         }
 
 
 
 
-
+        /// <summary>
+        /// update the model for specific drone
+        /// </summary>
+        /// <param name="id">the drone id</param>
+        /// <param name="model"></param>
         public void UpdateDrone(int id, string model)
         {
             IDAL.DO.Drone drone = dalObject.GetDrone(id);
@@ -49,12 +63,16 @@ namespace IBL
                 throw new NoChangesToUpdateException();
 
             drone.Model = model;
-            //או למחוק ולהכניס חדש או לעדכן
+            dalObject.UpdateDrone(drone);
         }
 
 
 
-
+        /// <summary>
+        /// return the specific drone details
+        /// </summary>
+        /// <param name="requestedId"> the requested drone id</param>
+        /// <returns>Drone</returns>
         public Drone GetDrone(int requestedId)
         {
             IDAL.DO.Drone drone;
@@ -75,7 +93,11 @@ namespace IBL
 
 
 
-
+        /// <summary>
+        /// convert from drone i dal to drone in bl
+        /// </summary>
+        /// <param name="drone">the specific drone id</param>
+        /// <returns>Drone</returns>
         private Drone DalToBlDrone(IDAL.DO.Drone drone)
         {
             DroneToList droneFromList = drones.Find(d => d.Id == drone.Id);
@@ -106,6 +128,10 @@ namespace IBL
         }
 
 
+        /// <summary>
+        /// return all drones
+        /// </summary>
+        /// <returns>IEnumerable of DroneToList</returns>
         public IEnumerable<DroneToList> DronesList() => drones;
 
 
@@ -122,7 +148,7 @@ namespace IBL
                 throw new ObjectNotAvailableForActionException($"drone with id = {id} is not vacant");
             }
             Station closeStation = FindCloseStationWithChargeSlot(drones[i].CurrentLocation);
-            double powerForDistance = MinPowerForDistance(drones[i].Distance(closeStation));
+            double powerForDistance = FindMinPowerForDistance(drones[i].Distance(closeStation));
             if (drones[i].BatteryStatuses - powerForDistance < 0)
                 throw new ObjectNotAvailableForActionException($"not enough power for distance in drone with id = {id}");
             drones[i].BatteryStatuses = drones[i].BatteryStatuses - powerForDistance;
@@ -131,7 +157,7 @@ namespace IBL
             //in station saved only count of all charge slots
             try
             {
-                dalObject.ChargeOn(id);
+                dalObject.ChargeOn(id, closeStation.Id);
             }
             catch (DalObject.ObjectNotExistException)
             {

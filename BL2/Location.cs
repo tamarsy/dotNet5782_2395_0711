@@ -8,14 +8,17 @@ namespace IBL
 {
     namespace BO
     {
+        /// <summary>
+        /// Location:
+        /// Latitude and Longitude
+        /// </summary>
         public class Location : Ilocatable
         {
             public Location(double latitude = 0, double longitude = 0)
             {
                 Latitude = latitude;
                 Longitude = longitude;
-                CurrentLocation.Latitude = latitude;
-                CurrentLocation.Longitude = longitude;
+                CurrentLocation = this;
             }
             public double Latitude { get; set; }
             public double Longitude { get; set; }

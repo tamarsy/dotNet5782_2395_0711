@@ -36,7 +36,12 @@ namespace DalObject
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
                 {
-                    DronesArr.Add(new Drone(i, "mavic_JDL" + i, (WeightCategories)(i % 3)));
+                    DronesArr.Add(new Drone()
+                    {
+                        Id = i,
+                        Model = "mavic_JDL" + i,
+                        MaxWeight = (WeightCategories)(i % 3)
+                    });
                 }
 
                 for (int i = 0; i < NUMOFDRONES / 2; ++i)
@@ -69,8 +74,8 @@ namespace DalObject
                     ParcelArr.Add(new Parcel()
                     {
                         Id = i,
-                        SenderId = random.Next(111111111, 999999999),
-                        Getter = random.Next(1, 99),
+                        SenderId = random.Next(CustomerArr.Count - 1),
+                        Getter = random.Next(CustomerArr.Count - 1),
                         Weight = (WeightCategories)(i % 3),
                         Priority = (Priorities)(i % 3),
                         ReQuested = new DateTime(random.Next(1, 99)),

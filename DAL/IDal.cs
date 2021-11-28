@@ -19,7 +19,7 @@ namespace IDal
         void ParcelToDrone(int percelChoose, int droneChoose);
         void PickParcel(int percelChoose);
         void Destination(int percelChoose);
-        void ChargeOn(int droenId);
+        void ChargeOn(int droenId, int stationId);
         void ChargeOf(int droenId);
 
 
@@ -27,6 +27,11 @@ namespace IDal
         Drone GetDrone(int id);
         Customer GetCustomer(int id);
         Parcel GetParcel(int id);
+
+
+        void UpdateStation(Station id);
+        void UpdateDrone(Drone id);
+        void UpdateCustomer(Customer id);
 
 
         IEnumerable<Station> StationList();

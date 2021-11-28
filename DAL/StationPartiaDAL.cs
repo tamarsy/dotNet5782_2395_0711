@@ -68,5 +68,11 @@ namespace DalObject
             }
             return stationWithEmptyChargeSlot;
         }
+
+        public void UpdateStation(Station station)
+        {
+            int i = DataSource.StationsArr.FindIndex(s => s.Id == station.Id);
+            DataSource.StationsArr[i] = station;
+        }
     }
 }

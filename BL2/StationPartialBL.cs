@@ -11,6 +11,7 @@ namespace IBL
 {
     partial class BL
     {
+        //Adding
         public void AddStation(int id, string name, Location location, int chargeSlots)
         {
             IDAL.DO.Station newStation = new IDAL.DO.Station()
@@ -35,9 +36,27 @@ namespace IBL
             }
         }
 
+        //Update
         public void UpdateStation(int id, string name, int numOfChargeSlot)
         {
-            throw new NotImplementedException();
+            IDAL.DO.Station station;
+            try
+            {
+                station = dalObject.GetStation(id);
+            }
+            catch (DalObject.ObjectNotExistException e)
+            {
+                throw new ObjectNotExistException(e.Message);
+            }
+            if (name == default && numOfChargeSlot == default)
+            {
+                throw new NoChangesToUpdateException("No Changes To Update");
+            }
+            if (numOfChargeSlot != default)
+                station.ChargeSlot = numOfChargeSlot;
+            if (name != default)
+                station.Name = name;
+            dalObject.UpdateStation(station);
         }
 
         public Station GetStation(int requestedId)
@@ -65,30 +84,65 @@ namespace IBL
         {
             Station newStation = new Station()
             {
-                Id = station.Id
+                Id = station.Id,
+                ChargeSlot = station.ChargeSlot,
+                CurrentLocation = new Location { Latitude = station.Lattitude, Longitude = station.Longitude },
+                Name = station.Name,
+                DronesInCharge = drones.Where(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation == new Location { Latitude = station.Lattitude, Longitude = station.Longitude })
+                .Select(d => DroneToListToDrone(d)).ToList()
             };
-            /*foreach (var item in dalObject.)
-            {
-                Drone drone = new Drone();
-                station.DronesInCharge.Add();
-            }*/
             return newStation;
+        }
+
+        private Drone DroneToListToDrone(DroneToList drone)
+        {
+            Parcel parcel = GetParcel((int)drone.NumOfParcel);
+            Customer CustomerSet = GetCustomer(parcel.SenderId.Id);
+            Customer CustomerGet = GetCustomer(parcel.GetterId.Id);
+
+            return new Drone()
+            { 
+                Id = drone.Id, 
+                BatteryStatuses= drone.BatteryStatuses, 
+                CurrentLocation= drone.CurrentLocation, 
+                DroneStatuses= drone.DroneStatuses, 
+                MaxWeight= drone.MaxWeight, 
+                Model= drone.Model, 
+                Parcel= new ParcelDelivery()
+                {
+                    Id = parcel.Id,
+                    Weight = parcel.Weight,
+                    Priority = parcel.Priority,
+                    StatusParcel = !parcel.PickUpTime.Equals(default),
+                    Collecting = CustomerSet.CurrentLocation,
+                    DeliveryDestination = CustomerGet.CurrentLocation,
+                    Distance = CustomerSet.CurrentLocation.Distance(CustomerGet),
+                    SenderId = parcel.SenderId,
+                    GetterId = parcel.GetterId
+                }
+            };
         }
 
         public IEnumerable<StationToList> StationsList()
         {
             List<StationToList> stationList = new List<StationToList>();
-
             foreach (var s in dalObject.StationList())
             {
-                //לשנות מספר תחנות ריקות מלאות
+                int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation == new Location(s.Lattitude, s.Longitude));
+
                 int numOfChargeSlot = s.ChargeSlot;
-                StationToList newStation = new StationToList(s.Id, s.Name, numOfChargeSlot, numOfChargeSlot);
-                stationList.Add(newStation);
+                stationList.Add(new StationToList()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    NumOfCatchChargeSlots = NumOfCatchChargeSlots,
+                    NumOfEmptyChargeSlots = s.ChargeSlot - NumOfCatchChargeSlots
+                });
             }
 
             return stationList;
         }
+
 
 
         public IEnumerable<StationToList> EmptyChangeSlotlList()
@@ -97,10 +151,16 @@ namespace IBL
 
             foreach (var s in dalObject.EmptyChangeSlotlList())
             {
-                //לשנות את מספר העמדות טעינה שיכילו את המספר הנכון
+                int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation == new Location(s.Lattitude, s.Longitude));
+
                 int numOfAllChargeSlot = s.ChargeSlot;
-                StationToList newStation = new StationToList(s.Id, s.Name, s.ChargeSlot, s.ChargeSlot);
-                stationWithEmptyChangeSlotl.Add(newStation);
+                stationWithEmptyChangeSlotl.Add(new StationToList()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    NumOfCatchChargeSlots = NumOfCatchChargeSlots,
+                    NumOfEmptyChargeSlots = s.ChargeSlot - NumOfCatchChargeSlots
+                });
             }
 
             return stationWithEmptyChangeSlotl;

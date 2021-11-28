@@ -9,48 +9,111 @@ using IBL.BO;
 
 namespace IBL
 {
-    public partial class BL : IblParcel 
+    partial class BL
     {
-        public object DAL { get; private set; }
-
-        public void AddParcel(Parcel IBL)
+        //Adding
+        public void AddParcel(int sid, int tid, WeightCategories weight, Priorities priority)
         {
+            IDAL.DO.Parcel newParcel = new IDAL.DO.Parcel()
+            {
+                SenderId = sid,
+                Getter = tid,
+                Weight = (IDAL.DO.WeightCategories)weight,
+                Priority = (IDAL.DO.Priorities)priority
+            };
             try
             {
-                dal.AddParcel(Parcel_partial_BL.CustomerSender.Id, Parcel_partial_BL.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcelBl.Weight, (IDAL.DO.Priorities)parcelBl.Priority);
+                dalObject.AddParcel(newParcel);
+            }
+            catch (DalObject.ObjectAlreadyExistException e)
+            {
+                throw new ObjectAlreadyExistException(e.Message);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
             }
         }
 
-        public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
+        public Parcel GetParcel(int requestedId)
         {
-            return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel)); ;
+            IDAL.DO.Parcel parcel;
+            try
+            {
+                parcel = dalObject.GetParcel(requestedId);
+            }
+            catch (DalObject.ObjectNotExistException e)
+            {
+                throw new ObjectNotExistException(e.Message);
+            }
+            catch (Exception)
+            {
+                throw new Exception();
+            }
+            return DlToBlParcel(parcel);
         }
 
-        public IEnumerable<ParcelToList> GetParcels()
-        {
-            return dal.GetParcels().Select(parcel => mapParcelToList(parcel));
-        }
 
-
-        private Parcel mapParcel(IDAL.DO.Parcel parcel)
+        private Parcel DlToBlParcel(IDAL.DO.Parcel parcel)
         {
-            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            Drone drone = GetDrone(parcel.Droneld);
             return new Parcel()
             {
                 Id = parcel.Id,
-                SenderId = MapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
-                TargilId = MapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
-                Weight = (BO.WeightCategories)parcel.Weigth,
-                Priority = (BO.Priorities)parcel.Priority,
-                AssignmentTime = parcel.Sceduled,
-                PickUpTime = parcel.PickedUp,
-                SupplyTime = parcel.Requested,
-                DeliveryTime = parcel.Delivered,
-                Drone = tmpDrone != default ? mapDroneWithParcel(tmpDrone) : null
+                AssignmentTime = (DateTime)parcel.ReQuested,
+                DeliveryTime = (DateTime)parcel.Delivered,
+                DroneDelivery = new DroneDelivery() { Id = drone.Id, BatteryStatuses = drone.BatteryStatuses, CurrentLocation = drone.CurrentLocation },
+                PickUpTime = (DateTime)parcel.PickedUp,
+                Priority = (Priorities)parcel.Priority,
+                SenderId = new DeliveryCustomer() { Id = parcel.SenderId, Name = GetCustomer(parcel.SenderId).Name },
+                GetterId = new DeliveryCustomer() { Id = parcel.Getter, Name = GetCustomer(parcel.Getter).Name },
+                SupplyTime = (DateTime)parcel.Schedulet,
+                Weight = (WeightCategories)parcel.Weight
             };
         }
 
+        /// <summary>
+        /// return list of the parcels
+        /// </summary>
+        /// <returns>IEnumerable ParcelToList</returns>
+        public IEnumerable<ParcelToList> ParcelsList()
+        {
+            return dalObject.ParcelList().Select(item => DlToBlParcelToList(item));
+        }
+
+        /// <summary>
+        /// return list parcels without drone
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ParcelToList> ParcesWithoutDronelList()
+        {
+            return dalObject.ParcesWithoutDronelList().Select(item => DlToBlParcelToList(item, ParcelStatuses.defined));
+        }
+
+
+        private ParcelToList DlToBlParcelToList(IDAL.DO.Parcel parcel, ParcelStatuses parcelStatuses = default)
+        {
+            return new ParcelToList()
+            {
+                Id = parcel.Id,
+                SenderId = parcel.SenderId,
+                GetterId = parcel.Getter,
+                Weight = (WeightCategories)parcel.Weight,
+                Priority = (Priorities)parcel.Priority,
+                ParcelStatuses = parcelStatuses != default ? ParcelStatuses.defined : FindParcelStatuses(parcel)
+            };
+        }
+        
+
+        private ParcelStatuses FindParcelStatuses(IDAL.DO.Parcel parcel)
+        {
+            if (parcel.Delivered != default)
+                return ParcelStatuses.supplied;
+            if (parcel.PickedUp != default)
+                return ParcelStatuses.collected;
+            if (parcel.Schedulet != default)
+                return ParcelStatuses.ascribed;
+            return ParcelStatuses.defined;
+        }
     }
-
-
 }

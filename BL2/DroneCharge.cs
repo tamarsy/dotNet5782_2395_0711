@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace IBL.BO
 {
+    /// <summary>
+    /// DroneCharge:
+    /// Id: the drone id
+    /// BatteryStatuses: the drone battery statuses
+    /// </summary>
     class DroneCharge
     {
         public int Id { get; set; }

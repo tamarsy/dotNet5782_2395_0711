@@ -9,8 +9,18 @@ using IBL.BO;
 
 namespace IBL
 {
+    /// <summary>
+    /// all the function in BL class that conction to customer
+    /// </summary>
     partial class BL
     {
+        /// <summary>
+        /// creat a new customer with the details:
+        /// </summary>
+        /// <param name="id">id of the new customer</param>
+        /// <param name="name">name of the new customer</param>
+        /// <param name="phone">phone of the new customer</param>
+        /// <param name="location">location of the new customer</param>
         public void AddCustomer(int id, string name, string phone, Location location)
         {
             IDAL.DO.Customer newCustomer = new IDAL.DO.Customer()
@@ -37,7 +47,12 @@ namespace IBL
 
 
 
-
+        /// <summary>
+        /// update one or more details for specific customer
+        /// </summary>
+        /// <param name="id">the customer id</param>
+        /// <param name="name">customer name for update name</param>
+        /// <param name="phone">customer phone for update phone</param>
         public void UpdateCusomer(int id, string name = default(string), string phone = default(string))
         {
             IDAL.DO.Customer customer = dalObject.GetCustomer(id);
@@ -54,7 +69,11 @@ namespace IBL
 
 
 
-
+        /// <summary>
+        /// return the requested customer from the dt 
+        /// </summary>
+        /// <param name="requestedId">the customer id</param>
+        /// <returns>Customer</returns>
         public Customer GetCustomer(int requestedId)
         {
             IDAL.DO.Customer customer;
@@ -78,14 +97,21 @@ namespace IBL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 CurrentLocation = new Location(customer.Lattitude, customer.Longitude),
-                FromCustomer = ParcelsList().Where(parcel=> parcel.SenderId == customer.Id)
-                    .Select(parcel => ConvertCustomerToCustomerDelivery(parcel, parcel.GetterId)).ToList(),
-                ToCustomer = ParcelsList().Where(parcel => parcel.GetterId == customer.Id)
-                    .Select(parcel => ConvertCustomerToCustomerDelivery(parcel, parcel.SenderId)).ToList()
+                FromCustomer = ParcelsList().Where(parcel=> parcel.SenderId == customer.Id).Select(parcel => CustomerAndParcelToCustomerDelivery(parcel, parcel.GetterId)).ToList(),
+                ToCustomer = ParcelsList().Where(parcel => parcel.GetterId == customer.Id).Select(parcel => CustomerAndParcelToCustomerDelivery(parcel, parcel.SenderId)).ToList()
             };
             return newCustomer;
         }
-        private CustomerDelivery ConvertCustomerToCustomerDelivery(ParcelToList parcel, int id)
+
+
+
+        /// <summary>
+        /// creat a new CustomerDelivery by the customer and parcel 
+        /// </summary>
+        /// <param name="parcel">the parcel</param>
+        /// <param name="id">the customer id</param>
+        /// <returns>CustomerDelivery</returns>
+        private CustomerDelivery CustomerAndParcelToCustomerDelivery(ParcelToList parcel, int id)
         {
             Customer geterCustomer = GetCustomer(id);
             return new CustomerDelivery()
@@ -104,6 +130,10 @@ namespace IBL
 
 
 
+        /// <summary>
+        /// getting all customers
+        /// </summary>
+        /// <returns>IEnumerable of CustomerToList</returns>
         public IEnumerable<CustomerToList> CustomersList()
         {
             List<CustomerToList> customersList = new List<CustomerToList>();
@@ -115,10 +145,10 @@ namespace IBL
                     Id = customer.Id,
                     Name = customer.Name,
                     Phone = customer.Phone,
-                    NumOfParcelsDefined = dalObject.ParcelList().Count(p => p.SenderId == customer.Id && p.PickedUp != default(DateTime)),
-                    NumOfParcelsAscribed = dalObject.ParcelList().Count(p => p.SenderId == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)),
-                    NumOfParcelsCollected = dalObject.ParcelList().Count(p => p.Getter == customer.Id && p.PickedUp != default(DateTime)),
-                    NumOfParcelsSupplied = dalObject.ParcelList().Count(p => p.Getter == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime))
+                    NumOfParcelsDefined = dalObject.ParcelList().Where(p => p.SenderId == customer.Id && p.PickedUp != default(DateTime)).Count(),
+                    NumOfParcelsAscribed = dalObject.ParcelList().Where(p => p.SenderId == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count(),
+                    NumOfParcelsCollected = dalObject.ParcelList().Where(p => p.Getter == customer.Id && p.PickedUp != default(DateTime)).Count(),
+                    NumOfParcelsSupplied = dalObject.ParcelList().Where(p => p.Getter == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count()
                 };
                 customersList.Add(newCustomer);
             }

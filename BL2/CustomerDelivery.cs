@@ -6,6 +6,11 @@ namespace IBL.BO
 {
     /// <summary>
     /// CustomerDelivery:
+    /// Id: the parcel id
+    /// Weight: weight of parcel
+    /// Priority: the priority of the delivery
+    /// Status: the parcel status
+    /// Customer: id and name of customer
     /// </summary>
     public class CustomerDelivery
     {

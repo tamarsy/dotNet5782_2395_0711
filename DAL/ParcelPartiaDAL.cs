@@ -98,5 +98,7 @@ namespace DalObject
             }
             return ParcesWithoutDronelList;
         }
+
+
     }
 }
