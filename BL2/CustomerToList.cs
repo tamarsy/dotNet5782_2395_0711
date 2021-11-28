@@ -32,7 +32,7 @@ namespace IBL
             {
                 return "Id: " + Id + "\n"
                     + "Name: " + Name + "\n"
-                    + "Phone: " + Phone;
+                    + "Phone: " + Phone + "\n";
             }
         }
     }

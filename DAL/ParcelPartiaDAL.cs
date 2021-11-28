@@ -16,10 +16,7 @@ namespace DalObject
         /// <param name="parcel">the new parcel to add</param>
         public void AddParcel(Parcel newpParcel)
         {
-            if (DataSource.CustomerArr.Exists(drone => drone.Id == newpParcel.Id))
-            {
-                throw new ObjectAlreadyExistException("Can't add, There is already a parcel with this ID");
-            }
+            newpParcel.Id = DataSource.Config.runNumForParcel++;
             DataSource.ParcelArr.Add(newpParcel);
         }
 
@@ -29,33 +26,27 @@ namespace DalObject
         /// <param name="percelChoose">the choosen percel</param>
         public void PickParcel(int percelChoose)
         {
-            bool check = false;
-            int i = 0;
-            for (; i < DataSource.ParcelArr.Count; i++)
-            {
-                if (DataSource.ParcelArr[i].Id == percelChoose)
-                {
-                    check = true;
-                    //itemParcelPickedUp = DataSource.ParcelArr[i].PickedUp;
+            int i = DataSource.ParcelArr.FindIndex(p => p.Id == percelChoose);
 
-                    DataSource.ParcelArr[i] = new Parcel()
-                    {
-                        Id = DataSource.ParcelArr[i].Id,
-                        SenderId = DataSource.ParcelArr[i].SenderId,
-                        Getter = DataSource.ParcelArr[i].Getter,
-                        Weight = DataSource.ParcelArr[i].Weight,
-                        Priority = DataSource.ParcelArr[i].Priority,
-                        ReQuested = DataSource.ParcelArr[i].ReQuested,
-                        Droneld = DataSource.ParcelArr[i].Droneld,
-                        Schedulet = DataSource.ParcelArr[i].Schedulet,
-                        PickedUp = DateTime.Now,
-                        Delivered = DataSource.ParcelArr[i].Delivered
-                    };
-                    break;
-                }
+            if (i < 0)
+            {
+                throw new ObjectNotExistException("Error!! Ther is no drone with this id");
             }
-            if (check == false)
-                throw new ArgumentException("Error!! Ther is no drone with this id");
+
+
+            DataSource.ParcelArr[i] = new Parcel()
+            {
+                Id = DataSource.ParcelArr[i].Id,
+                SenderId = DataSource.ParcelArr[i].SenderId,
+                Getter = DataSource.ParcelArr[i].Getter,
+                Weight = DataSource.ParcelArr[i].Weight,
+                Priority = DataSource.ParcelArr[i].Priority,
+                ReQuested = DataSource.ParcelArr[i].ReQuested,
+                Droneld = DataSource.ParcelArr[i].Droneld,
+                Schedulet = DataSource.ParcelArr[i].Schedulet,
+                PickedUp = DateTime.Now,
+                Delivered = DataSource.ParcelArr[i].Delivered
+            };
         }
 
         /// <summary>

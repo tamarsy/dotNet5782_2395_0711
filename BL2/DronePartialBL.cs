@@ -36,13 +36,15 @@ namespace IBL
             {
                 throw new Exception();
             }
+
+            IDAL.DO.Station station = dalObject.GetStation(stationId);
             drones.Add(new DroneToList()
             {
                 Id = id,
                 Model = model,
                 MaxWeight = maxWeight,
                 BatteryStatuses = (rand.NextDouble()*20) + 20,
-                CurrentLocation = GetStation(stationId).CurrentLocation,
+                CurrentLocation = new Location(station.Lattitude,station.Longitude),
                 DroneStatuses = DroneStatuses.maintanance
             });
             dalObject.ChargeOn(id, stationId);
@@ -101,9 +103,9 @@ namespace IBL
         private Drone DalToBlDrone(IDAL.DO.Drone drone)
         {
             DroneToList droneFromList = drones.Find(d => d.Id == drone.Id);
-            Parcel parcel = GetParcel((int)droneFromList.NumOfParcel);
-            Customer sender = GetCustomer(parcel.SenderId.Id);
-            Customer Getter = GetCustomer(parcel.GetterId.Id);
+            IDAL.DO.Parcel parcel = droneFromList.NumOfParcel == default ? default:dalObject.GetParcel((int)droneFromList.NumOfParcel);
+            Customer sender = GetCustomer(parcel.SenderId);
+            Customer Getter = GetCustomer(parcel.Getter);
             return new Drone()
             {
                 Id = drone.Id,
@@ -115,9 +117,9 @@ namespace IBL
                 Parcel = droneFromList.NumOfParcel == default ? default : new ParcelDelivery()
                 {
                     Id = parcel.Id,
-                    Weight = parcel.Weight,
-                    Priority = parcel.Priority,
-                    StatusParcel = !parcel.PickUpTime.Equals(default),
+                    Weight = (WeightCategories)parcel.Weight,
+                    Priority = (Priorities)parcel.Priority,
+                    StatusParcel = !parcel.PickedUp.Equals(default),
                     Collecting = sender.CurrentLocation,
                     DeliveryDestination = Getter.CurrentLocation,
                     Distance = sender.CurrentLocation.Distance(Getter),
@@ -127,6 +129,39 @@ namespace IBL
             };
         }
 
+        /// <summary>
+        /// function that create a list of drones to the drone 
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <returns>Drone</returns>
+        private Drone DroneToListToDrone(DroneToList drone)
+        {
+            Parcel parcel = GetParcel((int)drone.NumOfParcel);
+            Customer CustomerSet = GetCustomer(parcel.SenderId.Id);
+            Customer CustomerGet = GetCustomer(parcel.GetterId.Id);
+
+            return new Drone()
+            {
+                Id = drone.Id,
+                BatteryStatuses = drone.BatteryStatuses,
+                CurrentLocation = drone.CurrentLocation,
+                DroneStatuses = drone.DroneStatuses,
+                MaxWeight = drone.MaxWeight,
+                Model = drone.Model,
+                Parcel = new ParcelDelivery()
+                {
+                    Id = parcel.Id,
+                    Weight = parcel.Weight,
+                    Priority = parcel.Priority,
+                    StatusParcel = !parcel.PickUpTime.Equals(default),
+                    Collecting = CustomerSet.CurrentLocation,
+                    DeliveryDestination = CustomerGet.CurrentLocation,
+                    Distance = CustomerSet.CurrentLocation.Distance(CustomerGet),
+                    SenderId = parcel.SenderId,
+                    GetterId = parcel.GetterId
+                }
+            };
+        }
 
         /// <summary>
         /// return all drones
@@ -175,7 +210,7 @@ namespace IBL
             {
                 throw new ObjectNotAvailableForActionException($"drone with id = {id} is not in charging now");
             }
-            drones[i].BatteryStatuses += skimmerLoadingRate * timeInCharge;
+            drones[i].BatteryStatuses = (drones[i].BatteryStatuses + skimmerLoadingRate * timeInCharge)%100;
             drones[i].DroneStatuses = DroneStatuses.vacant;
             try
             {

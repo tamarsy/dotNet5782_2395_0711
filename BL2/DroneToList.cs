@@ -34,8 +34,8 @@ namespace IBL
                     + "MaxWeight: " + MaxWeight + "\n"
                     + "BatteryStatuses: " + BatteryStatuses + "\n"
                     + "DroneStatuses: " + DroneStatuses + "\n"
-                    + "CurrentSiting: " + CurrentLocation + "\n"
-                    + "deliveryId: " + NumOfParcel;
+                    + "CurrentLocation: " + CurrentLocation + "\n"
+                    + "deliveryId: " + NumOfParcel + "\n";
             }
         }
     }

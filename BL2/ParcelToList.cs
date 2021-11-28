@@ -26,7 +26,8 @@ namespace IBL
                     + "SenderId: " + SenderId + "\n"
                     + "GetterId: " + GetterId + "\n"
                      + "Weight: " + Weight + "\n"
-                     + "Priority: " + Priority;
+                     + "Priority: " + Priority + "\n"
+                     + "ParcelStatuses: " + ParcelStatuses + "\n";
             }
         }
     }

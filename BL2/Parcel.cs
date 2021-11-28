@@ -23,11 +23,11 @@ namespace IBL
             public override string ToString()
             {
                 return "Id: " + Id + "\n"
-                     + "SenderId: " + SenderId + "\n"
-                     + "GetterId: " + GetterId + "\n"
+                     + "Sender Id: " + SenderId.ToString() + "\n"
+                     + "Getter Id: " + GetterId.ToString() + "\n"
                      + "Weight: " + Weight + "\n"
                      + "Priority: " + Priority + "\n"
-                     + "DroneDelivery" + DroneDelivery + "\n"
+                     + "DroneDelivery" + DroneDelivery.ToString() + "\n"
                      + "DeliveryTime" + DeliveryTime + "\n"
                      + "AssignmentTime" + AssignmentTime + "\n"
                      + "PickUpTime" + PickUpTime + "\n"

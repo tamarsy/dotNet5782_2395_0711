@@ -17,5 +17,16 @@ namespace IBL.BO
         public double Distance { get; set; }
         public DeliveryCustomer SenderId { get; set; }
         public DeliveryCustomer GetterId { get; set; }
+        public override string ToString()
+        {
+            return "Id: " + Id + "\n"
+                 + "Sender Id: " + SenderId.ToString() + "\n"
+                 + "Getter Id: " + GetterId.ToString() + "\n"
+                 + "Weight: " + Weight + "\n"
+                 + "Priority: " + Priority + "\n"
+                 + "StatusParcel: " + StatusParcel + "\n"
+                 + "Delivery Destination: " + DeliveryDestination.ToString() + "\n"
+                 + "Distance: " + Distance + "\n";
+        }
     }
 }

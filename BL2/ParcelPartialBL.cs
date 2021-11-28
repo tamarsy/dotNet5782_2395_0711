@@ -11,7 +11,13 @@ namespace IBL
 {
     partial class BL
     {
-        //Adding
+        /// <summary>
+        /// function to adding new parcel
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <param name="tid"></param>
+        /// <param name="weight"></param>
+        /// <param name="priority"></param>
         public void AddParcel(int sid, int tid, WeightCategories weight, Priorities priority)
         {
             IDAL.DO.Parcel newParcel = new IDAL.DO.Parcel()
@@ -19,7 +25,8 @@ namespace IBL
                 SenderId = sid,
                 Getter = tid,
                 Weight = (IDAL.DO.WeightCategories)weight,
-                Priority = (IDAL.DO.Priorities)priority
+                Priority = (IDAL.DO.Priorities)priority,
+                ReQuested = DateTime.Now
             };
             try
             {
@@ -35,6 +42,11 @@ namespace IBL
             }
         }
 
+        /// <summary>
+        /// the function get a parcel
+        /// </summary>
+        /// <param name="requestedId"></param>
+        /// <returns>DlToBlParcel</returns>
         public Parcel GetParcel(int requestedId)
         {
             IDAL.DO.Parcel parcel;
@@ -53,7 +65,11 @@ namespace IBL
             return DlToBlParcel(parcel);
         }
 
-
+        /// <summary>
+        /// the function change the "Idal" details to "bl" details
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <returns>Parecel</returns>
         private Parcel DlToBlParcel(IDAL.DO.Parcel parcel)
         {
             Drone drone = GetDrone(parcel.Droneld);
@@ -84,13 +100,18 @@ namespace IBL
         /// <summary>
         /// return list parcels without drone
         /// </summary>
-        /// <returns></returns>
+        /// <returns>dalObject.ParcesWithoutDronelList</returns>
         public IEnumerable<ParcelToList> ParcesWithoutDronelList()
         {
             return dalObject.ParcesWithoutDronelList().Select(item => DlToBlParcelToList(item, ParcelStatuses.defined));
         }
 
-
+        /// <summary>
+        /// change bl parcel to list 
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <param name="parcelStatuses"></param>
+        /// <returns>ParcelToList</returns>
         private ParcelToList DlToBlParcelToList(IDAL.DO.Parcel parcel, ParcelStatuses parcelStatuses = default)
         {
             return new ParcelToList()
@@ -103,8 +124,12 @@ namespace IBL
                 ParcelStatuses = parcelStatuses != default ? ParcelStatuses.defined : FindParcelStatuses(parcel)
             };
         }
-        
 
+        /// <summary>
+        /// find parcel status
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <returns>ParcelStatuses</returns>
         private ParcelStatuses FindParcelStatuses(IDAL.DO.Parcel parcel)
         {
             if (parcel.Delivered != default)

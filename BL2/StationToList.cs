@@ -34,7 +34,7 @@ namespace IBL
                 return "Id: " + Id + "\n"
                     + "Name: " + Name + "\n"
                      + "NumOfEmptyChargeSlots: " + NumOfEmptyChargeSlots + "\n"
-                     + "NumOfCatchChargeSlots: " + NumOfCatchChargeSlots;
+                     + "NumOfCatchChargeSlots: " + NumOfCatchChargeSlots + "\n";
             }
         }
     }

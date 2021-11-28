@@ -164,7 +164,7 @@ namespace IBL
             int i = drones.FindIndex(d => d.Id == droneld);
             drones[i].BatteryStatuses -= drone.Distance(drone.Parcel.Collecting);
             drones[i].CurrentLocation = drone.Parcel.Collecting;
-            //עידכון זמן איסוף בחבילה
+            dalObject.PickParcel(drone.Parcel.Id);
         }
 
 
@@ -176,35 +176,26 @@ namespace IBL
         public void Destination(int droneld)
         {
             Drone drone = GetDrone(droneld);
-            if (!drone.Parcel.StatusParcel /*|| drone.Parcelבדיקה האם אין זמן הספקה*/)
+            if (!drone.Parcel.StatusParcel)
             {
                 throw new ObjectNotAvailableForActionException($"parcel already colleced or not pick up by drone with id: {droneld}");
             }
             int i = drones.FindIndex(d => d.Id == droneld);
             drones[i].BatteryStatuses -= drone.Parcel.Distance;
             drones[i].CurrentLocation = drone.Parcel.DeliveryDestination;
-            drones[i].DroneStatuses = DroneStatuses.vacant; 
-            //עידכון זמן מסירה בחבילה
-        }
-
-
-        /// <returns></returns>
-        public Drone detailsDrone(IDAL.DO.Drone drone)
-        {
-            DroneToList droneToList = drones.Find(item => item.Id == drone.Id);
-            return new Drone()
+            drones[i].DroneStatuses = DroneStatuses.vacant;
+            try
             {
-                Id = drone.Id,
-                Model = drone.Model,
-                MaxWeight = (WeightCategories)drone.MaxWeight,
-                BatteryStatuses = droneToList.BatteryStatuses,
-                DroneStatuses = droneToList.DroneStatuses,
-                CurrentLocation = droneToList.CurrentLocation,
-                //Parcel = droneToList.NumOfParcel != null ? throw("finish") : null
-            };
+                dalObject.Destination(drone.Parcel.Id);
+            }
+            catch (ObjectNotAvailableForActionException)
+            {
+                throw;
+            }
+            catch (ObjectNotExistException)
+            {
+                throw;
+            }
         }
-
-
-        //public Customer 
     }
 }

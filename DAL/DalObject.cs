@@ -72,7 +72,7 @@ namespace DalObject
                 }
             }
             if (check == false)
-                throw new ArgumentException("Error!! Ther is no percel with this id");
+                throw new ArgumentException("Error!! no percel with this id");
         }
 
         /// <summary>
@@ -81,35 +81,25 @@ namespace DalObject
         /// <param name="percelChoose"></param>
         public void Destination(int percelChoose)
         {
-            bool check = false;
-            for (int i = 0; i < DataSource.ParcelArr.Count; ++i)
+            int i = DataSource.ParcelArr.FindIndex(p => p.Id == percelChoose);
+            if (i < 0)
             {
-                if (DataSource.ParcelArr[i].Id == percelChoose)
-                {
-                    check = true;
-                    DataSource.ParcelArr[i] = new Parcel()
-                    {
-                        Id = DataSource.ParcelArr[i].Id,
-                        SenderId = DataSource.ParcelArr[i].SenderId,
-                        Getter = DataSource.ParcelArr[i].Getter,
-                        Weight = DataSource.ParcelArr[i].Weight,
-                        Priority = DataSource.ParcelArr[i].Priority,
-                        ReQuested = DataSource.ParcelArr[i].ReQuested,
-                        Droneld = DataSource.ParcelArr[i].Droneld,
-                        Schedulet = DataSource.ParcelArr[i].Schedulet,
-                        PickedUp = DataSource.ParcelArr[i].PickedUp,
-                        Delivered = DateTime.Now
-                    };
-                    for (int j = 0; j < DataSource.DronesArr.Count; ++j)
-                    {
-                        if (DataSource.DronesArr[j].Id == DataSource.ParcelArr[i].Droneld)
-                            DataSource.DronesArr[j] = new Drone(DataSource.DronesArr[j].Id, DataSource.DronesArr[j].Model, DataSource.DronesArr[j].MaxWeight);
-                    }
-                    break;
-                }
+                throw new ArgumentException("Error!! no drone with this id");
+
             }
-            if (check == false)
-                throw new ArgumentException("Error!! Ther is no drone with this id");
+            DataSource.ParcelArr[i] = new Parcel()
+            {
+                Id = DataSource.ParcelArr[i].Id,
+                SenderId = DataSource.ParcelArr[i].SenderId,
+                Getter = DataSource.ParcelArr[i].Getter,
+                Weight = DataSource.ParcelArr[i].Weight,
+                Priority = DataSource.ParcelArr[i].Priority,
+                ReQuested = DataSource.ParcelArr[i].ReQuested,
+                Droneld = DataSource.ParcelArr[i].Droneld,
+                Schedulet = DataSource.ParcelArr[i].Schedulet,
+                PickedUp = DataSource.ParcelArr[i].PickedUp,
+                Delivered = DateTime.Now
+            };
         }
         /// <summary>
         /// return if is empty charge slot in a station

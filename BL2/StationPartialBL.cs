@@ -11,7 +11,13 @@ namespace IBL
 {
     partial class BL
     {
-        //Adding
+        /// <summary>
+        /// add new ststion
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="location"></param>
+        /// <param name="chargeSlots"></param>
         public void AddStation(int id, string name, Location location, int chargeSlots)
         {
             IDAL.DO.Station newStation = new IDAL.DO.Station()
@@ -36,7 +42,12 @@ namespace IBL
             }
         }
 
-        //Update
+        /// <summary>
+        /// update a station after change that done.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="numOfChargeSlot"></param>
         public void UpdateStation(int id, string name, int numOfChargeSlot)
         {
             IDAL.DO.Station station;
@@ -59,6 +70,11 @@ namespace IBL
             dalObject.UpdateStation(station);
         }
 
+        /// <summary>
+        /// function that get station
+        /// </summary>
+        /// <param name="requestedId"></param>
+        /// <returns>DalToBlStation</returns>
         public Station GetStation(int requestedId)
         {
             IDAL.DO.Station station;
@@ -79,7 +95,11 @@ namespace IBL
             return DalToBlStation(station);
         }
 
-
+        /// <summary>
+        /// change the things in dal to bl
+        /// </summary>
+        /// <param name="station"></param>
+        /// <returns>newStation</returns>
         Station DalToBlStation(IDAL.DO.Station station)
         {
             Station newStation = new Station()
@@ -94,43 +114,17 @@ namespace IBL
             return newStation;
         }
 
-        private Drone DroneToListToDrone(DroneToList drone)
-        {
-            Parcel parcel = GetParcel((int)drone.NumOfParcel);
-            Customer CustomerSet = GetCustomer(parcel.SenderId.Id);
-            Customer CustomerGet = GetCustomer(parcel.GetterId.Id);
-
-            return new Drone()
-            { 
-                Id = drone.Id, 
-                BatteryStatuses= drone.BatteryStatuses, 
-                CurrentLocation= drone.CurrentLocation, 
-                DroneStatuses= drone.DroneStatuses, 
-                MaxWeight= drone.MaxWeight, 
-                Model= drone.Model, 
-                Parcel= new ParcelDelivery()
-                {
-                    Id = parcel.Id,
-                    Weight = parcel.Weight,
-                    Priority = parcel.Priority,
-                    StatusParcel = !parcel.PickUpTime.Equals(default),
-                    Collecting = CustomerSet.CurrentLocation,
-                    DeliveryDestination = CustomerGet.CurrentLocation,
-                    Distance = CustomerSet.CurrentLocation.Distance(CustomerGet),
-                    SenderId = parcel.SenderId,
-                    GetterId = parcel.GetterId
-                }
-            };
-        }
-
+        /// <summary>
+        /// function that create list of slot stations
+        /// </summary>
+        /// <returns>stationList</returns>
         public IEnumerable<StationToList> StationsList()
         {
             List<StationToList> stationList = new List<StationToList>();
             foreach (var s in dalObject.StationList())
             {
-                int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation == new Location(s.Lattitude, s.Longitude));
+                int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation.Latitude == s.Lattitude && d.CurrentLocation.Longitude == s.Longitude);
 
-                int numOfChargeSlot = s.ChargeSlot;
                 stationList.Add(new StationToList()
                 {
                     Id = s.Id,
@@ -144,7 +138,10 @@ namespace IBL
         }
 
 
-
+        /// <summary>
+        /// function that create a list of all the empty change slot ststion list
+        /// </summary>
+        /// <returns>stationWithEmptyChangeSlotl</returns>
         public IEnumerable<StationToList> EmptyChangeSlotlList()
         {
             List<StationToList> stationWithEmptyChangeSlotl = new List<StationToList>();

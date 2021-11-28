@@ -11,6 +11,11 @@ namespace IBL
 {
     partial class BL
     {
+        /// <summary>
+        /// the function find the battery status for the initialize drones list
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <returns> (rand.NextDouble() * (100 - MinPower)) + MinPower</returns>
         private double FindBatteryStatusesForInitializeDronesList(DroneToList drone)
         {
             if (drone.DroneStatuses == DroneStatuses.maintanance)
@@ -38,7 +43,11 @@ namespace IBL
 
 
 
-
+        /// <summary>
+        /// a function to find the distance between the route
+        /// </summary>
+        /// <param name="Locations"></param>
+        /// <returns>sumOfRoute</returns>
         private double FindDistanceOfRoute(params Location[] Locations)
         {
             double sumOfRoute = 0;
@@ -52,7 +61,12 @@ namespace IBL
 
 
 
-
+        /// <summary>
+        /// a function to find minimum power for distance
+        /// </summary>
+        /// <param name="distance"></param>
+        /// <param name="weight"></param>
+        /// <returns>GetCustomer</returns>
         private double FindMinPowerForDistance(double distance, WeightCategories? weight = null)
         {
             if (weight == WeightCategories.easy)
@@ -64,6 +78,11 @@ namespace IBL
             return vacent * distance;
         }
 
+        /// <summary>
+        /// the function find the location
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <returns>GetCustomer</returns>
         private Location FindLocation(DroneToList drone)
         {
             if (drone.DroneStatuses == DroneStatuses.sending)
@@ -94,8 +113,11 @@ namespace IBL
         }
 
 
-
-
+        /// <summary>
+        /// a function that find close ststion with charge slot
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns>mostCloseLocation</returns>
         private Station FindCloseStationWithChargeSlot(Ilocatable location)
         {
             double minDistance = double.MaxValue;
@@ -115,7 +137,11 @@ namespace IBL
 
 
 
-
+        /// <summary>
+        /// a function to find closet station location
+        /// </summary>
+        /// <param name="currentLoction"></param>
+        /// <returns>mostCloseStationLoction</returns>
         private Location FindClosetStationLocation(Ilocatable currentLoction)
         {
             double minDistance = double.MaxValue;
