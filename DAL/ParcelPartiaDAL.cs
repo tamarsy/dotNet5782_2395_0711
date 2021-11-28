@@ -16,10 +16,7 @@ namespace DalObject
         /// <param name="parcel">the new parcel to add</param>
         public void AddParcel(Parcel newpParcel)
         {
-            if (DataSource.CustomerArr.Exists(drone => drone.Id == newpParcel.Id))
-            {
-                throw new ObjectAlreadyExistException("Can't add, There is already a parcel with this ID");
-            }
+            newpParcel.Id = DataSource.Config.runNumForParcel++;
             DataSource.ParcelArr.Add(newpParcel);
         }
 

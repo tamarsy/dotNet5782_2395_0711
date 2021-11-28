@@ -73,7 +73,7 @@ namespace DalObject
                 {
                     ParcelArr.Add(new Parcel()
                     {
-                        Id = i,
+                        Id = runNumForParcel++,
                         SenderId = random.Next(CustomerArr.Count - 1),
                         Getter = random.Next(CustomerArr.Count - 1),
                         Weight = (WeightCategories)(i % 3),
