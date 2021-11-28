@@ -91,15 +91,16 @@ namespace IBL
                 throw new Exception();
             }
 
+
             Customer newCustomer = new Customer()
             {
                 Id = customer.Id,
                 Name = customer.Name,
                 Phone = customer.Phone,
                 CurrentLocation = new Location(customer.Lattitude, customer.Longitude),
-                FromCustomer = ParcelsList().Where(parcel=> parcel.SenderId == customer.Id).Select(parcel => CustomerAndParcelToCustomerDelivery(parcel, parcel.GetterId)).ToList(),
+                FromCustomer = ParcelsList().Where(parcel => parcel.SenderId == customer.Id).Select(p => CustomerAndParcelToCustomerDelivery(p, p.GetterId)).ToList(),
                 ToCustomer = ParcelsList().Where(parcel => parcel.GetterId == customer.Id).Select(parcel => CustomerAndParcelToCustomerDelivery(parcel, parcel.SenderId)).ToList()
-            };
+        };
             return newCustomer;
         }
 
@@ -113,7 +114,7 @@ namespace IBL
         /// <returns>CustomerDelivery</returns>
         private CustomerDelivery CustomerAndParcelToCustomerDelivery(ParcelToList parcel, int id)
         {
-            Customer geterCustomer = GetCustomer(id);
+            IDAL.DO.Customer geterCustomer = dalObject.GetCustomer(id);
             return new CustomerDelivery()
             {
                 Id = parcel.Id,

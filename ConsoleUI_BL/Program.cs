@@ -21,53 +21,8 @@ namespace ConsoleUI_BL
             enum Display { Station, Drone, Customer, Parcel }
 
 
-            public static void printSet(List<int> longestList)
-            {
-                for (int i = 0; i < longestList.Count; i++)
-                {
-                    if (i == longestList.Count - 1)
-                        Console.WriteLine(longestList[i]);
-                    else Console.Write(longestList[i] + ", ");
-                }
-                Console.WriteLine("the set's length is: " + longestList.Count);
-            }
-
-
-
-            public static void LongestSubSet(int[] arr, int n)
-            {
-                List<int> longestList = new List<int>();
-                List<int> currList = new List<int>();
-                int[] countLength = new int[n];
-
-                for (int i = 0; i < n; i++) { countLength[i] = 1; }
-
-                for (int i = 1; i < n; i++)
-                {
-                    for (int j = 0; j < i; j++)
-                    {
-
-                        if (arr[i] <= arr[j] && countLength[i] < countLength[j] + 1)
-                        {
-                            countLength[i] = countLength[j] + 1;
-                            currList.Add(arr[j]);
-                        }
-                    }
-                    currList.Add(arr[i]);
-
-                    if (currList.Count > longestList.Count)
-                    { longestList = new List<int>(currList); }
-                    currList.Clear();
-                }
-                Console.WriteLine("The longest sub set non-increasing set is:");
-                printSet(longestList);
-
-            }
-
-
             static void Main(string[] args)
         {
-                LongestSubSet(new int[] { 9, 8, 7, 2, 1, 6, 5, 4 }, 8);
             IBL.IBL bal = new IBL.BL();
             Menu option;
             do
