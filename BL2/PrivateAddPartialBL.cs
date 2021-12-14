@@ -122,7 +122,7 @@ namespace IBL
         {
             double minDistance = double.MaxValue;
             Station mostCloseLocation = default;
-            foreach (var station in dalObject.EmptyChangeSlotlList())
+            foreach (var station in dalObject.StationList((bool b)=>b))
             {
                 Location ChargeSlotLocation = new Location(station.Lattitude, station.Longitude);
                 double newDistance = location.Distance(ChargeSlotLocation);

@@ -34,12 +34,10 @@ namespace IDal
         void UpdateCustomer(Customer id);
 
 
-        IEnumerable<Station> StationList();
+        IEnumerable<Station> StationList(Predicate<bool> selectList = default);
         IEnumerable<Drone> DroneList();
         IEnumerable<Customer> CustomerList();
-        IEnumerable<Parcel> ParcelList();
-        IEnumerable<Parcel> ParcesWithoutDronelList();
-        IEnumerable<Station> EmptyChangeSlotlList();
+        IEnumerable<Parcel> ParcelList(Predicate<int> selectList = default);
 
 
         double[] PowerConsumptionRequest();

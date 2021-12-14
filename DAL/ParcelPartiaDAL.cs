@@ -73,28 +73,8 @@ namespace DalObject
         }
 
 
-        public IEnumerable<Parcel> ParcelList()
-        {
-            List<Parcel> ParcelList = new List<Parcel>();
-            foreach (var item in DataSource.ParcelArr)
-            {
-                ParcelList.Add(item);
-            }
-            return ParcelList;
-        }
-
-        public IEnumerable<Parcel> ParcesWithoutDronelList()
-        {
-            List<Parcel> ParcesWithoutDronelList = new List<Parcel>();
-            foreach (var item in DataSource.ParcelArr)
-            {
-                if (item.Droneld != -1)
-                {
-                    ParcesWithoutDronelList.Add(item);
-                }
-            }
-            return ParcesWithoutDronelList;
-        }
+        public IEnumerable<Parcel> ParcelList(Predicate<int> selectList = default)
+            => DataSource.ParcelArr.Where((c) => selectList != null ? selectList(c.Droneld) : true);
 
 
     }

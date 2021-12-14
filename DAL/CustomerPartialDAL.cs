@@ -43,15 +43,8 @@ namespace DalObject
         }
 
 
-        public IEnumerable<Customer> CustomerList()
-        {
-            List<Customer> CustomerList = new List<Customer>();
-            foreach (var item in DataSource.CustomerArr)
-            {
-                CustomerList.Add(item);
-            }
-            return CustomerList;
-        }
+        public IEnumerable<Customer> CustomerList() => DataSource.CustomerArr;
+
 
         public void UpdateCustomer(Customer customer)
         {

@@ -111,27 +111,7 @@ namespace DalObject
             if (check == false)
                 throw new ArgumentException("Error!! Ther is no drone with this id");
         }
-        /// <summary>
-        /// return if is empty charge slot in a station
-        /// </summary>
-        /// <param name="station">the choosen station</param>
-        /// <returns></returns>
-        private bool isEmptyChargeSlotInStation(int stationId, int stationChargeSlot)
-        {
-            int counter = 0;
-            foreach (var ChargeSlot in DataSource.listOfChargeSlot)
-            {
-                if (ChargeSlot.StationId == stationId)
-                {
-                    ++counter;
-                }
-            }
-            if (counter < stationChargeSlot)
-            {
-                return true;
-            }
-            return false;
-        }
+
 
         /// <summary>
         /// the function return an 5 doubls:

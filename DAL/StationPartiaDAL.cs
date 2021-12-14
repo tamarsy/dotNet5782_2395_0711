@@ -44,30 +44,32 @@ namespace DalObject
         /// <summary>
         /// 
         /// </summary>
-        public IEnumerable<Station> StationList()
+        public IEnumerable<Station> StationList(Predicate<bool> selectList = default)
+            => DataSource.StationsArr.Where((c) => selectList != null ? selectList(isEmptyChargeSlotInStation(c.Id, c.ChargeSlot)) : true);
+
+
+        /// <summary>
+        /// return if is empty charge slot in a station
+        /// </summary>
+        /// <param name="station">the choosen station</param>
+        /// <returns></returns>
+        private bool isEmptyChargeSlotInStation(int stationId, int stationChargeSlot)
         {
-            List<Station> StationList = new List<Station>();
-            foreach (var item in DataSource.StationsArr)
+            int counter = 0;
+            foreach (var ChargeSlot in DataSource.listOfChargeSlot)
             {
-                StationList.Add(item);
-            }
-            return StationList;
-        }
-
-
-
-        public IEnumerable<Station> EmptyChangeSlotlList()
-        {
-            List<Station> stationWithEmptyChargeSlot = new List<Station>();
-            foreach (var item in DataSource.StationsArr)
-            {
-                if (isEmptyChargeSlotInStation(item.Id, item.ChargeSlot))
+                if (ChargeSlot.StationId == stationId)
                 {
-                    stationWithEmptyChargeSlot.Add(item);
+                    ++counter;
                 }
             }
-            return stationWithEmptyChargeSlot;
+            if (counter < stationChargeSlot)
+            {
+                return true;
+            }
+            return false;
         }
+
 
         public void UpdateStation(Station station)
         {

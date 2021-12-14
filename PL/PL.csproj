@@ -6,8 +6,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\BL2\BL2.csproj" />
-  </ItemGroup>
-
 </Project>

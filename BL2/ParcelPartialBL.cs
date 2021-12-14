@@ -103,7 +103,7 @@ namespace IBL
         /// <returns>dalObject.ParcesWithoutDronelList</returns>
         public IEnumerable<ParcelToList> ParcesWithoutDronelList()
         {
-            return dalObject.ParcesWithoutDronelList().Select(item => DlToBlParcelToList(item, ParcelStatuses.defined));
+            return dalObject.ParcelList((int Droneld) => Droneld == default).Select(item => DlToBlParcelToList(item, ParcelStatuses.defined));
         }
 
         /// <summary>

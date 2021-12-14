@@ -147,6 +147,26 @@ namespace IBL
                 }
             };
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        StationToList StationToList(IDAL.DO.Station s)
+        {
+            int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation.Latitude == s.Lattitude && d.CurrentLocation.Longitude == s.Longitude);
+            return new StationToList()
+            {
+                Id = s.Id,
+                Name = s.Name,
+                NumOfCatchChargeSlots = NumOfCatchChargeSlots,
+                NumOfEmptyChargeSlots = s.ChargeSlot - NumOfCatchChargeSlots
+            };
+        }
+
+
         /// <summary>
         /// function that create list of slot stations
         /// </summary>
@@ -156,16 +176,7 @@ namespace IBL
             List<StationToList> stationList = new List<StationToList>();
             foreach (var s in dalObject.StationList())
             {
-                int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation == new Location(s.Lattitude, s.Longitude));
-
-                int numOfChargeSlot = s.ChargeSlot;
-                stationList.Add(new StationToList()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    NumOfCatchChargeSlots = NumOfCatchChargeSlots,
-                    NumOfEmptyChargeSlots = s.ChargeSlot - NumOfCatchChargeSlots
-                });
+                stationList.Add(StationToList(s));
             }
 
             return stationList;
@@ -180,18 +191,9 @@ namespace IBL
         {
             List<StationToList> stationWithEmptyChangeSlotl = new List<StationToList>();
 
-            foreach (var s in dalObject.EmptyChangeSlotlList())
+            foreach (var s in dalObject.StationList((bool b) => b))
             {
-                int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation == new Location(s.Lattitude, s.Longitude));
-
-                int numOfAllChargeSlot = s.ChargeSlot;
-                stationWithEmptyChangeSlotl.Add(new StationToList()
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    NumOfCatchChargeSlots = NumOfCatchChargeSlots,
-                    NumOfEmptyChargeSlots = s.ChargeSlot - NumOfCatchChargeSlots
-                });
+                stationWithEmptyChangeSlotl.Add(StationToList(s));
             }
 
             return stationWithEmptyChangeSlotl;
