@@ -21,15 +21,15 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        IBL.IBL bl = new IBL.BL();
         public MainWindow()
         {
-            InitializeComponent();
-            IBL.IBL bl = new IBL.BL();
+            InitializeComponent(); 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           BL.
+            bl.DronesList();
         }
     }
 }
