@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using IBL;
 
-namespace WpfApp1
+namespace PL
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,12 +24,12 @@ namespace WpfApp1
         IBL.IBL bl = IBL.BL.BLInstance;
         public MainWindow()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bl.DronesList();
+            new ViewListDrone().Show();
         }
     }
 }
