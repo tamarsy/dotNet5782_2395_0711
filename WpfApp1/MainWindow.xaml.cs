@@ -21,7 +21,7 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
-        IBL.IBL bl = new IBL.BL();
+        IBL.IBL bl = IBL.BL.BLInstance;
         public MainWindow()
         {
             InitializeComponent(); 

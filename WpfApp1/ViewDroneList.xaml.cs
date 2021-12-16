@@ -19,9 +19,28 @@ namespace PL
     /// </summary>
     public partial class ViewListDrone : Window
     {
+        IBL.IBL bl;
         public ViewListDrone()
         {
             InitializeComponent();
+            bl = IBL.BL.BLInstance;
+            StatudSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatuses));
+            viewDrones.ItemsSource = bl.DronesList();
+        }
+
+        private void StatudSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Addrone_Click(object sender, RoutedEventArgs e)
+        {
+            new ViewDrone().Show();
+        }
+
+        private void viewDrones_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            new ViewDrone(sender).Show();
         }
     }
 }

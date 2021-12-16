@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IDAL;
-using DalObject;
 using IBL.BO;
 
 namespace IBL
@@ -14,6 +12,9 @@ namespace IBL
     /// </summary>
     public partial class BL : IBL
     {
+        private static readonly BL bLinstance = new BL();
+        private static Random rand;
+        static public BL BLInstance { get { return bLinstance; } }
         private IDal.IDal dalObject;
         private double vacent;
         private double lightWeightCarrier;
@@ -21,14 +22,14 @@ namespace IBL
         private double heavyWeightCarrier;
         private double skimmerLoadingRate;
         private List<DroneToList> drones;
-        private static Random rand = new Random();
-
+        static BL() { }
         /// <summary>
         /// BL constructor reset the drones arry and battry details in BL class
         /// </summary>
-        public BL()
+        private BL()
         {
-            dalObject = new DalObject.DalObject();
+            rand = new Random();
+            dalObject = DalObject.DalObject.Instance;
             double[] PowerConsumption = dalObject.PowerConsumptionRequest();
             vacent = PowerConsumption[0];
             lightWeightCarrier = PowerConsumption[1];
@@ -38,12 +39,6 @@ namespace IBL
             drones = new List<DroneToList>();
             initializeDronesList();
         }
-
-
-
-        /// <summary>
-        /// initialize the DroneStatuses, CurrentLocation, BatteryStatuses of evry drone in drones list
-        /// </summary>
         private void initializeDronesList()
         {
             foreach (var drone in dalObject.DroneList())

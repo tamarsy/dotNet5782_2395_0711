@@ -7,12 +7,16 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    public partial class DalObject : IDal.IDal
+    public sealed partial class DalObject : IDal.IDal
     {
+        private static readonly DalObject instance = new DalObject();
+        static DalObject() { }
+        static public DalObject Instance { get { return instance; } }
+
         /// <summary>
         /// coter that play the Initialize in DataSoutce
         /// </summary>
-        public DalObject()
+        private DalObject()
         {
             DataSource.Config.Initialize();
         }

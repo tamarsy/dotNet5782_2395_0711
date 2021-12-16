@@ -19,9 +19,11 @@ namespace PL
     /// </summary>
     public partial class ViewDrone : Window
     {
-        public ViewDrone()
+        IBL.IBL bl = IBL.BL.BLInstance;
+        public ViewDrone(Object drone = default)
         {
             InitializeComponent();
+            //droneTe.InputHitTest = bl.GetDrone();
         }
     }
 }

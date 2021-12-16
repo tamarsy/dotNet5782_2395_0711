@@ -7,6 +7,28 @@
         mc:Ignorable="d"
         Title="ViewListDrone" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+            VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <ComboBox Name="StatudSelector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="StatudSelector_SelectionChanged"/>
+            <Label Name="StatusSelectorL" Content="select list" HorizontalAlignment="Left" Margin="76,0,0,0" VerticalAlignment="Center" Height="55" Width="78"/>
+            <Button Name="Addrone" Content="Add drone" Grid.Column="3" HorizontalAlignment="Center" Margin="0,81,0,0" VerticalAlignment="Top" Height="60" Width="127" Click="Addrone_Click"/>
+        </Grid>
+        <ListView Grid.Row="1" x:Name="viewDrones" MouseDoubleClick="viewDrones_MouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="viewD"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
