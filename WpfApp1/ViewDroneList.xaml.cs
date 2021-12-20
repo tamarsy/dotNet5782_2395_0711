@@ -19,19 +19,19 @@ namespace PL
     /// </summary>
     public partial class ViewListDrone : Window
     {
-        IBL.IBL bl;
-        IEnumerable<IBL.BO.DroneToList> drones;
+        BlApi.IBL bl;
+        IEnumerable<BO.DroneToList> drones;
 
         public ViewListDrone()
         {
             InitializeComponent();
-            bl = IBL.BL.BLInstance;
-            foreach (var item in Enum.GetValues(typeof(IBL.BO.DroneStatuses)))
+            bl = BLApi.FactoryBL.GetBL();
+            foreach (var item in Enum.GetValues(typeof(BO.DroneStatuses)))
             {
                 StatusSelector.Items.Add(item);
             }
             StatusSelector.Items.Add("all");
-            foreach (var item in Enum.GetValues(typeof(IBL.BO.WeightCategories)))
+            foreach (var item in Enum.GetValues(typeof(BO.WeightCategories)))
             {
                 MaxWeightSelector.Items.Add(item);
             }
@@ -47,20 +47,20 @@ namespace PL
             viewDrones.ItemsSource = drones;
         }
 
-        protected override void OnClosed(EventArgs e)
-        {
-            MessageBox.Show("you cant cloze this window");
-        }
+        //protected override void OnClosed(EventArgs e)
+        //{
+        //    MessageBox.Show("you cant cloze this window");
+        //}
 
         private void WeightAndStatudSelector_SelectionChanged()
         {
             if (MaxWeightSelector.SelectedItem != null && !MaxWeightSelector.SelectedItem.Equals("all"))
             {
-                drones = drones.Where((d) => (d.MaxWeight).Equals((IBL.BO.WeightCategories)MaxWeightSelector.SelectedItem)).ToList();
+                drones = drones.Where((d) => (d.MaxWeight).Equals((BO.WeightCategories)MaxWeightSelector.SelectedItem)).ToList();
             }
             if (StatusSelector.SelectedItem != null && !StatusSelector.SelectedItem.Equals("all"))
             {
-                drones = drones.Where((d) => (d.DroneStatuses).Equals((IBL.BO.DroneStatuses)StatusSelector.SelectedItem)).ToList();
+                drones = drones.Where((d) => (d.DroneStatuses).Equals((BO.DroneStatuses)StatusSelector.SelectedItem)).ToList();
             }
         }
 
@@ -70,6 +70,8 @@ namespace PL
         {
             Close();
         }
+
+
         private void Addrone_Click(object sender, RoutedEventArgs e)
         {
             ViewDrone droneWindow = new ViewDrone();
@@ -80,7 +82,7 @@ namespace PL
 
         private void viewDrones_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (viewDrones.SelectedItem is IBL.BO.DroneToList drone)
+            if (viewDrones.SelectedItem is BO.DroneToList drone)
             {
                 ViewDrone droneWindow = new ViewDrone(drone.Id);
                 droneWindow.UpDateDronesWindow = () => InitializeData();

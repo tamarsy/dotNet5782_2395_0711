@@ -1,0 +1,14 @@
+﻿<config>
+	<dal>data</dal>
+	<dal-packages>
+		<data>
+			<class-name>DAL</class-name>
+			<namespace>DalObject</namespace>
+		</data>
+		<xml>
+			<class-name>>DalXml</class-name>
+			<namespace>DalObject</namespace>
+		</xml>
+	</dal-packages>
+</config>
+

@@ -24,8 +24,8 @@ namespace PL
         {
             InitializeComponent();
             DroneDetails.Visibility = Visibility.Collapsed;
-            bl = IBL.BL.BLInstance;
-            weight.ItemsSource = Enum.GetValues(typeof(IBL.BO.WeightCategories));
+            bl = BLApi.FactoryBL.GetBL();
+            weight.ItemsSource = Enum.GetValues(typeof(BO.WeightCategories));
             Array stationsId = bl.StationsList().Select((s) => s.Id).ToArray();
             station.ItemsSource = stationsId;
             if (stationsId.Length != 0)
@@ -40,12 +40,12 @@ namespace PL
             }
             try
             {
-                bl.AddDrone(droneId, model.Text, (IBL.BO.WeightCategories)weight.SelectedIndex, (int)station.SelectedItem);
+                bl.AddDrone(droneId, model.Text, (BO.WeightCategories)weight.SelectedIndex, (int)station.SelectedItem);
                 MessageBox.Show("successfully add");
                 UpDateDronesWindow();
                 Close();
             }
-            catch (IBL.ObjectAlreadyExistException ex)
+            catch (BO.ObjectAlreadyExistException ex)
             {
                 MessageBox.Show(ex.Message);
             }

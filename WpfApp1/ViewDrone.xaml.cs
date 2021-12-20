@@ -19,20 +19,20 @@ namespace PL
     /// </summary>
     public partial class ViewDrone : Window
     {
-        IBL.IBL bl;
-        IBL.BO.Drone currentDrone;
+        BlApi.IBL bl;
+        BO.Drone currentDrone;
         public Action UpDateDronesWindow { get; set; }
 
         public ViewDrone(int droneId)
         {
             InitializeComponent();
             AddDrone.Visibility = Visibility.Collapsed;
-            bl = IBL.BL.BLInstance;
+            bl = BLApi.FactoryBL.GetBL();
             try
             {
                 InitializeData(droneId);
             }
-            catch (IBL.ObjectNotExistException e) { details.Text = e.Message; }
+            catch (BO.ObjectNotExistException e) { details.Text = e.Message; }
         }
 
         private void InitializeData(int droneId)
@@ -50,12 +50,12 @@ namespace PL
         {
             DeliveryAndCollected.Visibility = Visibility.Visible;
             ChargeAndSupplied.Visibility = Visibility.Visible;
-            if (currentDrone.DroneStatuses == IBL.BO.DroneStatuses.vacant)
+            if (currentDrone.DroneStatuses == BO.DroneStatuses.vacant)
             {
                 ChargeAndSupplied.DataContext = "Chargh on";
                 DeliveryAndCollected.DataContext = "Send to delivery";
             }
-            else if (currentDrone.DroneStatuses == IBL.BO.DroneStatuses.sending)
+            else if (currentDrone.DroneStatuses == BO.DroneStatuses.sending)
             {
                 if (currentDrone.Parcel == default)
                 {
@@ -82,7 +82,7 @@ namespace PL
                 bl.ChargeOn(currentDrone.Id);
                 MessageBox.Show("successfully charge on");
             }
-            catch (IBL.ObjectNotExistException e) { MessageBox.Show(e.Message); }
+            catch (BO.ObjectNotExistException e) { MessageBox.Show(e.Message); }
         }
 
         private void ChargeOf()
@@ -126,8 +126,8 @@ namespace PL
                 UpDateDronesWindow();
                 updateModel.IsEnabled = false;
             }
-            catch (IBL.NoChangesToUpdateException ex) { MessageBox.Show(ex.Message); }
-            catch (IBL.ObjectNotExistException ex) { MessageBox.Show(ex.Message); }
+            catch (BO.NoChangesToUpdateException ex) { MessageBox.Show(ex.Message); }
+            catch (BO.ObjectNotExistException ex) { MessageBox.Show(ex.Message); }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
 
@@ -150,8 +150,8 @@ namespace PL
                     InitializeData(currentDrone.Id);
                     UpDateDronesWindow();
                 }
-                catch (IBL.NoChangesToUpdateException ex) { MessageBox.Show(ex.Message); }
-                catch (IBL.ObjectNotExistException ex) { MessageBox.Show(ex.Message); }
+                catch (BO.NoChangesToUpdateException ex) { MessageBox.Show(ex.Message); }
+                catch (BO.ObjectNotExistException ex) { MessageBox.Show(ex.Message); }
                 catch (Exception ex) { MessageBox.Show(ex.Message); }
             }
         }
