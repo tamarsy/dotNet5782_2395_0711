@@ -17,11 +17,11 @@ namespace DalObject
         static internal List<Parcel> ParcelArr = new List<Parcel>();
         internal class Config
         {
-            static public double vacent { get; set; }
-            static public double LightWeightCarrier { get; set; }
-            static public double MediumWeightCarrier { get; set; }
-            static public double heavyWeightCarrier { get; set; }
-            static public double SkimmerLoadingRate { get; set; }
+            static public double vacent { get; set; } = 0.001;
+            static public double LightWeightCarrier { get; set; } = 0.002;
+            static public double MediumWeightCarrier { get; set; } = 0.003;
+            static public double heavyWeightCarrier { get; set; } = 0.004;
+            static public double SkimmerLoadingRate { get; set; } = 1;
             const int NUMOFDRONES = 5;
             public static int runNumForParcel = 0;
             public static void Initialize()
@@ -44,7 +44,7 @@ namespace DalObject
                     });
                 }
 
-                for (int i = 0; i < NUMOFDRONES / 2; ++i)
+                for (int i = 0; i < NUMOFDRONES; ++i)
                 {
                     StationsArr.Add(new Station()
                     {
@@ -68,21 +68,23 @@ namespace DalObject
                         Lattitude = random.Next(0, 99) / 3.7
                     });
                 }
-
                 for (int i = 0; i < NUMOFDRONES * 2; ++i)
                 {
+                    int? dronIdOrNull = null;
+                    if (i % 2 == 0)
+                        dronIdOrNull = random.Next(0, 5);
                     ParcelArr.Add(new Parcel()
                     {
                         Id = runNumForParcel++,
                         SenderId = random.Next(CustomerArr.Count - 1),
                         Getter = random.Next(CustomerArr.Count - 1),
-                        Weight = (WeightCategories)(i % 3),
+                        Weight = 0,
                         Priority = (Priorities)(i % 3),
                         ReQuested = new DateTime(random.Next(1, 99)),
-                        Droneld = random.Next(0, 5),
-                        Schedulet = new DateTime(random.Next(1, 99)),
-                        PickedUp = new DateTime(random.Next(1, 99)),
-                        Delivered = new DateTime(random.Next(1, 99))
+                        Droneld = dronIdOrNull,
+                        Schedulet = dronIdOrNull != null? new DateTime(random.Next(1, 99)): default,
+                        PickedUp = dronIdOrNull != null ? new DateTime(random.Next(1, 99)) : default,
+                        Delivered = dronIdOrNull != null ? new DateTime(random.Next(1, 99)) : default
                     });
                 }
             }

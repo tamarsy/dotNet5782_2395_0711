@@ -30,7 +30,12 @@ namespace DalObject
         /// <param name="droenId">the dron id</param>
         public void ChargeOn(int droenId, int stationId)
         {
-            DroneCharge d = new DroneCharge(droenId, stationId);
+            DroneCharge d = new DroneCharge()
+            {
+                DroneId = droenId,
+                StationId = stationId,
+                StartTime = DateTime.Now
+            };
             Station s;
             try
             {

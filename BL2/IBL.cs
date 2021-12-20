@@ -17,7 +17,7 @@ namespace IBL
         void UpdateDrone(int id, string model);
         void UpdateCusomer(int id, string name = default, string phone = default);
         void ChargeOn(int id);
-        void ChargeOf(int id, float timeInCharge);
+        void ChargeOf(int id);
         void ParcelToDrone(int id);
         void PickParcel(int id);
         void Destination(int id);

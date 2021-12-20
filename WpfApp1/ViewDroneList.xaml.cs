@@ -20,27 +20,72 @@ namespace PL
     public partial class ViewListDrone : Window
     {
         IBL.IBL bl;
+        IEnumerable<IBL.BO.DroneToList> drones;
+
         public ViewListDrone()
         {
             InitializeComponent();
             bl = IBL.BL.BLInstance;
-            StatudSelector.ItemsSource = Enum.GetValues(typeof(IBL.BO.DroneStatuses));
-            viewDrones.ItemsSource = bl.DronesList();
+            foreach (var item in Enum.GetValues(typeof(IBL.BO.DroneStatuses)))
+            {
+                StatusSelector.Items.Add(item);
+            }
+            StatusSelector.Items.Add("all");
+            foreach (var item in Enum.GetValues(typeof(IBL.BO.WeightCategories)))
+            {
+                MaxWeightSelector.Items.Add(item);
+            }
+            MaxWeightSelector.Items.Add("all");
+
+            InitializeData();
         }
 
-        private void StatudSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void InitializeData(object sender = default, SelectionChangedEventArgs e = default)
         {
-
+            drones = bl.DronesList().ToList();
+            WeightAndStatudSelector_SelectionChanged();
+            viewDrones.ItemsSource = drones;
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            MessageBox.Show("you cant cloze this window");
+        }
+
+        private void WeightAndStatudSelector_SelectionChanged()
+        {
+            if (MaxWeightSelector.SelectedItem != null && !MaxWeightSelector.SelectedItem.Equals("all"))
+            {
+                drones = drones.Where((d) => (d.MaxWeight).Equals((IBL.BO.WeightCategories)MaxWeightSelector.SelectedItem)).ToList();
+            }
+            if (StatusSelector.SelectedItem != null && !StatusSelector.SelectedItem.Equals("all"))
+            {
+                drones = drones.Where((d) => (d.DroneStatuses).Equals((IBL.BO.DroneStatuses)StatusSelector.SelectedItem)).ToList();
+            }
+        }
+
+
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
         private void Addrone_Click(object sender, RoutedEventArgs e)
         {
-            new ViewDrone().Show();
+            ViewDrone droneWindow = new ViewDrone();
+            droneWindow.UpDateDronesWindow = () => InitializeData();
+            droneWindow.Show();
         }
+
 
         private void viewDrones_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            new ViewDrone(sender).Show();
+            if (viewDrones.SelectedItem is IBL.BO.DroneToList drone)
+            {
+                ViewDrone droneWindow = new ViewDrone(drone.Id);
+                droneWindow.UpDateDronesWindow = () => InitializeData();
+                droneWindow.Show();
+            }
         }
     }
 }

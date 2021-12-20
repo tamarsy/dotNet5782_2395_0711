@@ -66,7 +66,7 @@ namespace IBL
                 }
                 else
                 {
-                    newDrone.DroneStatuses = (DroneStatuses)rand.Next(-1, 1);
+                    newDrone.DroneStatuses = (DroneStatuses)rand.Next(0, 2);
                     newDrone.CurrentLocation = FindLocation(newDrone);
                     //to fill BatteryStatuses
                     newDrone.BatteryStatuses = FindBatteryStatusesForInitializeDronesList(newDrone);
@@ -90,11 +90,12 @@ namespace IBL
             {
                 choosenParcel = FindParcelToCollecting(drones[i]);
             }
-            catch (ObjectNotAvailableForActionException)
+            catch (ObjectNotAvailableForActionException e)
             {
-                throw;
+                throw new ObjectNotAvailableForActionException(e.Message);
             }
             drones[i].DroneStatuses = DroneStatuses.sending;
+            drones[i].NumOfParcel = choosenParcel.Id;
             choosenParcel.DroneDelivery = new DroneDelivery()
             {
                 BatteryStatuses = drones[i].BatteryStatuses,
@@ -102,6 +103,7 @@ namespace IBL
                 Id = drones[i].Id
             };
             choosenParcel.AssignmentTime = DateTime.Now;
+            dalObject.ParcelToDrone(choosenParcel.Id, droneId);
         }
 
 
@@ -113,7 +115,7 @@ namespace IBL
         private Parcel FindParcelToCollecting(DroneToList drone)
         {
             //only parcel with possible route for drone and weight less then max weight of drone can be choosen
-            List<ParcelToList> availableList = ParcelsList().Where(p => p.Weight < drone.MaxWeight && checkAvailableDelivery(drone, p)).ToList();
+            List<ParcelToList> availableList = ParcesWithoutDronelList().Where((p) => checkAvailableDelivery(drone, p)).ToList();
             if (availableList.Count() < 1)
             {
                 throw new ObjectNotAvailableForActionException("no available parcel to collect");
@@ -138,9 +140,13 @@ namespace IBL
         /// <returns>bool value</returns>
         private bool checkAvailableDelivery(DroneToList droneToList, ParcelToList parcel)
         {
-            Drone drone = GetDrone(droneToList.Id);
-            return 0 < drone.BatteryStatuses - (FindMinPowerForDistance(drone.Parcel.Distance) +
-               FindMinPowerForDistance(drone.Parcel.DeliveryDestination.Distance(FindCloseStationWithChargeSlot(drone.Parcel.DeliveryDestination))));
+            Location getterLocation = GetCustomer(parcel.GetterId).CurrentLocation;
+            Location senderLocation = GetCustomer(parcel.SenderId).CurrentLocation;
+            return parcel.Weight <= droneToList.MaxWeight && 0 < droneToList.BatteryStatuses - (FindMinPowerForDistance(
+                droneToList.CurrentLocation.Distance(senderLocation) +
+                getterLocation.Distance(FindCloseStationWithChargeSlot(getterLocation))
+                ) + FindMinPowerForDistance(senderLocation.Distance(getterLocation), parcel.Weight)
+                );
         }
 
 
@@ -157,9 +163,13 @@ namespace IBL
                 throw new ObjectNotAvailableForActionException($"parcel already colleced or not Assignment to drone with id: {droneld}");
             }
             int i = drones.FindIndex(d => d.Id == droneld);
+            if (drones[i].BatteryStatuses - drone.Distance(drone.Parcel.Collecting) < 0)
+            {
+                throw new ObjectNotAvailableForActionException("not enugh battery in drone");
+            }
             drones[i].BatteryStatuses -= drone.Distance(drone.Parcel.Collecting);
             drones[i].CurrentLocation = drone.Parcel.Collecting;
-            //עידכון זמן איסוף בחבילה
+            //update time collecting in parcel
         }
 
 
@@ -171,15 +181,16 @@ namespace IBL
         public void Destination(int droneld)
         {
             Drone drone = GetDrone(droneld);
-            if (!drone.Parcel.StatusParcel /*|| drone.Parcelבדיקה האם אין זמן הספקה*/)
+            if (!drone.Parcel.StatusParcel)
             {
                 throw new ObjectNotAvailableForActionException($"parcel already colleced or not pick up by drone with id: {droneld}");
             }
             int i = drones.FindIndex(d => d.Id == droneld);
-            drones[i].BatteryStatuses -= drone.Parcel.Distance;
+            drones[i].BatteryStatuses -= FindMinPowerForDistance(drone.Parcel.Distance, drone.Parcel.Weight);
             drones[i].CurrentLocation = drone.Parcel.DeliveryDestination;
-            drones[i].DroneStatuses = DroneStatuses.vacant; 
-            //עידכון זמן מסירה בחבילה
+            drones[i].DroneStatuses = DroneStatuses.vacant;
+            drones[i].NumOfParcel = null;
+            //update time suplied in parcel
         }
 
 

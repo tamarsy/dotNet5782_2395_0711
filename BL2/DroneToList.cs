@@ -29,13 +29,15 @@ namespace IBL
             public int? NumOfParcel { get; set; }
             public override string ToString()
             {
-                return "Id: " + Id + "\n"
+                string s = "Id: " + Id + "\n"
                     + "Model: " + Model + "\n"
                     + "MaxWeight: " + MaxWeight + "\n"
                     + "BatteryStatuses: " + BatteryStatuses + "\n"
                     + "DroneStatuses: " + DroneStatuses + "\n"
-                    + "CurrentSiting: " + CurrentLocation + "\n"
-                    + "deliveryId: " + NumOfParcel;
+                    + "CurrentLocation-" + "\n" + CurrentLocation.ToString() + "\n";
+                if (NumOfParcel != default)
+                    s += "deliveryId: " + NumOfParcel;
+                return s;
             }
         }
     }

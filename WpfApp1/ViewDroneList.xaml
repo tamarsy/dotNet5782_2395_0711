@@ -8,8 +8,8 @@
         Title="ViewListDrone" Height="450" Width="800">
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
             VerticalAlignment="Stretch" Width="auto">
@@ -19,11 +19,15 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox Name="StatudSelector" Grid.Column="1" HorizontalAlignment="Center" Margin="0,70,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="StatudSelector_SelectionChanged"/>
-            <Label Name="StatusSelectorL" Content="select list" HorizontalAlignment="Left" Margin="76,0,0,0" VerticalAlignment="Center" Height="55" Width="78"/>
-            <Button Name="Addrone" Content="Add drone" Grid.Column="3" HorizontalAlignment="Center" Margin="0,81,0,0" VerticalAlignment="Top" Height="60" Width="127" Click="Addrone_Click"/>
+            <ComboBox Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"
+                      SelectedItem="all"  SelectionChanged="InitializeData"/>
+            <Label  Name="StatusSelectorL" Content="select list" HorizontalAlignment="Left" Margin="76,0,0,0" VerticalAlignment="Center" Height="55" Width="78"/>
+            <Button Name="Close" Content="x" Grid.Column="3" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10" Click="Close_Click"/>
+            <Button Name="Addrone" Content="Add drone" Grid.Column="3" HorizontalAlignment="Center"  VerticalAlignment="Center" Click="Addrone_Click"/>
+            <ComboBox Name="MaxWeightSelector" Grid.Column="2"  HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"
+                      SelectedItem="all" SelectionChanged="InitializeData"/>
         </Grid>
-        <ListView Grid.Row="1" x:Name="viewDrones" MouseDoubleClick="viewDrones_MouseDoubleClick">
+        <ListView ItemsSource="{Binding}" Grid.Row="1" x:Name="viewDrones" MouseDoubleClick="viewDrones_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="viewD"/>

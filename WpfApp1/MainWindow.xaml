@@ -7,6 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button Content="drones list" HorizontalAlignment="Left" Margin="220,109,0,0" VerticalAlignment="Top" Height="171" Width="299" Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <TabControl x:Name="tabs">
+            <TabControl.Items x:Uid="1">
+
+            </TabControl.Items>
+        </TabControl>
+        <DockPanel LastChildFill="False" Grid.Column="0">
+            <Button Content="drones list" Click="Button_Click" DockPanel.Dock="Left"/>
+        </DockPanel>
     </Grid>
 </Window>

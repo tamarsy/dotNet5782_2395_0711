@@ -21,6 +21,7 @@ namespace IDal
         void Destination(int percelChoose);
         void ChargeOn(int droenId, int stationId);
         void ChargeOf(int droenId);
+        DateTime StartChargeTime(int droneId);
 
 
         Station GetStation(int id);
@@ -37,7 +38,7 @@ namespace IDal
         IEnumerable<Station> StationList(Predicate<bool> selectList = default);
         IEnumerable<Drone> DroneList();
         IEnumerable<Customer> CustomerList();
-        IEnumerable<Parcel> ParcelList(Predicate<int> selectList = default);
+        IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = default);
 
 
         double[] PowerConsumptionRequest();

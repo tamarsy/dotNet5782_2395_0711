@@ -29,15 +29,15 @@ namespace IBL
                 Location chargeSlotLocation = FindCloseStationWithChargeSlot(getterLocation).CurrentLocation;
                 double distanceWithParcel = drone.Distance(getterLocation);
                 double distanceWithOutParcel = getterLocation.Distance(chargeSlotLocation); 
-                double MinPower = FindMinPowerForDistance(distanceWithParcel, (WeightCategories)parcel.Weight) + FindMinPowerForDistance(distanceWithOutParcel, (WeightCategories)parcel.Weight);
-                return (rand.NextDouble() * (100 - MinPower)) + MinPower;//min to 100
+                double MinPower = FindMinPowerForDistance(distanceWithParcel, (WeightCategories)parcel.Weight) + FindMinPowerForDistance(distanceWithOutParcel);
+                return (MinPower > 100) ? 100:(rand.NextDouble() * (100 - MinPower)) + MinPower;//min to 100
             }
             else
             {
                 Location chargeSlotLocation = FindCloseStationWithChargeSlot(drone.CurrentLocation).CurrentLocation;
                 double distance = drone.CurrentLocation.Distance(chargeSlotLocation);
                 double MinPower = FindMinPowerForDistance(distance);
-                return (rand.NextDouble() * (100 - MinPower)) + MinPower;//min to 100
+                return (MinPower > 100) ? 100 : (rand.NextDouble() * (100 - MinPower)) + MinPower;//min to 100
             }
         }
 

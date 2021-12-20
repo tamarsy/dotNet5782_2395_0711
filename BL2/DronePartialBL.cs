@@ -43,8 +43,8 @@ namespace IBL
                 Id = id,
                 Model = model,
                 MaxWeight = maxWeight,
-                BatteryStatuses = (rand.NextDouble()*20) + 20,
-                CurrentLocation = new Location(station.Lattitude,station.Longitude),
+                BatteryStatuses = (rand.NextDouble() * 20) + 20,
+                CurrentLocation = new Location(station.Lattitude, station.Longitude),
                 DroneStatuses = DroneStatuses.maintanance
             });
             dalObject.ChargeOn(id, stationId);
@@ -66,6 +66,7 @@ namespace IBL
 
             drone.Model = model;
             dalObject.UpdateDrone(drone);
+            drones[drones.FindIndex((d) => d.Id == id)].Model = model;
         }
 
 
@@ -103,9 +104,16 @@ namespace IBL
         private Drone DalToBlDrone(IDAL.DO.Drone drone)
         {
             DroneToList droneFromList = drones.Find(d => d.Id == drone.Id);
-            IDAL.DO.Parcel parcel = dalObject.GetParcel((int)droneFromList.NumOfParcel);
-            Customer sender = GetCustomer(parcel.SenderId);
-            Customer Getter = GetCustomer(parcel.Getter);
+            IDAL.DO.Parcel parcel = default;
+            Customer sender = default;
+            Customer Getter = default;
+            if (droneFromList.NumOfParcel != default)
+            {
+                parcel = dalObject.GetParcel((int)droneFromList.NumOfParcel);
+                sender = GetCustomer(parcel.SenderId);
+                Getter = GetCustomer(parcel.Getter);
+            }
+
             return new Drone()
             {
                 Id = drone.Id,
@@ -145,6 +153,10 @@ namespace IBL
         public void ChargeOn(int id)
         {
             int i = drones.FindIndex(d => d.Id == id);
+            if (i < 0)
+            {
+                throw new ObjectNotExistException($"drone with id = {id} is not exsist");
+            }
             if (drones[i].DroneStatuses != DroneStatuses.vacant)
             {
                 throw new ObjectNotAvailableForActionException($"drone with id = {id} is not vacant");
@@ -156,37 +168,36 @@ namespace IBL
             drones[i].BatteryStatuses = drones[i].BatteryStatuses - powerForDistance;
             drones[i].CurrentLocation = closeStation.CurrentLocation;
             drones[i].DroneStatuses = DroneStatuses.maintanance;
-            //in station saved only count of all charge slots
-            try
-            {
-                dalObject.ChargeOn(id, closeStation.Id);
-            }
-            catch (DalObject.ObjectNotExistException)
-            {
-                throw;
-            }
+            dalObject.ChargeOn(id, closeStation.Id);
         }
 
 
 
-
-        public void ChargeOf(int id, float timeInCharge)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="timeInCharge"></param>
+        public void ChargeOf(int id)
         {
+            DateTime startTime = default;
+            try
+            {
+                startTime = dalObject.StartChargeTime(id);
+                dalObject.ChargeOf(id);
+            }
+            catch (DalObject.ObjectNotExistException e)
+            {
+                throw new ObjectNotExistException(e.Message);
+            }
             int i = drones.FindIndex(d => d.Id == id);
             if (drones[i].DroneStatuses != DroneStatuses.maintanance)
             {
                 throw new ObjectNotAvailableForActionException($"drone with id = {id} is not in charging now");
             }
-            drones[i].BatteryStatuses += skimmerLoadingRate * timeInCharge;
+            double newBatteryStatuses = drones[i].BatteryStatuses + skimmerLoadingRate * (DateTime.Now - startTime).TotalSeconds;
+            drones[i].BatteryStatuses = newBatteryStatuses > 100 ?100 : newBatteryStatuses;
             drones[i].DroneStatuses = DroneStatuses.vacant;
-            try
-            {
-                dalObject.ChargeOf(id);
-            }
-            catch (DalObject.ObjectNotExistException)
-            {
-                throw;
-            }
         }
     }
 }

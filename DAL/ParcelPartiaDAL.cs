@@ -62,20 +62,14 @@ namespace DalObject
         /// <returns></returns>
         public Parcel GetParcel(int id)
         {
-            foreach (var item in DataSource.ParcelArr)
-            {
-                if (item.Id == id)
-                {
-                    return item;
-                }
-            }
-            throw new ArgumentException("not found a parcel with id = " + id);
+            int i = DataSource.ParcelArr.FindIndex((p) => p.Id == id);
+            if (i < 0)
+                throw new ObjectNotExistException("not found a parcel with id = " + id);
+            return DataSource.ParcelArr[i];
         }
 
 
-        public IEnumerable<Parcel> ParcelList(Predicate<int> selectList = default)
+        public IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = default)
             => DataSource.ParcelArr.Where((c) => selectList != null ? selectList(c.Droneld) : true);
-
-
     }
 }

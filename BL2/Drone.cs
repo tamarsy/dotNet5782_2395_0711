@@ -38,13 +38,15 @@ namespace IBL
             public ParcelDelivery Parcel { get; set; }
             public override string ToString()
             {
-                return "Id: " + Id + "\n"
+                string s = "Id: " + Id + "\n"
                     + "Model: " + Model + "\n"
                     + "MaxWeight: " + MaxWeight + "\n"
                     + "BatteryStatuses: " + BatteryStatuses + "\n"
                     + "DroneStatuses: " + DroneStatuses + "\n"
-                    + "CurrentSiting: " + CurrentLocation + "\n"
-                    + "Parcel: " + Parcel;
+                    + "CurrentLocation- " + "\n" + CurrentLocation.ToString() + "\n";
+                if (Parcel != default)
+                    s += "Parcel- " + "\n" + Parcel.ToString();
+                return s;
             }
         }
     }

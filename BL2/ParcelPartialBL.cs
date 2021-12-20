@@ -72,13 +72,13 @@ namespace IBL
         /// <returns>Parecel</returns>
         private Parcel DlToBlParcel(IDAL.DO.Parcel parcel)
         {
-            Drone drone = GetDrone(parcel.Droneld);
+            Drone drone = (parcel.Droneld == default) ? default:GetDrone((int)parcel.Droneld);
             return new Parcel()
             {
                 Id = parcel.Id,
                 AssignmentTime = (DateTime)parcel.ReQuested,
-                DeliveryTime = (DateTime)parcel.Delivered,
-                DroneDelivery = new DroneDelivery() { Id = drone.Id, BatteryStatuses = drone.BatteryStatuses, CurrentLocation = drone.CurrentLocation },
+                DeliveryTime = drone == default? default : (DateTime)parcel.Delivered,
+                DroneDelivery = drone == default ? default : new DroneDelivery() { Id = drone.Id, BatteryStatuses = drone.BatteryStatuses, CurrentLocation = drone.CurrentLocation },
                 PickUpTime = (DateTime)parcel.PickedUp,
                 Priority = (Priorities)parcel.Priority,
                 SenderId = new DeliveryCustomer() { Id = parcel.SenderId, Name = GetCustomer(parcel.SenderId).Name },
@@ -103,7 +103,7 @@ namespace IBL
         /// <returns>dalObject.ParcesWithoutDronelList</returns>
         public IEnumerable<ParcelToList> ParcesWithoutDronelList()
         {
-            return dalObject.ParcelList((int Droneld) => Droneld == default).Select(item => DlToBlParcelToList(item, ParcelStatuses.defined));
+            return dalObject.ParcelList((int? Droneld) => Droneld == default).Select(item => DlToBlParcelToList(item, ParcelStatuses.defined));
         }
 
         /// <summary>
