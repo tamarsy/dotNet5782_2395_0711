@@ -25,9 +25,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL2", "BL2\BL2.csproj", "{A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "WpfApp1\PL.csproj", "{A3DF228E-AF13-4A9D-947C-D199738BBA2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalApi", "DalApi\DalApi.csproj", "{306572E8-6D0E-4004-A3A1-5BDF913DDB67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalApi", "DalApi\DalApi.csproj", "{306572E8-6D0E-4004-A3A1-5BDF913DDB67}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E986084A-027B-431C-A5E8-394CC5B5BF41} = {E986084A-027B-431C-A5E8-394CC5B5BF41}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Singleton", "Singleton\Singleton.csproj", "{E986084A-027B-431C-A5E8-394CC5B5BF41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Singleton", "Singleton\Singleton.csproj", "{E986084A-027B-431C-A5E8-394CC5B5BF41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
