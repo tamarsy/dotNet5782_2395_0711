@@ -11,13 +11,22 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <TabControl x:Name="tabs">
-            <TabControl.Items x:Uid="1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TabControl x:Name="tabs" Grid.ColumnSpan="2" ItemsSource="{Binding Tabs}">
+            <TabItem Header="home"/>
+            <TabItem Header="drone list">
+                <ContentControl Content="{Binding DroneListView}" />
+            </TabItem>
+            <TabItem Header="drone list2">
+                <Label Content="aaa"/>
+            </TabItem>
 
-            </TabControl.Items>
         </TabControl>
-        <DockPanel LastChildFill="False" Grid.Column="0">
+        <!--<DockPanel Grid.Row="1" LastChildFill="False" Grid.Column="0">
             <Button Content="drones list" Click="Button_Click" DockPanel.Dock="Left"/>
-        </DockPanel>
+        </DockPanel>-->
+        <!--<ContentControl Grid.Row="2" Content="{Binding SelectedView}" />-->
     </Grid>
 </Window>

@@ -17,7 +17,7 @@ namespace PL
     /// <summary>
     /// Interaction logic for ViewListDrone.xaml
     /// </summary>
-    public partial class ViewListDrone : Window
+    public partial class ViewListDrone : UserControl
     {
         BlApi.IBL bl;
         IEnumerable<BO.DroneToList> drones;
@@ -68,7 +68,7 @@ namespace PL
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            Close();
+            //Close();
         }
 
 
@@ -77,6 +77,7 @@ namespace PL
             ViewDrone droneWindow = new ViewDrone();
             droneWindow.UpDateDronesWindow = () => InitializeData();
             droneWindow.Show();
+            //mainwindowViewModel.Tabs.Add()
         }
 
 

@@ -20,14 +20,17 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindowViewModel mainWindowViewModel;
         public MainWindow()
         {
+            mainWindowViewModel = new MainWindowViewModel();
             InitializeComponent();
+            DataContext = mainWindowViewModel;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new ViewListDrone().Show();
+            mainWindowViewModel.SelectedView = new ViewListDrone();
         }
     }
 }
