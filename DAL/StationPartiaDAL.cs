@@ -37,7 +37,7 @@ namespace DalObject
                     return item;
                 }
             }
-            throw new ArgumentException("not found a station with id = " + id);
+            throw new ObjectNotExistException("not found a station with id = " + id);
         }
 
 
@@ -75,6 +75,29 @@ namespace DalObject
         {
             int i = DataSource.StationsArr.FindIndex(s => s.Id == station.Id);
             DataSource.StationsArr[i] = station;
+        }
+
+
+
+        /// <summary>
+        /// Exception: ObjectNotExistException
+        /// Delete Station
+        /// </summary>
+        /// <param name="station"></param>
+        public void DeleteStation(int Id)
+        {
+            int i = DataSource.StationsArr.FindIndex(s => s.Id == Id);
+            if (i < 0)
+                throw new ObjectNotExistException("not found a station with id = " + Id);
+            DataSource.StationsArr[i] = new Station()
+            {
+                Id = DataSource.StationsArr[i].Id,
+                Name = DataSource.StationsArr[i].Name,
+                Lattitude = DataSource.StationsArr[i].Lattitude,
+                Longitude = DataSource.StationsArr[i].Longitude,
+                ChargeSlot = DataSource.StationsArr[i].ChargeSlot,
+                IsDelete = true
+            };
         }
     }
 }

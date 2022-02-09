@@ -8,17 +8,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL
+namespace PL.View
 {
     /// <summary>
-    /// Interaction logic for ViewDrones.xaml
+    /// Interaction logic for ViewEntry.xaml
     /// </summary>
-    public partial class ViewDrones : Window
+    public partial class ViewEntry : Page
     {
-        public ViewDrones()
+        ViewModel.ViewEntryModel _viewEntryModel;
+        public ViewEntry(Action<object> changePage)
         {
+            _viewEntryModel = new ViewModel.ViewEntryModel(changePage, ()=> changePage(this));
+            DataContext = _viewEntryModel;
             InitializeComponent();
         }
     }

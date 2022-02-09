@@ -68,6 +68,8 @@ namespace BL
                 {
                     newDrone.DroneStatuses = (DroneStatuses)rand.Next(0, 2);
                     newDrone.CurrentLocation = FindLocation(newDrone);
+                    if (newDrone.DroneStatuses == DroneStatuses.maintanance)
+                        dalObject.ChargeOn(drone.Id, FindCloseStationWithChargeSlot(newDrone.CurrentLocation).Id);
                     //to fill BatteryStatuses
                     newDrone.BatteryStatuses = FindBatteryStatusesForInitializeDronesList(newDrone);
                 }
@@ -209,6 +211,5 @@ namespace BL
                 //Parcel = droneToList.NumOfParcel != null ? throw("finish") : null
             };
         }
-
     }
 }

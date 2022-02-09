@@ -18,7 +18,7 @@ namespace BO
         {
             return "Id: " + Id + "\n"
                 + "Name: " + Name + "\n"
-                + "CurrentSiting:" + CurrentLocation + "\n"
+                + "CurrentLocation:" + CurrentLocation + "\n"
                 + "ChargeSlot: " + ChargeSlot;
         }
     }

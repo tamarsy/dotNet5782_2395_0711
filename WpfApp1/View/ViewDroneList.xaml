@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="PL.View.ViewListDrone"
+        xmlns:i="http://schemas.microsoft.com/expression//2010/interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        xmlns:vm="clr-namespace:PL.ViewModel"
+        mc:Ignorable="d"
+        x:Name="UserControlDronesList" Height="450" Width="800">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
+            VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <ComboBox Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"
+                      SelectedIndex="{Binding StatusSelector_select, ValidatesOnDataErrors=True}" ItemsSource="{Binding StatusSelector}" />
+            <Label  Name="StatusSelectorL" Content="select list" HorizontalAlignment="Left" Margin="76,0,0,0" VerticalAlignment="Center" Height="55" Width="78"/>
+            <Button Grid.Column="3" Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
+            <Button Command="{Binding Path=NewViewDroneCommand}" Grid.Column="3" Content="Add drone" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ComboBox Name="MaxWeightSelector" Grid.Column="2"  HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"
+                      SelectedIndex="{Binding MaxWeightSelector_select, ValidatesOnDataErrors=True}"  ItemsSource="{Binding MaxWeightSelector}"/>
+        </Grid>
+        <ListView ItemsSource="{Binding Drones, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" x:Name="viewDrones" MouseDoubleClick="viewDrones_MouseDoubleClick" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

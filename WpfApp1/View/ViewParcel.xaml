@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="PL.View.ViewParcel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PL"
+      xmlns:vm="clr-namespace:PL.ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid x:Name="Parcel" >
+        <Button Content="x" Command="{Binding CloseCd}"  HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
+
+        <WrapPanel x:Name="Add" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}">
+            <DockPanel>
+                <Label Content="Enter sender id" />
+                <TextBox Text="{Binding SID, Mode=OneWayToSource}" x:Name="sid" />
+            </DockPanel>
+            <DockPanel>
+                <Label Content="Choose getter id" />
+                <ComboBox ItemsSource="{Binding TID, Mode=OneTime}" SelectedItem="{Binding TID_select}" />
+            </DockPanel>
+            <DockPanel>
+                <Label Content="choose weight" />
+                <ComboBox ItemsSource="{Binding WeightSelector, Mode=OneTime}" SelectedIndex="{Binding WeightSelector_select}" />
+            </DockPanel>
+            <DockPanel>
+                <Label Content="choose priority"/>
+                <ComboBox ItemsSource="{Binding PrioritySelector, Mode=OneTime}" SelectedIndex="{Binding PrioritySelector_select}"  Padding="70,8"/>
+            </DockPanel>
+
+            <Button Name="AddButton" Content="Add" Command="{Binding AddComand}"  IsEnabled="{Binding IsEnableAdd_Button}"/>
+        </WrapPanel>
+
+        <Grid x:Name="Details" Visibility="{Binding DetailsPanelVisibility}" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="10*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock x:Name="details" Text="{Binding Details}" Grid.Row="1" Grid.Column="0"  />
+        </Grid>
+    </Grid>
+</UserControl>

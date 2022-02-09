@@ -31,10 +31,6 @@ namespace BL
             {
                 throw new ObjectAlreadyExistException(e.Message);
             }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
 
             DO.Station station = dalObject.GetStation(stationId);
             drones.Add(new DroneToList()
@@ -110,7 +106,7 @@ namespace BL
             {
                 parcel = dalObject.GetParcel((int)droneFromList.NumOfParcel);
                 sender = GetCustomer(parcel.SenderId);
-                Getter = GetCustomer(parcel.Getter);
+                Getter = GetCustomer(parcel.GetterId);
             }
 
             return new Drone()
@@ -198,5 +194,13 @@ namespace BL
             drones[i].BatteryStatuses = newBatteryStatuses > 100 ?100 : newBatteryStatuses;
             drones[i].DroneStatuses = DroneStatuses.vacant;
         }
+
+
+
+        /// <summary>
+        /// Delete Drone
+        /// </summary>
+        /// <param name="id">drone id</param>
+        public void DeleteDrone(int id) => dalObject.DeleteDrone(id);
     }
 }

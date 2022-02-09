@@ -31,7 +31,7 @@ namespace DalObject
                 names.Add("Yoss"); names.Add("Dov"); names.Add("Shay"); names.Add("Gad"); names.Add("Ran");
 
                 List<string> phones = new List<string>();
-                phones.Add("9741945"); phones.Add("9089251"); phones.Add("9090508"); phones.Add("6722027"); phones.Add("8827664");
+                phones.Add("9741945875"); phones.Add("9543089251"); phones.Add("9096540508"); phones.Add("6726542027"); phones.Add("8823457664");
 
                 Random random = new Random();
                 for (int i = 0; i < NUMOFDRONES; ++i)
@@ -61,9 +61,9 @@ namespace DalObject
                 {
                     CustomerArr.Add(new Customer()
                     {
-                        Id = i,
-                        Name = names[i % (names.Count())],
-                        Phone = phones[i % (names.Count())],
+                        Id = i + random.Next(1111111, 9999999),
+                        Name = names[i % names.Count()],
+                        Phone = phones[i % names.Count()],
                         Longitude = random.Next(0, 99) / 3.7,
                         Lattitude = random.Next(0, 99) / 3.7
                     });
@@ -76,11 +76,11 @@ namespace DalObject
                     ParcelArr.Add(new Parcel()
                     {
                         Id = runNumForParcel++,
-                        SenderId = random.Next(CustomerArr.Count - 1),
-                        Getter = random.Next(CustomerArr.Count - 1),
+                        SenderId = CustomerArr[random.Next(CustomerArr.Count - 1)].Id,
+                        GetterId = CustomerArr[random.Next(CustomerArr.Count - 1)].Id,
                         Weight = 0,
                         Priority = (Priorities)(i % 3),
-                        ReQuested = new DateTime(random.Next(1, 99)),
+                        Requested = new DateTime(random.Next(1, 99)),
                         Droneld = dronIdOrNull,
                         Schedulet = dronIdOrNull != null? new DateTime(random.Next(1, 99)): default,
                         PickedUp = dronIdOrNull != null ? new DateTime(random.Next(1, 99)) : default,

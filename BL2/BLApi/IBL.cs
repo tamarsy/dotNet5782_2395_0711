@@ -13,14 +13,22 @@ namespace BlApi
         void AddParcel(int sid, int tid, WeightCategories weigth, Priorities priority);
 
 
-        void UpdateStation(int id, string name, int numOfChargeSlot);
-        void UpdateDrone(int id, string model);
-        void UpdateCusomer(int id, string name = default, string phone = default);
-        void ChargeOn(int id);
-        void ChargeOf(int id);
-        void ParcelToDrone(int id);
-        void PickParcel(int id);
-        void Destination(int id);
+        void UpdateStation(int stationId, string name, int numOfChargeSlot);
+        void UpdateDrone(int droneId, string model);
+        void UpdateCusomer(int customerId, string name = default, string phone = default);
+        void ChargeOn(int droneId);
+        void ChargeOf(int droneId);
+
+
+        void ParcelToDrone(int Droneid);
+        void PickParcel(int Droneid);
+        void Destination(int Droneid);
+
+
+        void DeleteStation(int id);
+        void DeleteDrone(int id);
+        void DeleteCustomer(int id);
+        void DeleteParcel(int id);
 
 
 

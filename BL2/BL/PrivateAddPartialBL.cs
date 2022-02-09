@@ -24,7 +24,7 @@ namespace BL
             if (drone.DroneStatuses == DroneStatuses.sending)
             {
                 DO.Parcel parcel = dalObject.GetParcel((int)drone.NumOfParcel);
-                Location getterLocation = GetCustomer(parcel.Getter).CurrentLocation;
+                Location getterLocation = GetCustomer(parcel.GetterId).CurrentLocation;
                 Location chargeSlotLocation = FindCloseStationWithChargeSlot(getterLocation).CurrentLocation;
                 double distanceWithParcel = drone.Distance(getterLocation);
                 double distanceWithOutParcel = getterLocation.Distance(chargeSlotLocation); 

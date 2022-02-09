@@ -17,5 +17,12 @@ namespace BO
         public int Id { get; set; }
         public Double BatteryStatuses { get; set; }
         public Location CurrentLocation { get; set; }
+
+        public override string ToString()
+        {
+            return "Id: " + Id + "\n"
+                + "BatteryStatuses: " + BatteryStatuses + "\n"
+                + "CurrentLocation: " + CurrentLocation.ToString();
+        }
     }
 }

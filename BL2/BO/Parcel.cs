@@ -21,16 +21,28 @@ namespace BO
         public DateTime SupplyTime { get; set; }
         public override string ToString()
         {
-            return "Id: " + Id + "\n"
+            string res = "Id: " + Id + "\n"
                  + "SenderId: " + SenderId + "\n"
                  + "GetterId: " + GetterId + "\n"
                  + "Weight: " + Weight + "\n"
-                 + "Priority: " + Priority + "\n"
-                 + "DroneDelivery" + DroneDelivery + "\n"
-                 + "DeliveryTime" + DeliveryTime + "\n"
-                 + "AssignmentTime" + AssignmentTime + "\n"
-                 + "PickUpTime" + PickUpTime + "\n"
-                 + "SupplyTime" + SupplyTime;
+                 + "Priority: " + Priority;
+            if (DroneDelivery != default)
+                res += "\n" + "Drone Delivery :" + DroneDelivery.ToString();
+            if (!AssignmentTime.Equals(default))
+            {
+                res += "\n" + "Assignment Time :" + AssignmentTime.ToString();
+                if (!PickUpTime.Equals(default))
+                {
+                    res += "\n" + "Pick Up Time :" + PickUpTime.ToString();
+                    if (!DeliveryTime.Equals(default))
+                    {
+                        res += "\n" + "Delivery Time :" + DeliveryTime.ToString();
+                        if (!SupplyTime.Equals(default))
+                            res += "\n" + "Supply Time :" + SupplyTime.ToString();
+                    }
+                }
+            }
+            return res;
         }
     }
 }

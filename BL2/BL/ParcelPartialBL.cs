@@ -22,10 +22,10 @@ namespace BL
             DO.Parcel newParcel = new DO.Parcel()
             {
                 SenderId = sid,
-                Getter = tid,
+                GetterId = tid,
                 Weight = (DO.WeightCategories)weight,
                 Priority = (DO.Priorities)priority,
-                ReQuested = DateTime.Now
+                Requested = DateTime.Now
             };
             try
             {
@@ -75,13 +75,13 @@ namespace BL
             return new Parcel()
             {
                 Id = parcel.Id,
-                AssignmentTime = (DateTime)parcel.ReQuested,
+                AssignmentTime = (DateTime)parcel.Requested,
                 DeliveryTime = drone == default? default : (DateTime)parcel.Delivered,
                 DroneDelivery = drone == default ? default : new DroneDelivery() { Id = drone.Id, BatteryStatuses = drone.BatteryStatuses, CurrentLocation = drone.CurrentLocation },
                 PickUpTime = (DateTime)parcel.PickedUp,
                 Priority = (Priorities)parcel.Priority,
                 SenderId = new DeliveryCustomer() { Id = parcel.SenderId, Name = GetCustomer(parcel.SenderId).Name },
-                GetterId = new DeliveryCustomer() { Id = parcel.Getter, Name = GetCustomer(parcel.Getter).Name },
+                GetterId = new DeliveryCustomer() { Id = parcel.GetterId, Name = GetCustomer(parcel.GetterId).Name },
                 SupplyTime = (DateTime)parcel.Schedulet,
                 Weight = (WeightCategories)parcel.Weight
             };
@@ -117,7 +117,7 @@ namespace BL
             {
                 Id = parcel.Id,
                 SenderId = parcel.SenderId,
-                GetterId = parcel.Getter,
+                GetterId = parcel.GetterId,
                 Weight = (WeightCategories)parcel.Weight,
                 Priority = (Priorities)parcel.Priority,
                 ParcelStatuses = parcelStatuses != default ? ParcelStatuses.defined : FindParcelStatuses(parcel)
@@ -139,5 +139,12 @@ namespace BL
                 return ParcelStatuses.ascribed;
             return ParcelStatuses.defined;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">parcel id</param>
+        public void DeleteParcel(int id) => dalObject.DeleteParcel(id);
     }
 }

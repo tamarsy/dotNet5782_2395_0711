@@ -25,7 +25,8 @@ namespace BO
                 + "SenderId: " + SenderId + "\n"
                 + "GetterId: " + GetterId + "\n"
                  + "Weight: " + Weight + "\n"
-                 + "Priority: " + Priority;
+                 + "Priority: " + Priority + "\n"
+                 + "Parcel Statuses: " + ParcelStatuses;
         }
     }
 }

@@ -3,30 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <TabControl x:Name="tabs" Grid.ColumnSpan="2" ItemsSource="{Binding Tabs}">
-            <TabItem Header="home"/>
-            <TabItem Header="drone list">
-                <ContentControl Content="{Binding DroneListView}" />
-            </TabItem>
-            <TabItem Header="drone list2">
-                <Label Content="aaa"/>
-            </TabItem>
+        Title="" Height="600" Width="1000"
+        >
 
-        </TabControl>
-        <!--<DockPanel Grid.Row="1" LastChildFill="False" Grid.Column="0">
-            <Button Content="drones list" Click="Button_Click" DockPanel.Dock="Left"/>
-        </DockPanel>-->
-        <!--<ContentControl Grid.Row="2" Content="{Binding SelectedView}" />-->
+    <Window.Resources>
+        <LinearGradientBrush x:Key="myLinearGradientBrush">
+            <GradientStop Color="Blue" Offset="0" />
+            <GradientStop Color="Yellow" Offset="0.5" />
+            <GradientStop Color="Red" Offset="1" />
+        </LinearGradientBrush>
+    </Window.Resources>
+
+    <Grid>
+        <Frame Name="mainFrame" Source="{Binding MainFrameP}" Background="{StaticResource myLinearGradientBrush}" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

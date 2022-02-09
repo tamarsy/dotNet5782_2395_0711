@@ -43,10 +43,10 @@ namespace DalObject
             {
                 Id = DataSource.ParcelArr[parcelI].Id,
                 SenderId = DataSource.ParcelArr[parcelI].SenderId,
-                Getter = DataSource.ParcelArr[parcelI].Getter,
+                GetterId = DataSource.ParcelArr[parcelI].GetterId,
                 Weight = DataSource.ParcelArr[parcelI].Weight,
                 Priority = DataSource.ParcelArr[parcelI].Priority,
-                ReQuested = DataSource.ParcelArr[parcelI].ReQuested,
+                Requested = DataSource.ParcelArr[parcelI].Requested,
                 Droneld = droneChoose,
                 Schedulet = DateTime.Now,
                 PickedUp = DataSource.ParcelArr[droneI].PickedUp,
@@ -70,19 +70,26 @@ namespace DalObject
                     {
                         Id = DataSource.ParcelArr[i].Id,
                         SenderId = DataSource.ParcelArr[i].SenderId,
-                        Getter = DataSource.ParcelArr[i].Getter,
+                        GetterId = DataSource.ParcelArr[i].GetterId,
                         Weight = DataSource.ParcelArr[i].Weight,
                         Priority = DataSource.ParcelArr[i].Priority,
-                        ReQuested = DataSource.ParcelArr[i].ReQuested,
+                        Requested = DataSource.ParcelArr[i].Requested,
                         Droneld = DataSource.ParcelArr[i].Droneld,
                         Schedulet = DataSource.ParcelArr[i].Schedulet,
                         PickedUp = DataSource.ParcelArr[i].PickedUp,
                         Delivered = DateTime.Now
                     };
+                    //?????????????????????????
                     for (int j = 0; j < DataSource.DronesArr.Count; ++j)
                     {
                         if (DataSource.DronesArr[j].Id == DataSource.ParcelArr[i].Droneld)
-                            DataSource.DronesArr[j] = new Drone(DataSource.DronesArr[j].Id, DataSource.DronesArr[j].Model, DataSource.DronesArr[j].MaxWeight);
+                            DataSource.DronesArr[j] = new Drone()
+                            {
+                                Id = DataSource.DronesArr[j].Id,
+                                Model = DataSource.DronesArr[j].Model,
+                                MaxWeight = DataSource.DronesArr[j].MaxWeight,
+                                IsDelete = DataSource.DronesArr[j].IsDelete
+                            };
                     }
                     break;
                 }

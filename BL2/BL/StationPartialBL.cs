@@ -198,5 +198,12 @@ namespace BL
             return stationWithEmptyChangeSlotl;
         }
 
+
+        /// <summary>
+        /// Delete Station
+        /// </summary>
+        /// <param name="id">station id</param>
+        public void DeleteStation(int id) => dalObject.DeleteStation(id);
+
     }
 }

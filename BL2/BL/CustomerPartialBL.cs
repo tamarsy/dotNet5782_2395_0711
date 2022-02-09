@@ -15,6 +15,7 @@ namespace BL
     partial class BL
     {
         /// <summary>
+        /// Exception: ObjectAlreadyExistException
         /// creat a new customer with the details:
         /// </summary>
         /// <param name="id">id of the new customer</param>
@@ -39,10 +40,6 @@ namespace BL
             {
                 throw new ObjectAlreadyExistException(e.Message);
             }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
         }
 
 
@@ -62,9 +59,9 @@ namespace BL
                 customer.Phone = phone;
             else if (name == default)
             {
-                throw new NoChangesToUpdateException();
+                throw new NoChangesToUpdateException("Name and phone not change");
             }
-
+            dalObject.UpdateCustomer(customer);
         }
 
 
@@ -148,13 +145,20 @@ namespace BL
                     Phone = customer.Phone,
                     NumOfParcelsDefined = dalObject.ParcelList().Where(p => p.SenderId == customer.Id && p.PickedUp != default(DateTime)).Count(),
                     NumOfParcelsAscribed = dalObject.ParcelList().Where(p => p.SenderId == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count(),
-                    NumOfParcelsCollected = dalObject.ParcelList().Where(p => p.Getter == customer.Id && p.PickedUp != default(DateTime)).Count(),
-                    NumOfParcelsSupplied = dalObject.ParcelList().Where(p => p.Getter == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count()
+                    NumOfParcelsCollected = dalObject.ParcelList().Where(p => p.GetterId == customer.Id && p.PickedUp != default(DateTime)).Count(),
+                    NumOfParcelsSupplied = dalObject.ParcelList().Where(p => p.GetterId == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count()
                 };
                 customersList.Add(newCustomer);
             }
 
             return customersList;
         }
+
+
+        /// <summary>
+        /// Delete Customer
+        /// </summary>
+        /// <param name="id">customer id</param>
+        public void DeleteCustomer(int id) => dalObject.DeleteCustomer(id);
     }
 }

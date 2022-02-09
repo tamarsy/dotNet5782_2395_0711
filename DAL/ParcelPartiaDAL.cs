@@ -39,10 +39,10 @@ namespace DalObject
                     {
                         Id = DataSource.ParcelArr[i].Id,
                         SenderId = DataSource.ParcelArr[i].SenderId,
-                        Getter = DataSource.ParcelArr[i].Getter,
+                        GetterId = DataSource.ParcelArr[i].GetterId,
                         Weight = DataSource.ParcelArr[i].Weight,
                         Priority = DataSource.ParcelArr[i].Priority,
-                        ReQuested = DataSource.ParcelArr[i].ReQuested,
+                        Requested = DataSource.ParcelArr[i].Requested,
                         Droneld = DataSource.ParcelArr[i].Droneld,
                         Schedulet = DataSource.ParcelArr[i].Schedulet,
                         PickedUp = DateTime.Now,
@@ -52,7 +52,7 @@ namespace DalObject
                 }
             }
             if (check == false)
-                throw new ArgumentException("Error!! Ther is no drone with this id");
+                throw new ObjectNotExistException("Error!! Ther is no drone with this id");
         }
 
         /// <summary>
@@ -71,5 +71,33 @@ namespace DalObject
 
         public IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = default)
             => DataSource.ParcelArr.Where((c) => selectList != null ? selectList(c.Droneld) : true);
+
+
+
+        /// <summary>
+        /// Exception: ObjectNotExistException
+        /// Delete Parcel
+        /// </summary>
+        /// <param name="parcel id"></param>
+        public void DeleteParcel(int Id)
+        {
+            int i = DataSource.ParcelArr.FindIndex(p => p.Id == Id);
+            if (i < 0)
+                throw new ObjectNotExistException("not found a parcel with id = " + Id);
+            DataSource.ParcelArr[i] = new Parcel()
+            {
+                Id = DataSource.ParcelArr[i].Id,
+                SenderId  = DataSource.ParcelArr[i].SenderId,
+                GetterId = DataSource.ParcelArr[i].GetterId,
+                Weight = DataSource.ParcelArr[i].Weight,
+                Priority = DataSource.ParcelArr[i].Priority,
+                Requested = DataSource.ParcelArr[i].Requested,
+                Droneld = DataSource.ParcelArr[i].Droneld,
+                Schedulet = DataSource.ParcelArr[i].Schedulet,
+                PickedUp = DataSource.ParcelArr[i].PickedUp,
+                Delivered = DataSource.ParcelArr[i].Delivered,
+                IsDelete = true
+            };
+        }
     }
 }
