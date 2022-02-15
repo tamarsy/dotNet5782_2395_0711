@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DalApi;
 using BO;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -17,6 +18,7 @@ namespace BL
         /// <param name="name"></param>
         /// <param name="location"></param>
         /// <param name="chargeSlots"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, Location location, int chargeSlots)
         {
             DO.Station newStation = new DO.Station()
@@ -29,15 +31,14 @@ namespace BL
             };
             try
             {
-                dalObject.AddStation(newStation);
+                lock (dalObject)
+                {
+                    dalObject.AddStation(newStation);
+                }
             }
             catch (DO.ObjectAlreadyExistException e)
             {
                 throw new ObjectAlreadyExistException(e.Message);
-            }
-            catch (Exception)
-            {
-                throw new Exception();
             }
         }
 
@@ -47,12 +48,16 @@ namespace BL
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <param name="numOfChargeSlot"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int id, string name, int numOfChargeSlot)
         {
             DO.Station station;
             try
             {
-                station = dalObject.GetStation(id);
+                lock (dalObject)
+                {
+                    station = dalObject.GetStation(id);
+                }
             }
             catch (DO.ObjectNotExistException e)
             {
@@ -66,7 +71,10 @@ namespace BL
                 station.ChargeSlot = numOfChargeSlot;
             if (name != default)
                 station.Name = name;
-            dalObject.UpdateStation(station);
+            lock (dalObject)
+            {
+                dalObject.UpdateStation(station);
+            }
         }
 
         /// <summary>
@@ -74,111 +82,47 @@ namespace BL
         /// </summary>
         /// <param name="requestedId"></param>
         /// <returns>DalToBlStation</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int requestedId)
         {
             DO.Station station;
             try
             {
-                station = dalObject.GetStation(requestedId);
+                lock (dalObject) { station = dalObject.GetStation(requestedId); }
 
             }
             catch (DO.ObjectNotExistException e)
             {
                 throw new ObjectNotExistException(e.Message);
             }
-            catch (Exception)
-            {
-                throw new Exception();
-            }
-
+            if (station.IsDelete)
+                throw new ObjectNotExistException($"Station with id {requestedId}");
             return DalToBlStation(station);
         }
 
-        /// <summary>
-        /// change the things in dal to bl
-        /// </summary>
-        /// <param name="station"></param>
-        /// <returns>newStation</returns>
-        Station DalToBlStation(DO.Station station)
-        {
-            Station newStation = new Station()
-            {
-                Id = station.Id,
-                ChargeSlot = station.ChargeSlot,
-                CurrentLocation = new Location { Latitude = station.Lattitude, Longitude = station.Longitude },
-                Name = station.Name,
-                DronesInCharge = drones.Where(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation == new Location { Latitude = station.Lattitude, Longitude = station.Longitude })
-                .Select(d => DroneToListToDrone(d)).ToList()
-            };
-            return newStation;
-        }
 
-        /// <summary>
-        /// function that create a list of drones to the drone 
-        /// </summary>
-        /// <param name="drone"></param>
-        /// <returns>Drone</returns>
-        private Drone DroneToListToDrone(DroneToList drone)
-        {
-            Parcel parcel = GetParcel((int)drone.NumOfParcel);
-            Customer CustomerSet = GetCustomer(parcel.SenderId.Id);
-            Customer CustomerGet = GetCustomer(parcel.GetterId.Id);
 
-            return new Drone()
-            { 
-                Id = drone.Id, 
-                BatteryStatuses= drone.BatteryStatuses, 
-                CurrentLocation= drone.CurrentLocation, 
-                DroneStatuses= drone.DroneStatuses, 
-                MaxWeight= drone.MaxWeight, 
-                Model= drone.Model, 
-                Parcel= new ParcelDelivery()
-                {
-                    Id = parcel.Id,
-                    Weight = parcel.Weight,
-                    Priority = parcel.Priority,
-                    StatusParcel = !parcel.PickUpTime.Equals(default),
-                    Collecting = CustomerSet.CurrentLocation,
-                    DeliveryDestination = CustomerGet.CurrentLocation,
-                    Distance = CustomerSet.CurrentLocation.Distance(CustomerGet),
-                    SenderId = parcel.SenderId,
-                    GetterId = parcel.GetterId
-                }
-            };
-        }
+
+
 
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        StationToList StationToList(DO.Station s)
-        {
-            int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation.Latitude == s.Lattitude && d.CurrentLocation.Longitude == s.Longitude);
-            return new StationToList()
-            {
-                Id = s.Id,
-                Name = s.Name,
-                NumOfCatchChargeSlots = NumOfCatchChargeSlots,
-                NumOfEmptyChargeSlots = s.ChargeSlot - NumOfCatchChargeSlots
-            };
-        }
-
-
-        /// <summary>
-        /// function that create list of slot stations
+        /// return Stations List
         /// </summary>
         /// <returns>stationList</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> StationsList()
         {
             List<StationToList> stationList = new List<StationToList>();
-            foreach (var s in dalObject.StationList())
+            lock (dalObject)
             {
-                stationList.Add(StationToList(s));
-            }
+                foreach (DO.Station s in dalObject.StationList())
+                {
+                    stationList.Add(ConvertToStationToList(s));
+                }
 
-            return stationList;
+                return stationList;
+            }
         }
 
 
@@ -186,16 +130,19 @@ namespace BL
         /// function that create a list of all the empty change slot ststion list
         /// </summary>
         /// <returns>stationWithEmptyChangeSlotl</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> EmptyChangeSlotlList()
         {
             List<StationToList> stationWithEmptyChangeSlotl = new List<StationToList>();
-
-            foreach (var s in dalObject.StationList((bool b) => b))
+            lock (dalObject)
             {
-                stationWithEmptyChangeSlotl.Add(StationToList(s));
-            }
+                foreach (var s in dalObject.StationList((bool b) => b))
+                {
+                    stationWithEmptyChangeSlotl.Add(ConvertToStationToList(s));
+                }
 
-            return stationWithEmptyChangeSlotl;
+                return stationWithEmptyChangeSlotl;
+            }
         }
 
 
@@ -203,7 +150,10 @@ namespace BL
         /// Delete Station
         /// </summary>
         /// <param name="id">station id</param>
-        public void DeleteStation(int id) => dalObject.DeleteStation(id);
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteStation(int id) { lock (dalObject) { dalObject.DeleteStation(id); } }
+
+
 
     }
 }

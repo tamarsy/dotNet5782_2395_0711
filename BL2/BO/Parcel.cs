@@ -15,10 +15,10 @@ namespace BO
         public WeightCategories Weight { get; set; }
         public Priorities Priority { get; set; }
         public DroneDelivery DroneDelivery { get; set; }
-        public DateTime DeliveryTime { get; set; }
         public DateTime AssignmentTime { get; set; }
-        public DateTime PickUpTime { get; set; }
-        public DateTime SupplyTime { get; set; }
+        public DateTime? DeliveryTime { get; set; }
+        public DateTime? PickUpTime { get; set; }
+        public DateTime? SupplyTime { get; set; }
         public override string ToString()
         {
             string res = "Id: " + Id + "\n"
@@ -28,16 +28,16 @@ namespace BO
                  + "Priority: " + Priority;
             if (DroneDelivery != default)
                 res += "\n" + "Drone Delivery :" + DroneDelivery.ToString();
-            if (!AssignmentTime.Equals(default))
+            if (!AssignmentTime.Equals(null))
             {
                 res += "\n" + "Assignment Time :" + AssignmentTime.ToString();
-                if (!PickUpTime.Equals(default))
+                if (!PickUpTime.Equals(null))
                 {
                     res += "\n" + "Pick Up Time :" + PickUpTime.ToString();
-                    if (!DeliveryTime.Equals(default))
+                    if (!DeliveryTime.Equals(null))
                     {
                         res += "\n" + "Delivery Time :" + DeliveryTime.ToString();
-                        if (!SupplyTime.Equals(default))
+                        if (!SupplyTime.Equals(null))
                             res += "\n" + "Supply Time :" + SupplyTime.ToString();
                     }
                 }

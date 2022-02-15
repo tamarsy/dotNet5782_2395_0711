@@ -11,9 +11,15 @@ namespace BO
     /// Id: the drone id
     /// BatteryStatuses: the drone battery statuses
     /// </summary>
-    class DroneCharge
+    public class DroneCharge
     {
         public int Id { get; set; }
         public double BatteryStatuses { get; set; }
+
+        public override string ToString()
+        {
+            return "Id: " + Id + "\n"
+                + "BatteryStatuses:" + BatteryStatuses;
+        }
     }
 }

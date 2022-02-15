@@ -20,4 +20,9 @@ namespace BO
     {
         defined, ascribed, collected, supplied
     }
+
+    public enum BatteryUsage
+    {
+        Available, Light, Medium, Heavy, Charging 
+    }
 }

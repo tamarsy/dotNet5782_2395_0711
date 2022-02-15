@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 
 namespace BO
 {
+    /// <summary>
+    /// Id: parcel id
+    /// Weight: parcel Weight
+    /// Priority: parcel Priority
+    /// StatusParcel: parcel status
+    /// Collecting Location = Location of Sender
+    /// Destination Location = Location of Getter
+    /// Distance: the current step distance
+    /// Sender- Sender id and name
+    /// Getter- Getter id and name
+    /// </summary>
     public class ParcelDelivery
     {
         public int Id { get; set; }
@@ -15,8 +26,8 @@ namespace BO
         public Location Collecting { get; set; }
         public Location DeliveryDestination { get; set; }
         public double Distance { get; set; }
-        public DeliveryCustomer SenderId { get; set; }
-        public DeliveryCustomer GetterId { get; set; }
+        public DeliveryCustomer Sender { get; set; }
+        public DeliveryCustomer Getter { get; set; }
 
         public override string ToString()
         {
@@ -27,8 +38,8 @@ namespace BO
                 + "Collecting Location" + "\n" + Collecting.ToString() + "\n"
                 + "Destination Location" + "\n" + DeliveryDestination.ToString() + "\n"
                 + "Distance:" + Distance + "\n"
-                + "Sender-" + "\n" + SenderId.ToString() + "\n"
-                + "Getter-" + "\n" + GetterId.ToString();
+                + "Sender-" + "\n" + Sender.ToString() + "\n"
+                + "Getter-" + "\n" + Getter.ToString();
         }
     }
 }
