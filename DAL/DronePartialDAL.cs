@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 using DO;
 
 namespace DalObject
@@ -15,6 +16,7 @@ namespace DalObject
         /// the function add a new drone to the arry
         /// </summary>
         /// <param name="drone">the new drone to add</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone newDrone)
         {
             if (newDrone.Equals(default(Drone)))
@@ -30,6 +32,7 @@ namespace DalObject
         /// find a ststion with empty charge slot and charge the dron
         /// </summary>
         /// <param name="droenId">the dron id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ChargeOn(int droenId, int stationId)
         {
             Station s;
@@ -54,6 +57,7 @@ namespace DalObject
         /// charge of the dron from the charge slot
         /// </summary>
         /// <param name="droenId">the dron id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void ChargeOf(int droenId)
         {
             int i = DataSource.DronesArr.FindIndex((d) => d.Id == droenId);
@@ -71,6 +75,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">the drone id</param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             int i = DataSource.DronesArr.FindIndex(item => item.Id == id);
@@ -83,7 +88,8 @@ namespace DalObject
         /// return Drones List
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Drone> DroneList() => DataSource.DronesArr;
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> DroneList() => DataSource.DronesArr.Where(c => !c.IsDelete);
 
 
         /// <summary>
@@ -91,11 +97,12 @@ namespace DalObject
         /// Update Drone details
         /// </summary>
         /// <param name="drone"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone)
         {
             if(drone.Equals(default(Drone)))
                 throw new ArgumentNullException("Null argument");
-            int i = DataSource.DronesArr.FindIndex(s => s.Id == drone.Id);
+            int i = DataSource.DronesArr.FindIndex(s => s.Id == drone.Id && !s.IsDelete);
             if (i < 0)
                 throw new ObjectNotExistException("no drone whith id: " + drone.Id + "in charge slot");
             DataSource.DronesArr[i] = drone;
@@ -108,9 +115,10 @@ namespace DalObject
         /// Delete Drone
         /// </summary>
         /// <param name="Drone id"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
-            int i = DataSource.DronesArr.FindIndex(d => d.Id == id);
+            int i = DataSource.DronesArr.FindIndex(d => d.Id == id && !d.IsDelete);
             if (i < 0)
                 throw new ObjectNotExistException("not found a Drone with id = " + id);
             DataSource.DronesArr[i] = new Drone()
