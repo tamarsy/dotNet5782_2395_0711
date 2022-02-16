@@ -111,7 +111,7 @@ namespace BL
                             lock (bl)
                             {
                                 double currentDistance = Min(distance, STEP);
-                                bl.DronStepTo(droneId, currentDistance, distance, drone.Parcel.StatusParcel? drone.Parcel.DeliveryDestination : drone.Parcel.Collecting);
+                                bl.DronStepTo(droneId, currentDistance, distance, drone.Parcel.StatusParcel ? drone.Parcel.DeliveryDestination : drone.Parcel.Collecting);
                             }
                         }
                         break;

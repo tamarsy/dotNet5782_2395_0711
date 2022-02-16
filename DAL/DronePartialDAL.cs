@@ -28,46 +28,21 @@ namespace DalObject
 
 
         /// <summary>
-        /// Exception: ObjectNotExistException, ObjectNotAvailableForActionException
-        /// find a ststion with empty charge slot and charge the dron
+        /// Exception: ObjectNotExistException, ArgumentNullException
+        /// Update Drone details
         /// </summary>
-        /// <param name="droenId">the dron id</param>
+        /// <param name="drone"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void ChargeOn(int droenId, int stationId)
+        public void UpdateDrone(Drone drone)
         {
-            Station s;
-            if (!DataSource.DronesArr.Exists(d => d.Id == droenId))
-                throw new ObjectNotExistException("no drone whith id: " + droenId);
-            s = GetStation(stationId);
-            if (!isEmptyChargeSlotInStation(stationId, s.ChargeSlot))
-                throw new ObjectNotAvailableForActionException($"no empty charge slot in station with id: {stationId}");
-            DataSource.listOfChargeSlot.Add(
-                new DroneCharge()
-                {
-                    DroneId = droenId,
-                    StationId = stationId,
-                    StartTime = DateTime.Now
-                });
-        }
-
-
-
-        /// <summary>
-        /// Exception: ObjectNotExistException, ObjectNotAvailableForActionException
-        /// charge of the dron from the charge slot
-        /// </summary>
-        /// <param name="droenId">the dron id</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void ChargeOf(int droenId)
-        {
-            int i = DataSource.DronesArr.FindIndex((d) => d.Id == droenId);
+            if (drone.Equals(default(Drone)))
+                throw new ArgumentNullException("Null argument");
+            int i = DataSource.DronesArr.FindIndex(s => s.Id == drone.Id && !s.IsDelete);
             if (i < 0)
-                throw new ObjectNotExistException("no drone whith id: " + droenId + "in charge slot");
-            //remove from the list Of Charge Slot in DataSource
-            int f = DataSource.listOfChargeSlot.RemoveAll((dch)=> dch.DroneId == droenId);
-            if (f < 0)
-                throw new ObjectNotAvailableForActionException($"no charge for drone: {droenId}");
+                throw new ObjectNotExistException("no drone whith id: " + drone.Id + "in charge slot");
+            DataSource.DronesArr[i] = drone;
         }
+
 
         /// <summary>
         /// Exception: ObjectNotExistException
@@ -83,31 +58,6 @@ namespace DalObject
                 throw new ObjectNotExistException("no drone whith id: " + id + "in charge slot");
             return DataSource.DronesArr[i];
         }
-
-        /// <summary>
-        /// return Drones List
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Drone> DroneList() => DataSource.DronesArr.Where(c => !c.IsDelete);
-
-
-        /// <summary>
-        /// Exception: ObjectNotExistException, ArgumentNullException
-        /// Update Drone details
-        /// </summary>
-        /// <param name="drone"></param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateDrone(Drone drone)
-        {
-            if(drone.Equals(default(Drone)))
-                throw new ArgumentNullException("Null argument");
-            int i = DataSource.DronesArr.FindIndex(s => s.Id == drone.Id && !s.IsDelete);
-            if (i < 0)
-                throw new ObjectNotExistException("no drone whith id: " + drone.Id + "in charge slot");
-            DataSource.DronesArr[i] = drone;
-        }
-
 
 
         /// <summary>
@@ -128,6 +78,52 @@ namespace DalObject
                 MaxWeight = DataSource.DronesArr[i].MaxWeight,
                 IsDelete = true
             };
+        }
+
+
+        /// <summary>
+        /// return Drones List
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> DroneList() => DataSource.DronesArr.Where(c => !c.IsDelete);
+
+
+        /// <summary>
+        /// Exception: ObjectNotExistException, ObjectNotAvailableForActionException
+        /// find a ststion with empty charge slot and charge the dron
+        /// </summary>
+        /// <param name="droenId">the dron id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ChargeOn(int droenId, int stationId)
+        {
+            Station s;
+            if (!DataSource.DronesArr.Exists(d => d.Id == droenId))
+                throw new ObjectNotExistException("no drone whith id: " + droenId);
+            s = GetStation(stationId);
+            if (!isEmptyChargeSlotInStation(stationId, s.ChargeSlot))
+                throw new ObjectNotAvailableForActionException($"no empty charge slot in station with id: {stationId}");
+            if (DataSource.listOfChargeSlot.Exists(d => d.DroneId == droenId))
+                throw new ObjectNotAvailableForActionException("Exist in charge drone whith id: " + droenId);
+            StationDroneIn(stationId);
+            AddDroneCharge(droenId, stationId);
+        }
+
+
+        /// <summary>
+        /// Exception: ObjectNotExistException, ObjectNotAvailableForActionException
+        /// charge of the dron from the charge slot
+        /// </summary>
+        /// <param name="droenId">the dron id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void ChargeOf(int droenId)
+        {
+            int i = DataSource.DronesArr.FindIndex((d) => d.Id == droenId);
+            if (i < 0)
+                throw new ObjectNotExistException("no drone whith id: " + droenId + "in charge slot");
+            //remove from the list Of Charge Slot in DataSource
+            StationDroneOut(droenId);
+            DeleteDroneCharge(droenId);
         }
     }
 }

@@ -31,6 +31,22 @@ namespace DalObject
         }
 
 
+        /// <summary>
+        /// Exception: ArgumentNullException, ObjectNotExistException
+        /// Update the Customer details
+        /// </summary>
+        /// <param name="customer"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateCustomer(Customer customer)
+        {
+            if (customer.Equals(default(Customer)))
+                throw new ArgumentNullException("Null argument");
+            int i = DataSource.CustomerArr.FindIndex(s => s.Id == customer.Id);
+            if (i < 0)
+                throw new ObjectNotExistException("not found a customer with id = " + customer.Id);
+            DataSource.CustomerArr[i] = customer;
+        }
+
 
         /// <summary>
         /// Exception: ObjectNotExistException
@@ -47,33 +63,6 @@ namespace DalObject
             return DataSource.CustomerArr[i];
         }
 
-        /// <summary>
-        /// return Customers List
-        /// </summary>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Customer> CustomerList() => DataSource.CustomerArr.Where(c=>!c.IsDelete);
-
-
-
-        /// <summary>
-        /// Exception: ArgumentNullException, ObjectNotExistException
-        /// Update the Customer details
-        /// </summary>
-        /// <param name="customer"></param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void UpdateCustomer(Customer customer)
-        {
-            if(customer.Equals(default(Customer)))
-                throw new ArgumentNullException("Null argument");
-            int i = DataSource.CustomerArr.FindIndex(s => s.Id == customer.Id);
-            if(i < 0)
-                throw new ObjectNotExistException("not found a customer with id = " + customer.Id);
-            DataSource.CustomerArr[i] = customer;
-        }
-
-
-
 
         /// <summary>
         /// Exception: ObjectNotExistException
@@ -86,15 +75,17 @@ namespace DalObject
             int i = DataSource.CustomerArr.FindIndex(c => c.Id == Id && !c.IsDelete);
             if (i < 0)
                 throw new ObjectNotExistException("not found a customer with id = " + Id);
-            DataSource.CustomerArr[i] = new Customer()
-            {
-                Id = DataSource.CustomerArr[i].Id,
-                Name = DataSource.CustomerArr[i].Name,
-                Lattitude = DataSource.CustomerArr[i].Lattitude,
-                Longitude = DataSource.CustomerArr[i].Longitude,
-                Phone = DataSource.CustomerArr[i].Phone,
-                IsDelete = true
-            };
+            Customer tempCustomer = DataSource.CustomerArr[i];
+            tempCustomer.IsDelete = true;
+            DataSource.CustomerArr[i] = tempCustomer;
         }
+
+
+        /// <summary>
+        /// return Customers List
+        /// </summary>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Customer> CustomerList() => DataSource.CustomerArr.Where(c=>!c.IsDelete);
     }
 }

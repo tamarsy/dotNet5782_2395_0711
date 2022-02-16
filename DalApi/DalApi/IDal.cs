@@ -19,8 +19,6 @@ namespace DalApi
         void ParcelToDrone(int percelChoose, int droneChoose);
         void PickParcel(int percelChoose);
         void Destination(int percelChoose);
-        void ChargeOn(int droenId, int stationId);
-        void ChargeOf(int droenId);
         DateTime StartChargeTime(int droneId);
         #endregion
         #region Get
@@ -46,6 +44,14 @@ namespace DalApi
         IEnumerable<Drone> DroneList();
         IEnumerable<Customer> CustomerList();
         IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = default);
+        #endregion
+        #region Charging
+        void DeleteDroneCharge(int droneId);
+        void AddDroneCharge(int droneId, int baseStationId);
+        void StationDroneIn(int baseStationId);
+        void StationDroneOut(int baseStationId);
+        void ChargeOn(int droenId, int stationId);
+        void ChargeOf(int droenId);
         #endregion
         double[] PowerConsumptionRequest();
     }

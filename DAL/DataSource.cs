@@ -23,19 +23,25 @@ namespace DalObject
             static public double MediumWeightCarrier { get; set; } = 3;
             static public double heavyWeightCarrier { get; set; } = 4;
             static public double SkimmerLoadingRate { get; set; } = 4;
-            const int NUMOFDRONES = 5;
             public static int runNumForParcel = 0;
             public static void Initialize()
             {
-
-                List<string> names = new List<string>();
-                names.Add("Yoss"); names.Add("Dov"); names.Add("Shay"); names.Add("Gad"); names.Add("Ran");
-
+                const int NUMOFDRONES = 10;
                 List<string> phones = new List<string>();
                 phones.Add("9741945875"); phones.Add("9543089251"); phones.Add("9096540508"); phones.Add("6726542027"); phones.Add("8823457664");
 
                 random = new Random();
-                for (int i = 0; i < NUMOFDRONES; ++i)
+
+                AddToDronesArr(NUMOFDRONES);
+                AddToCustomerArr(NUMOFDRONES * 2, phones);
+                AddToStationArr(NUMOFDRONES, phones);
+                AddToParcelArr(NUMOFDRONES * 2);
+            }
+
+            #region AddToList
+            static void AddToDronesArr(int n)
+            {
+                for (int i = 0; i < n; ++i)
                 {
                     DronesArr.Add(new Drone()
                     {
@@ -44,21 +50,14 @@ namespace DalObject
                         MaxWeight = (WeightCategories)(i % 3)
                     });
                 }
+            }
 
-                for (int i = 0; i < NUMOFDRONES; ++i)
-                {
-                    StationsArr.Add(new Station()
-                    {
-                        Id = i,
-                        Name = phones[i % names.Count()],
-                        Lattitude = getRandomCoordinate(random.NextDouble() * 5),
-                        Longitude = getRandomCoordinate(random.NextDouble() * 5),
-                        ChargeSlot = random.Next(2, 10)
-                    });
-                }
+            static void AddToCustomerArr(int n, List<string> phones)
+            {
+                List<string> names = new List<string>();
+                names.Add("Yoss"); names.Add("Dov"); names.Add("Shay"); names.Add("Gad"); names.Add("Ran");
 
-
-                for (int i = 0; i < NUMOFDRONES * 2; ++i)
+                for (int i = 0; i < n; ++i)
                 {
                     CustomerArr.Add(new Customer()
                     {
@@ -69,9 +68,28 @@ namespace DalObject
                         Lattitude = getRandomCoordinate(random.NextDouble() * 5)
                     });
                 }
-                for (int i = 0; i < NUMOFDRONES * 2; ++i)
+            }
+
+            static void AddToStationArr(int n, List<string> phones)
+            {
+                for (int i = 0; i < n; ++i)
                 {
-                    int? dronIdOrNull = (random.Next() % 2 == 0)? null: dronIdOrNull = random.Next(0, 5);
+                    StationsArr.Add(new Station()
+                    {
+                        Id = i,
+                        Name = phones[i % phones.Count()],
+                        Lattitude = getRandomCoordinate(random.NextDouble() * 5),
+                        Longitude = getRandomCoordinate(random.NextDouble() * 5),
+                        ChargeSlot = random.Next(2, 10)
+                    });
+                }
+            }
+
+            static void AddToParcelArr(int n)
+            {
+                for (int i = 0; i < n; ++i)
+                {
+                    int? dronIdOrNull = (random.Next() % 2 == 0) ? null : dronIdOrNull = random.Next(0, 5);
 
                     int index = random.Next(CustomerArr.Count - 1);
                     Parcel p = new Parcel()
@@ -90,17 +108,19 @@ namespace DalObject
                     if (dronIdOrNull != null)
                     {
                         p.Schedulet = getRandomDateTime(p.Requested, 20);
-                        if(random.Next() % 2 == 0)
+                        if (random.Next() % 2 == 0)
                         {
                             p.PickedUp = getRandomDateTime(p.Schedulet, 20);
-                            if(random.Next() % 2 == 0)
+                            if (random.Next() % 2 == 0)
                                 p.Delivered = getRandomDateTime(p.PickedUp.Value, 15);
                         }
                     }
-                    
+
                     ParcelArr.Add(p);
                 }
             }
+            #endregion
+
             static DateTime? getRandomDateTime(DateTime? dt, int minute, bool after = true)
             {
                 int afterOrBefore = (after) ? 1 : -1;
