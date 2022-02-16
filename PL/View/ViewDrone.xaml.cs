@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace PL
+namespace PL.View
 {
     /// <summary>
     /// Interaction logic for ViewDrone.xaml
@@ -24,9 +24,9 @@ namespace PL
             DataContext = _viewDroneModel;
             InitializeComponent();
         }
-        public ViewDrone(int droneId, Action UpDateDronesWindow, Action close)
+        public ViewDrone(int droneId, Action UpDateDronesWindow, Action close, Action<object> addTab, Action<object> removeTab)
         {
-            _viewDroneModel = new ViewModel.ViewDroneModel(droneId, UpDateDronesWindow, close);
+            _viewDroneModel = new ViewModel.ViewDroneModel(droneId, UpDateDronesWindow, close, addTab, removeTab);
             DataContext = _viewDroneModel;
             InitializeComponent();
         }

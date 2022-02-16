@@ -10,7 +10,7 @@ namespace PL.Model
         public Action UpDatePWindow { set; get; }
         public bool DetailsPanelVisibility { set; get; }
         public Visibility DD_ButtonVisibility { set; get; }
-        public int SID { set; get; }
+        public int SID_select { set; get; }
         public int TID_select { set; get; }
         public DelegateCommand AddComand { set; get; }
         public DelegateCommand DroneDetails_Comand { set; get; }

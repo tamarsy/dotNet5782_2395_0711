@@ -42,19 +42,7 @@ namespace DalObject
             DataSource.ParcelArr[parcelI] = par;
         }
 
-        /// <summary>
-        /// Destination
-        /// </summary>
-        /// <param name="percelChoose">parcel id</param>
-        public void Destination(int percelChoose)
-        {
-            int i = DataSource.ParcelArr.FindIndex(p => p.Id == percelChoose && !p.IsDelete);
-            if (i < 0)
-                throw new ObjectNotExistException("Error!! Ther is no drone with this id");
-            Parcel parcel = DataSource.ParcelArr[i];
-            parcel.Delivered = DateTime.Now;
-            DataSource.ParcelArr[i] = parcel;
-        }
+
 
 
         /// <summary>
@@ -68,14 +56,14 @@ namespace DalObject
         /// <returns></returns>
         public double[] PowerConsumptionRequest()
         {
-            return (new double[5]
+            return new double[5]
             {
                 DataSource.Config.vacent,
                 DataSource.Config.LightWeightCarrier,
                 DataSource.Config.MediumWeightCarrier,
                 DataSource.Config.heavyWeightCarrier,
                 DataSource.Config.SkimmerLoadingRate
-            });
+            };
         }
 
         public DateTime StartChargeTime(int droneId)

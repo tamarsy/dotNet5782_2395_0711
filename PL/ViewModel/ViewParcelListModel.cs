@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -21,6 +22,7 @@ namespace PL.ViewModel
                 OnPropertyChange("Parcels");
             }
         }
+        public Visibility IsAddVisibility { get { return customerSelector == null ? Visibility.Visible : Visibility.Collapsed; } }
 
         public Array StatusSelector
         {
@@ -31,10 +33,13 @@ namespace PL.ViewModel
                 {
                     statusSelector.Add(item);
                 }
-                statusSelector.Add("All");
+                statusSelector.Add("All status");
                 return statusSelector.ToArray();
             }
         }
+
+
+
         public Array MaxWeightSelector
         {
             get
@@ -44,7 +49,7 @@ namespace PL.ViewModel
                 {
                     maxWeightSelector.Add(item);
                 }
-                maxWeightSelector.Add("All");
+                maxWeightSelector.Add("All weights");
                 return maxWeightSelector.ToArray();
             }
         }
@@ -54,13 +59,23 @@ namespace PL.ViewModel
             {
                 List<object> prioritySelector = new List<object>();
                 foreach (var item in Enum.GetValues(typeof(BO.Priorities)))
-                {
                     prioritySelector.Add(item);
-                }
-                prioritySelector.Add("All");
+                prioritySelector.Add("All prioritys");
                 return prioritySelector.ToArray();
             }
-}
+        }
+
+        public Array GroupBySelector
+        {
+            get
+            {
+                List<object> GroupBySelector = new List<object>();
+                foreach (var item in Enum.GetValues(typeof(BO.Priorities)))
+                    GroupBySelector.Add(item);
+                GroupBySelector.Add("Not grouping");
+                return GroupBySelector.ToArray();
+            }
+        }
         public int StatusSelector_select
         {
             get { return ParcelListModel.StatusSelector_select; }
@@ -137,12 +152,12 @@ namespace PL.ViewModel
                     {
                         tabitem.Header = "Parcel: " + pId;
                         tabitem.TabIndex = pId;
-                        tabitem.Content = new View.ViewParcel(pId, ParcelsSelector_SelectionChanged, ()=>RemoveTab("Parcel: " + pId));
+                        tabitem.Content = new View.ViewParcel(pId, ParcelsSelector_SelectionChanged, () => RemoveTab(tabitem.Header), AddTab, RemoveTab, customerSelector != null);
                     }
                     else
                     {
                         tabitem.Header = "Add parcel";
-                        tabitem.Content = new View.ViewParcel(()=> { ParcelsSelector_SelectionChanged(); RemoveTab("Add parcel"); });
+                        tabitem.Content = new View.ViewParcel(() => { ParcelsSelector_SelectionChanged(); RemoveTab(tabitem.Header); });
                     }
                     AddTab(tabitem);
                 });
@@ -151,12 +166,12 @@ namespace PL.ViewModel
         }
 
 
-        public ViewParcelListModel(Action<object> addTab, Action<string> removeTab, Predicate<ParcelToList> selectorParcel = default)
+        public ViewParcelListModel(Action<object> addTab, Action<object> removeTab, Predicate<ParcelToList> selectorParcel = default, string header = "Parcels List")
         {
             ParcelListModel = new Model.ParcelListModel();
             AddTab = addTab;
             RemoveTab = removeTab;
-            Close = () => removeTab("Parcels List");
+            Close = () => removeTab(header);
             ParcelListModel.StatusSelector_select = StatusSelector.Length - 1;
             ParcelListModel.MaxWeightSelector_select = MaxWeightSelector.Length - 1;
             ParcelListModel.PrioritySelector_select = PrioritySelector.Length - 1;

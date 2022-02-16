@@ -14,7 +14,6 @@ namespace PL.Model
         public int MaxWeightSelector_select { set; get; }
         public int StationSelector_select { set; get; }
         public string Details { get; set; }
-        public int StationId { get; set; }
         public double Latitude { get; internal set; }
         public double Longitude { get; internal set; }
         public int Id { get; internal set; }

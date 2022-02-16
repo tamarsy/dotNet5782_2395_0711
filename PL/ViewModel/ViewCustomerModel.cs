@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace PL.ViewModel
@@ -9,6 +12,17 @@ namespace PL.ViewModel
     partial class ViewCustomerModel : ViewModelBase
     {
         private Model.CustomerModel customerModel;
+        public List<BO.CustomerDelivery> Parcels { get => BLApi.FactoryBL.GetBL().GetCustomer(Id).ToCustomer; }
+
+        //public Array Parcels { get
+        //    {
+        //        BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(Id);
+        //        IEnumerable<BO.CustomerDelivery> l = c.FromCustomer;
+        //        //l. c.ToCustomer 
+        //        var a = l.GroupBy();
+        //        return BLApi.FactoryBL.GetBL().GetCustomer(Id).FromCustomer;
+        //    } }
+
 
         public DelegateCommand UpDateCommand
         {
@@ -30,6 +44,31 @@ namespace PL.ViewModel
                 return customerModel.UpDateCommand;
             }
         }
+
+        public DelegateCommand DeleteCommand
+        {
+            get
+            {
+                return new DelegateCommand((o) =>
+                {
+                    try
+                    {
+                        if (MessageBox.Show($"delete {Name} ?", $"delete {Name}", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        {
+                            BLApi.FactoryBL.GetBL().DeleteCustomer(Id);
+                            MessageBox.Show("Successfully delete");
+                            if (UpDatePWindow != default)
+                                UpDatePWindow();
+                            Close();
+                        }
+                    }
+                    catch (BO.ObjectNotExistException e) { MessageBox.Show("can't update customer details:" + e.Message); }
+                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                });
+            }
+        }
+
+
         public string Details
         {
             get { return customerModel.Details; }
@@ -86,7 +125,7 @@ namespace PL.ViewModel
                     try
                     {
                         BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(customerModel.CustomerId);
-                        return customerModel.Name.Length > 3 && customerModel.Phone.Length > 7 && customerModel.Phone.Length < 11 &&
+                        return customerModel.Name.Length > 1 && customerModel.Phone.Length > 7 && customerModel.Phone.Length < 11 &&
                             (!customerModel.Name.Equals(c.Name) || !customerModel.Phone.Equals(c.Phone));
                     }
                     catch (BO.ObjectNotExistException e) { Details = e.Message; }
@@ -106,13 +145,30 @@ namespace PL.ViewModel
             }
         }
 
+
+        public void NewViewParcel(int o)
+        {
+            TabItem tabitem = new TabItem();
+            if (o is int PId)
+            {
+                tabitem.Header = "Parcel: " + PId;
+                tabitem.Content = new View.ViewParcel(PId, updatePWindow: ()=> Details =  BLApi.FactoryBL.GetBL().GetCustomer(Id).ToString()
+                , close: () => RemoveTab(tabitem.Header), addTab:AddTab, removeTab:RemoveTab);
+            }
+            AddTab(tabitem);
+        }
+
+        
+
         public Visibility AddPanelVisibility { get { return customerModel.IsDetailsPanelVisibility ? Visibility.Collapsed : Visibility.Visible; } }
         public Visibility DetailsPanelVisibility { get { return customerModel.IsDetailsPanelVisibility ? Visibility.Visible : Visibility.Collapsed; } }
 
-        public ViewCustomerModel(int customerId, Action upDatePList, Action close)
+        public ViewCustomerModel(int customerId, Action upDatePList, Action close, Action<object> addTab, Action<object> removeTab)
         {
-            Close = close;
             customerModel = new Model.CustomerModel();
+            Close = close;
+            AddTab = addTab;
+            RemoveTab = removeTab;
             BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(customerId);
             UpDatePWindow = upDatePList;
             customerModel.CustomerId = customerId;

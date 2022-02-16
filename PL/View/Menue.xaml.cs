@@ -18,6 +18,7 @@ namespace PL.View
     /// </summary>
     public partial class Menue : Page
     {
+        public int SelectedTab { get; set; }
         public Menue(Action close)
         {
             ViewModel.ViewMenueModel _menu = new ViewModel.ViewMenueModel(AddTab, RemoveTab, close);
@@ -42,8 +43,7 @@ namespace PL.View
                 {
                     i = MainTabs.Items.Add(tabItem);
                 }
-                //MainTabs.Items.MoveCurrentTo(tabItem);
-                //MainTabs.Items.MoveCurrentToPosition(i);
+                SelectedTab = i;
             }
         }
 
@@ -60,11 +60,14 @@ namespace PL.View
         }
 
 
-        private void RemoveTab(string header)
+        private void RemoveTab(object o)
         {
-            int i = FindIndexOf(header);
-            if (i >= 0 && i < MainTabs.Items.Count)
-                MainTabs.Items.RemoveAt(i);
+            if (o is string header)
+            {
+                int i = FindIndexOf(header);
+                if (i >= 0 && i < MainTabs.Items.Count)
+                    MainTabs.Items.RemoveAt(i);
+            }
         }
     }
 }

@@ -26,32 +26,6 @@ namespace DalObject
 
 
         /// <summary>
-        /// view the choosen station
-        /// </summary>
-        /// <param name="id">the station id</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public Station GetStation(int id)
-        {
-            int i = DataSource.StationsArr.FindIndex((s) => s.Id == id);
-            if (i < 0)
-                throw new ObjectNotExistException("not found a station with id = " + id);
-
-            return DataSource.StationsArr[i];
-        }
-
-
-        /// <summary>
-        /// return StationList
-        /// </summary>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Station> StationList(Predicate<bool> selectList = default)
-            => DataSource.StationsArr.Where((c) => !c.IsDelete && (selectList == null || selectList(isEmptyChargeSlotInStation(c.Id, c.ChargeSlot))));
-
-
-
-
-        /// <summary>
         /// update station
         /// </summary>
         /// <param name="station"></param>
@@ -61,7 +35,6 @@ namespace DalObject
             int i = DataSource.StationsArr.FindIndex(s => s.Id == station.Id);
             DataSource.StationsArr[i] = station;
         }
-
 
 
         /// <summary>
@@ -86,8 +59,99 @@ namespace DalObject
             };
         }
 
+
+        /// <summary>
+        /// view the choosen station
+        /// </summary>
+        /// <param name="id">the station id</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public Station GetStation(int id)
+        {
+            int i = DataSource.StationsArr.FindIndex((s) => s.Id == id);
+            if (i < 0)
+                throw new ObjectNotExistException("not found a station with id = " + id);
+
+            return DataSource.StationsArr[i];
+        }
+
+
+        /// <summary>
+        /// return StationList
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Station> StationList(Predicate<bool> selectList = default)
+            => DataSource.StationsArr.Where((c) => !c.IsDelete && (selectList == null || selectList(isEmptyChargeSlotInStation(c.Id, c.ChargeSlot))));
+
+
+        /// <summary>
+        /// Get Station Id Of DroneCharge
+        /// </summary>
+        /// <param name="droneId">droneId</param>
+        /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int GetStationIdOfDroneCharge(int droneId) => DataSource.listOfChargeSlot.Find(dc => dc.DroneId == droneId).StationId;
+
+
+        /// <summary>
+        /// Add Drone Charge
+        /// </summary>
+        /// <param name="droneId">droneId</param>
+        /// <param name="StationId">StationId</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void AddDroneCharge(int droneId, int StationId)
+        {
+            if (DataSource.listOfChargeSlot.Exists(d => d.DroneId == droneId))
+                throw new ObjectAlreadyExistException("This drone is already being charged");
+            DataSource.listOfChargeSlot.Add(
+                new DroneCharge()
+                {
+                    DroneId = droneId,
+                    StationId = StationId,
+                    StartTime = DateTime.Now
+                });
+        }
+
+
+        /// <summary>
+        /// Delete Drone Charge
+        /// </summary>
+        /// <param name="droneId">droneId</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteDroneCharge(int droneId) =>
+            DataSource.listOfChargeSlot.RemoveAll(d => d.DroneId == droneId);
+
+
+        /// <summary>
+        /// Station Drone In
+        /// </summary>
+        /// <param name="stationId">station Id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void StationDroneIn(int stationId)
+        {
+            int i = DataSource.StationsArr.FindIndex(s => s.Id == stationId);
+            if (i < 0)
+                throw new ObjectNotExistException("Station not exist");
+            Station station = DataSource.StationsArr[i];
+            --station.ChargeSlot;
+            DataSource.StationsArr[i] = station;
+        }
+
+
+        /// <summary>
+        /// Station Drone out
+        /// </summary>
+        /// <param name="stationId">station Id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void StationDroneOut(int StationId)
+        {
+            int i = DataSource.StationsArr.FindIndex(s => s.Id == StationId);
+            if (i == -1)
+                throw new ObjectNotExistException("station not exist");
+            Station station = DataSource.StationsArr[i];
+            ++station.ChargeSlot;
+            DataSource.StationsArr[i] = station;
+        }
 
 
         /// <summary>

@@ -12,12 +12,14 @@ namespace BL
     partial class BL
     {
         /// <summary>
-        /// add new ststion
+        /// AddStation
+        /// Exception: ObjectAlreadyExistException
+        /// Add new ststion
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="location"></param>
-        /// <param name="chargeSlots"></param>
+        /// <param name="id"> station id</param>
+        /// <param name="name">station name</param>
+        /// <param name="location">station location</param>
+        /// <param name="chargeSlots">station num chargeSlots</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, Location location, int chargeSlots)
         {
@@ -42,7 +44,10 @@ namespace BL
             }
         }
 
+
         /// <summary>
+        /// UpdateStation
+        /// Exception: ObjectNotExistException, NoChangesToUpdateException
         /// update a station after change that done.
         /// </summary>
         /// <param name="id"></param>
@@ -78,6 +83,8 @@ namespace BL
         }
 
         /// <summary>
+        /// GetStation
+        /// Exception: ObjectNotExistException
         /// function that get station
         /// </summary>
         /// <param name="requestedId"></param>
@@ -101,12 +108,17 @@ namespace BL
         }
 
 
-
-
+        /// <summary>
+        /// Delete Station
+        /// </summary>
+        /// <param name="id">station id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteStation(int id) { lock (dalObject) { dalObject.DeleteStation(id); } }
 
 
 
         /// <summary>
+        /// StationsList
         /// return Stations List
         /// </summary>
         /// <returns>stationList</returns>
@@ -127,7 +139,8 @@ namespace BL
 
 
         /// <summary>
-        /// function that create a list of all the empty change slot ststion list
+        /// EmptyChangeSlotlList
+        /// create a list of all the empty change slot ststion list
         /// </summary>
         /// <returns>stationWithEmptyChangeSlotl</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -144,16 +157,5 @@ namespace BL
                 return stationWithEmptyChangeSlotl;
             }
         }
-
-
-        /// <summary>
-        /// Delete Station
-        /// </summary>
-        /// <param name="id">station id</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteStation(int id) { lock (dalObject) { dalObject.DeleteStation(id); } }
-
-
-
     }
 }

@@ -9,20 +9,11 @@
       Title="ViewEntry">
 
     <DockPanel>
-        <Expander x:Name="in" DockPanel.Dock="Left" Header="sing in" IsExpanded="{Binding ElementName=up, Path=IsExpanded, Mode=TwoWay}" >
-                <StackPanel>
-                    <Button Content="sing in" Command="{Binding InCd}" CommandParameter="{Binding ElementName=name, Path=Text}" DockPanel.Dock="Top" />
-                    <Label>id:</Label>
-                    <TextBox x:Name="idIn" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label>name:</Label>
-                    <TextBox x:Name="namein" />
-                </StackPanel>
-            </Expander>
-
         <Expander x:Name="up"  Header="sing up" >
                 <StackPanel>
                 <Button x:Name="upB" Content="sing up" Command="{Binding UpCd}" CommandParameter="{Binding ElementName=name, Path=Text}" DockPanel.Dock="Top"/>
-                    <Label>id:</Label>
+                <Button Content="sing in" Command="{Binding InCd}" CommandParameter="{Binding ElementName=name, Path=Text}" DockPanel.Dock="Top" />
+                <Label>id:</Label>
                     <TextBox x:Name="id" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label>name:</Label>
                     <TextBox x:Name="name" />

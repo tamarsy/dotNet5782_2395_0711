@@ -40,8 +40,8 @@ namespace BO
             string s = "Id: " + Id + "\n"
                 + "Model: " + Model + "\n"
                 + "MaxWeight: " + MaxWeight + "\n"
-                + "BatteryStatuses: " + BatteryStatuses + "\n"
-                + "DroneStatuses: " + DroneStatuses + "\n"
+                + "BatteryStatuses: " + BatteryStatuses * 100 + "\n"
+                + "DroneStatuses: " + DroneStatuses+ "\n"
                 + "CurrentLocation- " + "\n" + CurrentLocation.ToString() + "\n";
             if (Parcel != default)
                 s += "Parcel- " + "\n" + Parcel.ToString();

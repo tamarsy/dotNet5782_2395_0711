@@ -27,7 +27,7 @@ namespace PL.ViewModel
                     {
                         newTab.Header = "Station: " + stationId;
                         newTab.TabIndex = stationId;
-                        newTab.Content = new ViewStation(IntilizeStations, stationId, ()=>RemoveTab("Station: " + stationId));
+                        newTab.Content = new ViewStation(IntilizeStations, stationId, ()=>RemoveTab("Station: " + stationId), AddTab, RemoveTab);
                     }
                     else
                     {
@@ -57,7 +57,7 @@ namespace PL.ViewModel
             Stations = BLApi.FactoryBL.GetBL().StationsList().ToList();
         }
 
-        public ViewStationListModel(Action<object> addTab, Action<string> removeTab)
+        public ViewStationListModel(Action<object> addTab, Action<object> removeTab)
         {
             AddTab = addTab;
             RemoveTab = removeTab;

@@ -44,9 +44,18 @@
                 <RowDefinition Height="10*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
+            <Button Content="delete" HorizontalAlignment="Left" Command="{Binding DeleteCommand}"/>
             <TextBlock x:Name="details" Text="{Binding Details}" Grid.Row="1" Grid.Column="0"  />
+            <ListView ItemsSource="{Binding DronesInCharge, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" x:Name="ViewDrones" MouseDoubleClick="ViewDrone_MouseDoubleClick" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn x:Name="viewD" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </UserControl>

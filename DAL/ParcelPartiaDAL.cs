@@ -37,55 +37,6 @@ namespace DalObject
         }
 
         /// <summary>
-        /// pick the percel from the dron
-        /// </summary>
-        /// <param name="percelChoose">the choosen percel</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void PickParcel(int percelChoose)
-        {
-            bool check = false;
-            int i = 0;
-            for (; i < DataSource.ParcelArr.Count; i++)
-            {
-                if (DataSource.ParcelArr[i].Id == percelChoose)
-                {
-                    check = true;
-                    //itemParcelPickedUp = DataSource.ParcelArr[i].PickedUp;
-
-                    DataSource.ParcelArr[i] = new Parcel()
-                    {
-                        Id = DataSource.ParcelArr[i].Id,
-                        SenderId = DataSource.ParcelArr[i].SenderId,
-                        GetterId = DataSource.ParcelArr[i].GetterId,
-                        Weight = DataSource.ParcelArr[i].Weight,
-                        Priority = DataSource.ParcelArr[i].Priority,
-                        Requested = DataSource.ParcelArr[i].Requested,
-                        Droneld = DataSource.ParcelArr[i].Droneld,
-                        Schedulet = DataSource.ParcelArr[i].Schedulet,
-                        PickedUp = DateTime.Now,
-                        Delivered = DataSource.ParcelArr[i].Delivered
-                    };
-                    break;
-                }
-            }
-            if (check == false)
-                throw new ObjectNotExistException("Error!! Ther is no drone with this id");
-        }
-
-
-
-        /// <summary>
-        /// return Parcel List
-        /// </summary>
-        /// <param name="selectList">select parcel</param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = default)
-            => DataSource.ParcelArr.Where((c) => !c.IsDelete && (selectList == null || selectList(c.Droneld)));
-
-
-
-        /// <summary>
         /// Exception: ObjectNotExistException
         /// Delete Parcel
         /// </summary>
@@ -98,6 +49,46 @@ namespace DalObject
                 throw new ObjectNotExistException("not found a parcel with id = " + Id);
             Parcel parcel = DataSource.ParcelArr[i];
             parcel.IsDelete = true;
+            DataSource.ParcelArr[i] = parcel;
+        }
+
+        /// <summary>
+        /// return Parcel List
+        /// </summary>
+        /// <param name="selectList">select parcel</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = default)
+            => DataSource.ParcelArr.Where((c) => !c.IsDelete && (selectList == null || selectList(c.Droneld)));
+
+
+        /// <summary>
+        /// pick the percel from the dron
+        /// </summary>
+        /// <param name="percelChoose">the choosen percel</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void PickParcel(int percelChoose)
+        {
+            int i = DataSource.ParcelArr.FindIndex(pa => pa.Id == percelChoose);
+            if (i < 0)
+                throw new ObjectNotExistException("Error!! Ther is no drone with this id");
+            Parcel p = DataSource.ParcelArr[i];
+            p.PickedUp = DateTime.Now;
+            DataSource.ParcelArr[i] = p;
+        }
+
+
+        /// <summary>
+        /// Destination
+        /// </summary>
+        /// <param name="percelChoose">parcel id</param>
+        public void Destination(int percelChoose)
+        {
+            int i = DataSource.ParcelArr.FindIndex(p => p.Id == percelChoose && !p.IsDelete);
+            if (i < 0)
+                throw new ObjectNotExistException("Error!! Ther is no drone with this id");
+            Parcel parcel = DataSource.ParcelArr[i];
+            parcel.Delivered = DateTime.Now;
             DataSource.ParcelArr[i] = parcel;
         }
     }

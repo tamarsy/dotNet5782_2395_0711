@@ -5,18 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="" Height="600" Width="1000"
-        >
-
-    <Window.Resources>
-        <LinearGradientBrush x:Key="myLinearGradientBrush">
-            <GradientStop Color="Blue" Offset="0" />
-            <GradientStop Color="Yellow" Offset="0.5" />
-            <GradientStop Color="Red" Offset="1" />
-        </LinearGradientBrush>
-    </Window.Resources>
-
+        Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Frame Name="mainFrame" Source="{Binding MainFrameP}" Background="{StaticResource myLinearGradientBrush}" NavigationUIVisibility="Hidden" />
+        <Frame Name="mainFrame" Source="{Binding MainFrameP}" Background="{x:Null}" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

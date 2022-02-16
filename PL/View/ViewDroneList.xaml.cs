@@ -22,7 +22,7 @@ namespace PL.View
 
         private readonly ViewModel.ViewDroneListModel _viewListDrone;
 
-        public ViewListDrone(Action<object> addTab, Action<string> removeTab)
+        public ViewListDrone(Action<object> addTab, Action<object> removeTab)
         {
             _viewListDrone = new ViewModel.ViewDroneListModel(addTab, removeTab);
             DataContext = _viewListDrone;
