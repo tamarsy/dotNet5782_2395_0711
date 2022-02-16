@@ -22,6 +22,7 @@ namespace BL
             ParcelToList parcelToCollect = ParcesWithoutDronelList().Where((p) => checkAvailableDelivery(drone, p)).
              OrderByDescending(p => p?.Priority)
              .ThenByDescending(p => p?.Weight)
+             .ThenByDescending(p => drone.Distance(GetCustomer(p.SenderId)))
              .FirstOrDefault();
             return parcelToCollect != null ? GetParcel(parcelToCollect.Id) : null;
         }
