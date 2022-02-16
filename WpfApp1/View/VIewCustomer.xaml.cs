@@ -25,11 +25,13 @@ namespace PL.View
             InitializeComponent();
         }
 
-        public ViewCustomer(int id, Action close, Action UpDatePWindow = default)
+        public ViewCustomer(int id, Action close, Action<object> addTab, Action<object> removeTab, Action UpDatePWindow = default)
         {
-            _viewCustomerModel = new ViewModel.ViewCustomerModel(id, UpDatePWindow, close);
+            _viewCustomerModel = new ViewModel.ViewCustomerModel(id, UpDatePWindow, close, addTab, removeTab);
             DataContext = _viewCustomerModel;
             InitializeComponent();
         }
+        private void viewParceld_MouseDoubleClick(object sender, MouseButtonEventArgs e) => _viewCustomerModel.NewViewParcel(((BO.CustomerDelivery)ViewParcels.SelectedItem).Id);
+
     }
 }

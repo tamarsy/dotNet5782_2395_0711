@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace PL.ViewModel
 {
@@ -16,10 +17,8 @@ namespace PL.ViewModel
         {
             get
             {
-                new TextBlock() { Text = "Drones List" };
-                new Button() { Content = "x", Command = CloseCd };
                 TabItem newTab = new TabItem();
-                newTab.Header = new DockPanel() {DataContext= "{}" };
+                newTab.Header = "Drones List";
                 newTab.Content = new View.ViewListDrone(AddTab, RemoveTab);
                 return new DelegateCommand((o) =>
                 {
@@ -80,7 +79,7 @@ namespace PL.ViewModel
         }
 
 
-        public ViewMenueModel(Action<object> addTab, Action<string> removeTab, Action close)
+        public ViewMenueModel(Action<object> addTab, Action<object> removeTab, Action close)
         {
             AddTab = addTab;
             RemoveTab = removeTab;

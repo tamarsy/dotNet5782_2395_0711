@@ -43,12 +43,21 @@
                 <RowDefinition Height="10*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5*" />
+                <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
             <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" >
-                <Button x:Name="update" Content="update details" Command="{Binding UpDateCommand}" IsEnabled="{Binding IsEnableUpdateCommand}" />
+                <Button Content="update details" Command="{Binding UpDateCommand}" IsEnabled="{Binding IsEnableUpdateCommand}" />
+                <Button Content="delete" Command="{Binding DeleteCommand}"/>
             </WrapPanel>
             <TextBox x:Name="details" Text="{Binding Details,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0"  />
+            <ListView ItemsSource="{Binding Parcels, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" x:Name="ViewParcels" MouseDoubleClick="viewParceld_MouseDoubleClick" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn x:Name="viewD" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </Grid>
     </Grid>
 </UserControl>

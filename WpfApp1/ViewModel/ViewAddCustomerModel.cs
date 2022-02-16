@@ -21,7 +21,7 @@ namespace PL.ViewModel
                         UpDatePWindow();
                     }
                     catch (BO.ObjectAlreadyExistException e) { MessageBox.Show("failed add customer: " + e.Message); }
-                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                    catch (Exception e) { MessageBox.Show("ERROR " + e.Message); }
                 });
                 return customerModel.Addcommand;
             }
@@ -31,7 +31,7 @@ namespace PL.ViewModel
         {
             get
             {
-                return Name.Length > 3 && Phone.Length > 7 && Phone.Length < 11 && Id.ToString().Length == 8 && Latitude > 0 && Longitude > 0;
+                return Name.Length > 1 && Phone.Length > 7 && Phone.Length < 11 && Id.ToString().Length == 8 && Latitude > 0 && Longitude > 0;
             }
         }
 

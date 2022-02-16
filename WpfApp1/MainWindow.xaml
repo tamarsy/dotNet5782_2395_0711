@@ -8,15 +8,7 @@
         Title="" Height="600" Width="1000"
         >
 
-    <Window.Resources>
-        <LinearGradientBrush x:Key="myLinearGradientBrush">
-            <GradientStop Color="Blue" Offset="0" />
-            <GradientStop Color="Yellow" Offset="0.5" />
-            <GradientStop Color="Red" Offset="1" />
-        </LinearGradientBrush>
-    </Window.Resources>
-
     <Grid>
-        <Frame Name="mainFrame" Source="{Binding MainFrameP}" Background="{StaticResource myLinearGradientBrush}" NavigationUIVisibility="Hidden" />
+        <Frame Name="mainFrame" Source="{Binding MainFrameP}" Background="{x:Null}" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

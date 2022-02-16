@@ -22,12 +22,12 @@ namespace PL.ViewModel
                     {
                         tabitem.Header = "Customer: " + cId;
                         tabitem.TabIndex = cId;
-                        tabitem.Content = new ViewCustomer(id:cId, close:()=> RemoveTab("Customer: " + cId), UpDatePWindow: IntilizeCUstomerList);
+                        tabitem.Content = new ViewCustomer(id:cId, close:()=> RemoveTab(tabitem.Header), AddTab, RemoveTab, UpDatePWindow: IntilizeCUstomerList);
                     }
                     else
                     {
                         tabitem.Header = "Add customer";
-                        tabitem.Content = new ViewCustomer(() => { IntilizeCUstomerList(); RemoveTab("Add customer"); });
+                        tabitem.Content = new ViewCustomer(() => { IntilizeCUstomerList(); RemoveTab(tabitem.Header); });
                     }
                     AddTab(tabitem);
                 });
@@ -49,13 +49,13 @@ namespace PL.ViewModel
 
         private void IntilizeCUstomerList()
         {
-            customerListModel = new Model.CustomerListModel();
             Customers = BLApi.FactoryBL.GetBL().CustomersList().ToList();
         }
 
 
-        public ViewCustomerListModel(Action<object> addtab, Action<string> removeTab)
+        public ViewCustomerListModel(Action<object> addtab, Action<object> removeTab)
         {
+            customerListModel = new Model.CustomerListModel();
             AddTab = addtab;
             RemoveTab = removeTab;
             Close = () => removeTab("Customers List");

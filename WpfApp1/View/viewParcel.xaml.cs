@@ -20,16 +20,16 @@ namespace PL.View
     public partial class ViewParcel : UserControl
     {
         private readonly ViewModel.ViewParcelModel _viewParcelModel;
-        public ViewParcel(int parcelId, Action UpdatePWindow, Action close)
+        public ViewParcel(int parcelId, Action updatePWindow, Action close, Action<object> addTab, Action<object> removeTab, bool IsCustomerI = true)
         {
-            _viewParcelModel = new ViewModel.ViewParcelModel(parcelId, UpdatePWindow, close);
+            _viewParcelModel = new ViewModel.ViewParcelModel(parcelId, updatePWindow, close, addTab, removeTab, IsCustomerI);
             DataContext = _viewParcelModel;
             InitializeComponent();
         }
 
-        public ViewParcel(Action UpdatePWindow)
+        public ViewParcel(Action UpdateAndClose, int? id = null)
         {
-            _viewParcelModel = new ViewModel.ViewParcelModel(UpdatePWindow);
+            _viewParcelModel = new ViewModel.ViewParcelModel(UpdateAndClose, id);
             DataContext = _viewParcelModel;
             InitializeComponent();
         }
