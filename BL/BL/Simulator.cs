@@ -94,7 +94,6 @@ namespace BL
                                 throw new ObjectNotAvailableForActionException("wrong maintenance substate");
                         }
                         break;
-
                     case DroneStatuses.sending:
                         double distance = drone.Parcel.Distance;
                         if (distance < 0.01 || drone.BatteryStatuses == 0.0)
