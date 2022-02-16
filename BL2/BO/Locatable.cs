@@ -14,7 +14,7 @@ namespace BO
     {
         public static double Distance(this Ilocatable from, Ilocatable to)
         {
-            int R = 6371 * 1000; // metres
+            int R = 6371 * 1000; 
             double phi1 = from.CurrentLocation.Latitude * Math.PI / 180; // φ, λ in radians
             double phi2 = to.CurrentLocation.Latitude * Math.PI / 180;
             double deltaPhi = (to.CurrentLocation.Latitude - from.CurrentLocation.Latitude) * Math.PI / 180;
@@ -24,7 +24,7 @@ namespace BO
                        Math.Cos(phi1) * Math.Cos(phi2) *
                        Math.Sin(deltaLambda / 2) * Math.Sin(deltaLambda / 2);
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-            double d = R * c / 1000; // in kilometres
+            double d = R * c / 1000;
             return d;
         }
     }

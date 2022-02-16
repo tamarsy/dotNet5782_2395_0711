@@ -9,9 +9,13 @@ using System.Runtime.CompilerServices;
 
 namespace BL
 {
+    /// <summary>
+    /// Parcel BL class
+    /// </summary>
     partial class BL
     {
         /// <summary>
+        /// AddParcel
         /// Exception: ObjectAlreadyExistException, ArgumentNullException
         /// adding new parcel
         /// </summary>
@@ -38,17 +42,15 @@ namespace BL
             {
                 throw new ObjectAlreadyExistException(e.Message);
             }
-            catch (ArgumentNullException)
-            {
-                throw new ArgumentNullException();
-            }
+            catch (ArgumentNullException){throw new ArgumentNullException();}
         }
+
 
         /// <summary>
         /// Exception: ObjectNotExistException
-        /// get a parcel
+        /// get parcel
         /// </summary>
-        /// <param name="requestedId"></param>
+        /// <param name="requestedId">requestedId</param>
         /// <returns>DlToBlParcel</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int requestedId)
@@ -67,9 +69,23 @@ namespace BL
         }
 
 
+        /// <summary>
+        /// Delete Parcel
+        /// </summary>
+        /// <param name="id">parcel id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteParcel(int id)
+        { lock (dalObject)
+            {
+                if (drones.Exists(d => d.NumOfParcel == id))
+                    throw new ObjectNotAvailableForActionException("Parcel has been schedul to drone ");
+                dalObject.DeleteParcel(id);
+            }
+        }
+
 
         /// <summary>
-        /// return list of the parcels
+        /// return list of parcels
         /// </summary>
         /// <returns>IEnumerable ParcelToList</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -77,6 +93,7 @@ namespace BL
         {
             lock (dalObject) { return dalObject.ParcelList().Select(item => DlToBlParcelToList(item)); }
         }
+
 
         /// <summary>
         /// return list parcels without drone
@@ -90,14 +107,5 @@ namespace BL
                 return dalObject.ParcelList(p => p == default).Select(item => DlToBlParcelToList(item, ParcelStatuses.defined));
             }
         }
-
-
-
-        /// <summary>
-        /// Delete Parcel
-        /// </summary>
-        /// <param name="id">parcel id</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteParcel(int id) { lock (dalObject) {dalObject.DeleteParcel(id);} }
     }
 }

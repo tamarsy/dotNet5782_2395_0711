@@ -11,11 +11,12 @@ using System.Runtime.CompilerServices;
 namespace BL
 {
     /// <summary>
-    /// all the function in BL class that conction to customer
+    /// Customer BL class
     /// </summary>
     partial class BL
     {
         /// <summary>
+        /// AddCustomer
         /// Exception: ObjectAlreadyExistException
         /// creat a new customer with the details:
         /// </summary>
@@ -34,19 +35,14 @@ namespace BL
                 Longitude = location.Longitude,
                 Lattitude = location.Latitude
             };
-            try
-            {
-                lock (dalObject) { dalObject.AddCustomer(newCustomer); }
-            }
-            catch (DO.ObjectAlreadyExistException e)
-            {
-                throw new ObjectAlreadyExistException(e.Message);
-            }
+            try { lock (dalObject) { dalObject.AddCustomer(newCustomer); } }
+            catch (DO.ObjectAlreadyExistException e) { throw new ObjectAlreadyExistException(e.Message); }
         }
 
 
-
         /// <summary>
+        /// UpdateCusomer
+        /// Exception: NoChangesToUpdateException
         /// update one or more details for specific customer
         /// </summary>
         /// <param name="id">the customer id</param>
@@ -71,8 +67,9 @@ namespace BL
         }
 
 
-
         /// <summary>
+        /// GetCustomer
+        /// Exception: ObjectNotExistException
         /// return the requested customer from the dt 
         /// </summary>
         /// <param name="requestedId">the customer id</param>
@@ -103,12 +100,16 @@ namespace BL
         }
 
 
-
-
-
+        /// <summary>
+        /// Delete Customer
+        /// </summary>
+        /// <param name="id">customer id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteCustomer(int id) { lock (dalObject) { dalObject.DeleteCustomer(id); } }
 
 
         /// <summary>
+        /// CustomersList
         /// getting all customers
         /// </summary>
         /// <returns>IEnumerable of CustomerToList</returns>
@@ -136,13 +137,5 @@ namespace BL
                 return customersList;
             }
         }
-
-
-        /// <summary>
-        /// Delete Customer
-        /// </summary>
-        /// <param name="id">customer id</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteCustomer(int id) {lock (dalObject) { dalObject.DeleteCustomer(id);} }
     }
 }
