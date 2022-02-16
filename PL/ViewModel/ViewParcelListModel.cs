@@ -37,6 +37,9 @@ namespace PL.ViewModel
                 return statusSelector.ToArray();
             }
         }
+
+
+
         public Array MaxWeightSelector
         {
             get
@@ -56,9 +59,7 @@ namespace PL.ViewModel
             {
                 List<object> prioritySelector = new List<object>();
                 foreach (var item in Enum.GetValues(typeof(BO.Priorities)))
-                {
                     prioritySelector.Add(item);
-                }
                 prioritySelector.Add("All prioritys");
                 return prioritySelector.ToArray();
             }
@@ -68,13 +69,11 @@ namespace PL.ViewModel
         {
             get
             {
-                List<object> prioritySelector = new List<object>();
+                List<object> GroupBySelector = new List<object>();
                 foreach (var item in Enum.GetValues(typeof(BO.Priorities)))
-                {
-                    prioritySelector.Add(item);
-                }
-                prioritySelector.Add("Not grouping");
-                return prioritySelector.ToArray();
+                    GroupBySelector.Add(item);
+                GroupBySelector.Add("Not grouping");
+                return GroupBySelector.ToArray();
             }
         }
         public int StatusSelector_select
