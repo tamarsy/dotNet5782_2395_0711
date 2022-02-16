@@ -86,7 +86,7 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw;//new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
         #endregion
