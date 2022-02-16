@@ -11,24 +11,6 @@ namespace BL
     partial class BL
     {
         /// <summary>
-        /// a function to find the distance between the route
-        /// </summary>
-        /// <param name="Locations"></param>
-        /// <returns>sumOfRoute</returns>
-        internal double FindDistanceOfRoute(params Location[] Locations)
-        {
-            double dOfRoute = 0;
-            Location lastLocation = Locations[0];
-            foreach (Ilocatable Location in Locations)
-            {
-                dOfRoute += Location.Distance(lastLocation);
-            }
-            return dOfRoute;
-        }
-
-
-
-        /// <summary>
         /// a function to find minimum power for distance
         /// </summary>
         /// <param name="distance"></param>
@@ -37,52 +19,12 @@ namespace BL
         internal double FindMinPowerForDistance(double distance, WeightCategories? weight = null)
         {
             if (weight == WeightCategories.easy)
-                return lightWeightCarrier * distance;
+                return lightWeightCarrier * distance / 100;
             if (weight == WeightCategories.medium)
-                return mediumWeightCarrier * distance;
+                return mediumWeightCarrier * distance / 100;
             if (weight == WeightCategories.heavy)
-                return heavyWeightCarrier * distance;
-            return vacent * distance;
-        }
-
-        /// <summary>
-        /// the function find the location
-        /// </summary>
-        /// <param name="drone"></param>
-        /// <returns>GetCustomer</returns>
-        internal Location FindLocation(DroneToList drone)
-        {
-            if (drone.DroneStatuses == DroneStatuses.sending)
-            {
-                lock (dalObject)
-                {
-                    DO.Parcel parcel = dalObject.GetParcel((int)drone.NumOfParcel);
-                    if (parcel.PickedUp == null)
-                    {
-                        return FindClosetStationLocation(drone.CurrentLocation);
-                    }
-                    if (parcel.Delivered == null)
-                    {
-                        DO.Customer customer = dalObject.GetCustomer(parcel.SenderId);
-                        return new Location(customer.Lattitude, customer.Longitude);
-                    }
-                }
-            }
-            if (drone.DroneStatuses == DroneStatuses.maintanance)
-            {
-                lock (dalObject)
-                {
-                    int stationId = rand.Next(dalObject.StationList().Count());
-                    return GetStation(stationId).CurrentLocation;
-                }
-            }
-            List<int> idOfCustomers = CustomersList().Where(customer => customer.NumOfParcelsSupplied > 0).Select(customer => customer.Id).ToList();
-            if (idOfCustomers.Count == 0)
-            {
-                return GetCustomer(CustomersList().ToList()[0].Id).CurrentLocation;
-            }
-            int customerId = rand.Next(idOfCustomers.Count());
-            return GetCustomer(idOfCustomers[customerId]).CurrentLocation;
+                return heavyWeightCarrier * distance / 100;
+            return vacent * distance / 100;
         }
 
 
@@ -112,16 +54,15 @@ namespace BL
         }
 
 
-
         /// <summary>
         /// a function to find closet station location
         /// </summary>
         /// <param name="currentLoction"></param>
         /// <returns>mostCloseStationLoction</returns>
-        internal Location FindClosetStationLocation(Ilocatable currentLoction)
+        internal Station FindClosetStationLocation(Ilocatable currentLoction)
         {
             double minDistance = double.MaxValue;
-            Location mostCloseStationLoction = default;
+            Station mostCloseStationLoction = default;
             lock (dalObject)
             {
                 foreach (var station in dalObject.StationList())
@@ -135,13 +76,12 @@ namespace BL
                     if (currentDistance < minDistance)
                     {
                         minDistance = currentDistance;
-                        mostCloseStationLoction = stationLocation;
+                        mostCloseStationLoction = DalToBlStation(station);
                     }
                 }
                 return mostCloseStationLoction;
             }
         }
-
 
 
         /// <summary>
@@ -158,6 +98,22 @@ namespace BL
             if (parcel.Schedulet != default)
                 return ParcelStatuses.ascribed;
             return ParcelStatuses.defined;
+        }
+
+        /// <summary>
+        /// find the distance between the route
+        /// </summary>
+        /// <param name="Locations">Locations</param>
+        /// <returns>sumOfRoute</returns>
+        internal double FindDistanceOfRoute(params Location[] Locations)
+        {
+            double dOfRoute = 0;
+            Location lastLocation = Locations[0];
+            foreach (Ilocatable Location in Locations)
+            {
+                dOfRoute += Location.Distance(lastLocation);
+            }
+            return dOfRoute;
         }
     }
 }

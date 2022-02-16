@@ -12,7 +12,7 @@ namespace PL.ViewModel
     {
         protected Action UpDatePWindow = default;
         public Action<object> AddTab { get; set; }
-        public Action<string> RemoveTab { get; set; }
+        public Action<object> RemoveTab { get; set; }
         public Action Close { get; set; }
 
         protected string OnlyNumStr(string allString)

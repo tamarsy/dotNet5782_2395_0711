@@ -11,12 +11,13 @@ using System.Runtime.CompilerServices;
 namespace BL
 {
     /// <summary>
-    /// all the function in BL class that conction to drone
+    /// Drone BL class
     /// </summary>
     partial class BL
     {
         /// <summary>
-        /// creat a new drone with the details:
+        /// AddDrone
+        /// Exception: ObjectAlreadyExistException
         /// </summary>
         /// <param name="id">id of the new drone</param>
         /// <param name="model">model of the new drone</param>
@@ -26,34 +27,16 @@ namespace BL
         public void AddDrone(int id, string model, WeightCategories maxWeight, int stationId)
         {
             DO.Drone newDrone = new DO.Drone() { Id = id, Model = model, MaxWeight = (DO.WeightCategories)maxWeight };
-            try
-            {
-                lock (dalObject) { dalObject.AddDrone(newDrone); }
-            }
-            catch (DO.ObjectAlreadyExistException e)
-            {
-                throw new ObjectAlreadyExistException(e.Message);
-            }
-            lock (dalObject)
-            {
-                DO.Station station = dalObject.GetStation(stationId);
-                drones.Add(new DroneToList()
-                {
-                    Id = id,
-                    Model = model,
-                    MaxWeight = maxWeight,
-                    BatteryStatuses = (rand.NextDouble() * 20) + 20,
-                    CurrentLocation = new Location(station.Lattitude, station.Longitude),
-                    DroneStatuses = DroneStatuses.maintanance
-                });
-                dalObject.ChargeOn(id, stationId);
-            }
+            try { lock (dalObject) { dalObject.AddDrone(newDrone); } }
+            catch (DO.ObjectAlreadyExistException e) { throw new ObjectAlreadyExistException(e.Message); }
+            drones.Add(DroneToDroneToList(newDrone, stationId));
+            dalObject.ChargeOn(id, stationId);
         }
 
 
-
-
         /// <summary>
+        /// UpdateDrone
+        /// Exception: NoChangesToUpdateException
         /// update the model for specific drone
         /// </summary>
         /// <param name="id">the drone id</param>
@@ -74,8 +57,9 @@ namespace BL
         }
 
 
-
         /// <summary>
+        /// GetDrone
+        /// Exception: ObjectNotExistException
         /// return the specific drone details
         /// </summary>
         /// <param name="requestedId"> the requested drone id</param>
@@ -88,60 +72,95 @@ namespace BL
             {
                 lock (dalObject) { drone = dalObject.GetDrone(requestedId); }
             }
-            catch (DO.ObjectNotExistException e){ throw new ObjectNotExistException(e.Message); }
+            catch (DO.ObjectNotExistException e) { throw new ObjectNotExistException(e.Message); }
             if (drone.IsDelete) throw new ObjectNotExistException("drone deleted");
-            return DalToBlDrone(drone);
+            return DlToBlDrone(drone);
         }
 
 
-
+        /// <summary>
+        /// Delete Drone
+        /// Exception: ObjectNotExistException
+        /// </summary>
+        /// <param name="id">drone id</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteDrone(int id)
+        {
+            lock (dalObject) { dalObject.DeleteDrone(id); }
+            drones.RemoveAt(drones.FindIndex(d => d.Id == id));
+        }
 
 
         /// <summary>
+        /// DronesList
         /// return all drones
         /// </summary>
         /// <returns>IEnumerable of DroneToList</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> DronesList() => drones;
 
-
-
+        #region DroneCharge
         /// <summary>
-        /// start charging
+        /// ChargeOn
+        /// Exception: ObjectNotExistException, ObjectNotAvailableForActionException
+        /// Start charging
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="droneId">drone Id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void ChargeOn(int id)
+        public void ChargeOn(int droneId)
         {
-            int i = drones.FindIndex(d => d.Id == id);
+            int i = drones.FindIndex(d => d.Id == droneId);
             if (i < 0)
-                throw new ObjectNotExistException($"Drone with id = {id} is not exsist");
-            if (drones[i].DroneStatuses != DroneStatuses.vacant)
-                throw new ObjectNotAvailableForActionException($"Drone with id = {id} is not vacant");
-
+                throw new ObjectNotExistException($"Drone with id = {droneId} is not exsist");
             Station closeStation = FindCloseStationWithChargeSlot(drones[i].CurrentLocation);
             double powerForDistance = FindMinPowerForDistance(drones[i].Distance(closeStation));
             if (drones[i].BatteryStatuses - powerForDistance < 0)
-            {
-                powerForDistance = FindMinPowerForDistance(drones[i].Distance(FindClosetStationLocation(drones[i])));
-                if (drones[i].BatteryStatuses - powerForDistance < 0)
-                    throw new ObjectNotAvailableForActionException($"Not enough power for distance in drone with id = {id}");
-                else
-                {
-                    drones[i].BatteryStatuses = drones[i].BatteryStatuses - powerForDistance;
-                    drones[i].CurrentLocation = closeStation.CurrentLocation;
-                    throw new ObjectNotAvailableForActionException($"No empty charge slot in station");
-                }
-            }
+                throw new ObjectNotAvailableForActionException($"Not enough power for distance in drone with id = {droneId}");
+
+            StartChargeing(droneId, closeStation.Id);
             drones[i].BatteryStatuses = drones[i].BatteryStatuses - powerForDistance;
             drones[i].CurrentLocation = closeStation.CurrentLocation;
-            drones[i].DroneStatuses = DroneStatuses.maintanance;
-            lock (dalObject) { dalObject.ChargeOn(id, closeStation.Id); }
         }
 
 
+        /// <summary>
+        /// Start Chargeing
+        /// Exception: ObjectNotExistException, ObjectNotAvailableForActionException
+        /// </summary>
+        /// <param name="droneId">droneId</param>
+        /// <param name="closeStationId">close Station Id</param>
+        internal void StartChargeing(int droneId, int closeStationId)
+        {
+            int i = drones.FindIndex(d => d.Id == droneId);
+            if (i < 0)
+                throw new ObjectNotExistException($"Drone with id = {droneId} is not exsist");
+
+            if (drones[i].DroneStatuses != DroneStatuses.vacant)
+                throw new ObjectNotAvailableForActionException($"Drone with id = {droneId} is not vacant");
+
+            drones[i].DroneStatuses = DroneStatuses.maintanance;
+            lock (dalObject) { dalObject.ChargeOn(droneId, closeStationId); }
+        }
+
 
         /// <summary>
+        /// Charge Step
+        /// Exception: ObjectNotExistException
+        /// </summary>
+        /// <param name="droneId">droneId</param>
+        /// <param name="timeStep">timeStep</param>
+        internal void ChargeStep(int droneId, double timeStep)
+        {
+            int i = drones.FindIndex(d => d.Id == droneId);
+            if (i < 0)
+                throw new ObjectNotExistException("drone with id: " + droneId);
+            drones[i].BatteryStatuses = Min(1.0, drones[i].BatteryStatuses + skimmerLoadingRate * timeStep);
+        }
+
+
+        /// <summary>
+        /// ChargeOf
+        /// Exception: ObjectNotExistException, ObjectNotAvailableForActionException
         /// releas from charging
         /// </summary>
         /// <param name="id"></param>
@@ -167,22 +186,35 @@ namespace BL
             {
                 throw new ObjectNotAvailableForActionException($"drone with id = {id} is not in charging now");
             }
-            double newBatteryStatuses = drones[i].BatteryStatuses + skimmerLoadingRate * (DateTime.Now - startTime).TotalSeconds;
-            drones[i].BatteryStatuses = Min(newBatteryStatuses, 100);
+            double newBatteryStatuses = drones[i].BatteryStatuses + skimmerLoadingRate * (DateTime.Now - startTime).TotalSeconds / 10;
+            drones[i].BatteryStatuses = Min(newBatteryStatuses, 1.0);
             drones[i].DroneStatuses = DroneStatuses.vacant;
         }
-
+        #endregion
 
 
         /// <summary>
-        /// Delete Drone
+        /// DronStepTo
+        /// Exception: ObjectNotExistException
+        /// Dron Step To
         /// </summary>
-        /// <param name="id">drone id</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteDrone(int id)
+        /// <param name="dronId">dron Id</param>
+        /// <param name="currentDistance">current Distance</param>
+        /// <param name="distance">distance</param>
+        internal void DronStepTo(int dronId, double currentDistance, double distance, Ilocatable destination)
         {
-            lock (dalObject) { dalObject.DeleteDrone(id); }
-            drones.RemoveAt(drones.FindIndex(d => d.Id == id));
+            int i = drones.FindIndex(d => d.Id == dronId);
+            if (i < 0)
+                throw new ObjectNotExistException("dronId");
+            WeightCategories? parcelWeight = drones[i].NumOfParcel != null ? GetParcel((int)drones[i].NumOfParcel).Weight : default(WeightCategories?);
+            double propor = currentDistance == 0 ? 0 : currentDistance / distance;
+            double powerForStep = FindMinPowerForDistance(currentDistance, parcelWeight);
+            drones[i].BatteryStatuses = Max(0.0, drones[i].BatteryStatuses - powerForStep);
+            drones[i].CurrentLocation = new Location()
+            {
+                Latitude = drones[i].CurrentLocation.Latitude + (destination.CurrentLocation.Latitude - drones[i].CurrentLocation.Latitude) * propor,
+                Longitude = drones[i].CurrentLocation.Longitude + (destination.CurrentLocation.Longitude - drones[i].CurrentLocation.Longitude) * propor
+            };
         }
     }
 }

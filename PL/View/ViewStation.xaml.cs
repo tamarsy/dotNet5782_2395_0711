@@ -18,9 +18,9 @@ namespace PL.View
     public partial class ViewStation : UserControl
     {
         private readonly ViewModel.ViewStationModel _viewParcelModel;
-        public ViewStation(Action UpdatePWindow, int parcelId, Action close)
+        public ViewStation(Action UpdatePWindow, int parcelId, Action close, Action<object> addTab, Action<object> removeTab)
         {
-            _viewParcelModel = new ViewModel.ViewStationModel(parcelId, UpdatePWindow, close);
+            _viewParcelModel = new ViewModel.ViewStationModel(parcelId, UpdatePWindow, close, addTab, removeTab);
             DataContext = _viewParcelModel;
             InitializeComponent();
         }
@@ -31,5 +31,7 @@ namespace PL.View
             DataContext = _viewParcelModel;
             InitializeComponent();
         }
+
+        private void ViewDrone_MouseDoubleClick(object sender, MouseButtonEventArgs e) => _viewParcelModel.ViewDrone(((BO.DroneCharge)ViewDrones.SelectedItem).Id);
     }
 }

@@ -12,7 +12,7 @@ namespace PL.ViewModel
         public Array WeightSelector { get { return Enum.GetValues(typeof(BO.WeightCategories)); } }
         public Array PrioritySelector { get { return Enum.GetValues(typeof(BO.Priorities)); } }
         public Array TID { get { return BLApi.FactoryBL.GetBL().CustomersList().Select(c=>c.Id).ToArray(); } }
-
+        public Array SID { get { return BLApi.FactoryBL.GetBL().CustomersList().Select(c=>c.Id).ToArray(); } }
 
         public int PrioritySelector_select
         {
@@ -34,7 +34,19 @@ namespace PL.ViewModel
                 OnPropertyChange("IsEnableAdd_Button");
             }
         }
-        
+
+
+        public object SID_select
+        {
+            get { return parcelModel.SID_select; }
+            set
+            {
+                parcelModel.SID_select = (int)value;
+                OnPropertyChange("SID");
+                OnPropertyChange("IsEnableAdd_Button");
+            }
+        }
+
 
         public int WeightSelector_select
         {
@@ -49,11 +61,9 @@ namespace PL.ViewModel
         public bool IsEnableAdd_Button
         {
             get {
-                return TID_select != default && SID > 1111111 && SID < 999999999 && !TID_select.Equals(parcelModel.SID);
+                return !TID_select.Equals(0) && !SID_select.Equals(0) && !TID_select.Equals(SID_select);
             }
         }
-
-        public int SID { set { parcelModel.SID = value;OnPropertyChange("SID"); OnPropertyChange("IsEnableAdd_Button"); } get { return parcelModel.SID; } }
 
         public ICommand AddComand
         {
@@ -63,8 +73,8 @@ namespace PL.ViewModel
                 {
                     try
                     {
-                        BLApi.FactoryBL.GetBL().GetCustomer(SID);
-                        BLApi.FactoryBL.GetBL().AddParcel(SID, parcelModel.TID_select, (BO.WeightCategories)WeightSelector_select, (BO.Priorities)PrioritySelector_select);
+                        BLApi.FactoryBL.GetBL().GetCustomer(parcelModel.SID_select);
+                        BLApi.FactoryBL.GetBL().AddParcel(parcelModel.SID_select, parcelModel.TID_select, (BO.WeightCategories)WeightSelector_select, (BO.Priorities)PrioritySelector_select);
                         MessageBox.Show("successfully add Parcel");
                         //?????????????????????????update from customer 
                         parcelModel.UpDatePWindow();
@@ -79,14 +89,21 @@ namespace PL.ViewModel
 
         public Visibility DetailsPanelVisibility { get{ return parcelModel.DetailsPanelVisibility ? Visibility.Visible : Visibility.Collapsed; } }
         public Visibility AddPanelVisibility { get { return parcelModel.DetailsPanelVisibility ?Visibility.Collapsed:Visibility.Visible; } }
+        public bool IsEnableSID_select { get; }
 
-
-        public ViewParcelModel(Action upDateAndClose)
+        public ViewParcelModel(Action upDateAndClose, int? id = null)
         {
             parcelModel = new Model.ParcelModel();
             Close = upDateAndClose;
             parcelModel.UpDatePWindow = upDateAndClose;
             parcelModel.DetailsPanelVisibility = false;
+            if (id != null)
+            {
+                parcelModel.SID_select = (int)id;
+                IsEnableSID_select = false;
+            }
+            else
+                IsEnableSID_select = true;
         }
     }
 }

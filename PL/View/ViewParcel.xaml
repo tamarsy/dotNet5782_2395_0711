@@ -13,19 +13,19 @@
 
         <WrapPanel x:Name="Add" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}">
             <DockPanel>
-                <Label Content="Enter sender id" />
-                <TextBox Text="{Binding SID, Mode=OneWayToSource}" x:Name="sid" />
+                <Label Content="sender id" />
+                <ComboBox ItemsSource="{Binding SID, Mode=OneTime}" SelectedItem="{Binding SID_select}" IsEnabled="{Binding IsEnableSID_select, Mode=OneTime}"/>
             </DockPanel>
             <DockPanel>
-                <Label Content="Choose getter id" />
+                <Label Content="getter id" />
                 <ComboBox ItemsSource="{Binding TID, Mode=OneTime}" SelectedItem="{Binding TID_select}" />
             </DockPanel>
             <DockPanel>
-                <Label Content="choose weight" />
+                <Label Content="weight" />
                 <ComboBox ItemsSource="{Binding WeightSelector, Mode=OneTime}" SelectedIndex="{Binding WeightSelector_select}" />
             </DockPanel>
             <DockPanel>
-                <Label Content="choose priority"/>
+                <Label Content="priority"/>
                 <ComboBox ItemsSource="{Binding PrioritySelector, Mode=OneTime}" SelectedIndex="{Binding PrioritySelector_select}"  Padding="70,8"/>
             </DockPanel>
 
@@ -40,7 +40,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-
+            <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" >
+                <Button Content="Delete" Command="{Binding DeleteCommand}"/>
+                <Button Content="Getter customer details" Command="{Binding ViewCustomer}" CommandParameter="0" Visibility="{Binding CustomerVisibility}" />
+                <Button Content="Sender customer details" Command="{Binding ViewCustomer}" CommandParameter="1" Visibility="{Binding CustomerVisibility}" />
+                <Button Content="Drone details" Command="{Binding DroneDetails}" Visibility="{Binding ViewDroneVisibility}" />
+            </WrapPanel>
             <TextBlock x:Name="details" Text="{Binding Details}" Grid.Row="1" Grid.Column="0"  />
         </Grid>
     </Grid>

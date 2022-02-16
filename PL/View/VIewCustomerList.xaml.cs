@@ -18,7 +18,7 @@ namespace PL.View
     public partial class VIewCustomerList : UserControl
     {
         private readonly ViewModel.ViewCustomerListModel _viewCustomerListModel;
-        public VIewCustomerList(Action<object> addTab, Action<string> removeTab)
+        public VIewCustomerList(Action<object> addTab, Action<object> removeTab)
         {
             _viewCustomerListModel = new ViewModel.ViewCustomerListModel(addTab, removeTab);
             DataContext = _viewCustomerListModel;

@@ -45,18 +45,3 @@ namespace PL
         }
     }
 }
-
-        //private void is_num(object sender, TextChangedEventArgs e)
-        //{
-        //    if (e.Source is TextBox t)
-        //    {
-        //        if (t.CaretIndex != 0 && t.Text.Length > 0 && !char.IsDigit(t.Text[t.CaretIndex - 1]))
-        //        {
-        //            MessageBox.Show("ERROR enter only number for Id");
-        //            int ii = e.Changes.ElementAt(0).AddedLength;
-        //            t.Text = t.Text.Remove(t.CaretIndex - ii, ii);
-        //        }
-        //    }
-        //}
-
-

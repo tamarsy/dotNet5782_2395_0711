@@ -7,78 +7,23 @@ using System.Text;
 namespace BL
 {
     /// <summary>
-    /// all the function in BL class that conction to customer
+    /// convert types in bl
     /// </summary>
     partial class BL
     {
+        #region DlToBl
 
         /// <summary>
-        /// creat a new CustomerDelivery by the customer and parcel 
+        /// Convert from drone i dal to drone in bl
         /// </summary>
-        /// <param name="parcel">the parcel</param>
-        /// <param name="id">the customer id</param>
-        /// <returns>CustomerDelivery</returns>
-        internal CustomerDelivery CustomerAndParcelToCustomerDelivery(int parcelId, int customerId)
-        {
-            lock (dalObject)
-            {
-                ParcelToList parcel = DlToBlParcelToList(dalObject.GetParcel(parcelId));
-                DO.Customer geterCustomer = dalObject.GetCustomer(customerId);
-
-                return new CustomerDelivery()
-                {
-                    Id = parcel.Id,
-                    Weight = parcel.Weight,
-                    Priority = parcel.Priority,
-                    Status = parcel.ParcelStatuses,
-                    Customer = new DeliveryCustomer()
-                    {
-                        Id = geterCustomer.Id,
-                        Name = geterCustomer.Name
-                    }
-                };
-            }
-        }
-
-
-
-
-        /// <summary>
-        /// convert from DroneToList to drone 
-        /// </summary>
-        /// <param name="drone"></param>
+        /// <param name="drone">do drone</param>
         /// <returns>Drone</returns>
-        internal Drone DroneToListToDrone(DroneToList drone)
-        {
-            DO.Parcel? parcel = (drone.NumOfParcel == null)? null : (DO.Parcel?)dalObject.GetParcel((int)drone.NumOfParcel);
-
-            return new Drone()
-            {
-                Id = drone.Id,
-                BatteryStatuses = drone.BatteryStatuses,
-                CurrentLocation = drone.CurrentLocation,
-                DroneStatuses = drone.DroneStatuses,
-                MaxWeight = drone.MaxWeight,
-                Model = drone.Model,
-                Parcel = parcel == null ? null : ParcelToParcelDelivery((DO.Parcel)parcel, drone)
-            };
-        }
-
-
-
-
-        /// <summary>
-        /// convert from drone i dal to drone in bl
-        /// </summary>
-        /// <param name="drone">the specific drone id</param>
-        /// <returns>Drone</returns>
-        internal Drone DalToBlDrone(DO.Drone drone)
+        internal Drone DlToBlDrone(DO.Drone drone)
         {
             DroneToList droneFromList = drones.Find(d => d.Id == drone.Id);
             DO.Parcel parcel = default;
             if (droneFromList.NumOfParcel != default)
-                lock (dalObject) { parcel = dalObject.GetParcel((int)droneFromList.NumOfParcel); }
-
+                parcel = dalObject.GetParcel((int)droneFromList.NumOfParcel);
             return new Drone()
             {
                 Id = drone.Id,
@@ -91,34 +36,11 @@ namespace BL
             };
         }
 
-        internal ParcelDelivery ParcelToParcelDelivery(DO.Parcel p, Ilocatable droneLocation)
-        {
-            Customer sender;
-            Customer getter;
-            try
-            {
-                sender = GetCustomer(p.SenderId); ;
-                getter = GetCustomer(p.GetterId);
-            }
-            catch (ObjectNotExistException e) { throw new ObjectNotExistException(e.Message); }
-            return new ParcelDelivery()
-            {
-                Id = p.Id,
-                Weight = (WeightCategories)p.Weight,
-                Priority = (Priorities)p.Priority,
-                StatusParcel = !p.PickedUp.Equals(null),
-                Collecting = sender.CurrentLocation,
-                DeliveryDestination = getter.CurrentLocation,
-                Distance = droneLocation.Distance(!p.PickedUp.Equals(null) ? getter: sender),
-                Sender = new DeliveryCustomer() { Id = sender.Id, Name = sender.Name },
-                Getter = new DeliveryCustomer() { Id = getter.Id, Name = getter.Name }
-            };
-        }
 
         /// <summary>
         /// the function change the "Idal" details to "bl" details
         /// </summary>
-        /// <param name="parcel"></param>
+        /// <param name="parcel">parcel</param>
         /// <returns>Parecel</returns>
         internal Parcel DlToBlParcel(DO.Parcel parcel)
         {
@@ -137,28 +59,6 @@ namespace BL
                 Weight = (WeightCategories)parcel.Weight
             };
         }
-
-
-
-        /// <summary>
-        /// change bl parcel to list 
-        /// </summary>
-        /// <param name="parcel"></param>
-        /// <param name="parcelStatuses"></param>
-        /// <returns>ParcelToList</returns>
-        internal ParcelToList DlToBlParcelToList(DO.Parcel parcel, ParcelStatuses parcelStatuses = default)
-        {
-            return new ParcelToList()
-            {
-                Id = parcel.Id,
-                SenderId = parcel.SenderId,
-                GetterId = parcel.GetterId,
-                Weight = (WeightCategories)parcel.Weight,
-                Priority = (Priorities)parcel.Priority,
-                ParcelStatuses = parcelStatuses != default ? ParcelStatuses.defined : FindParcelStatuses(parcel)
-            };
-        }
-
 
 
         /// <summary>
@@ -182,35 +82,165 @@ namespace BL
             };
             return newStation;
         }
+        #endregion
+        #region ListToNot
+
+        /// <summary>
+        /// Exceptions: ObjectNotExistException
+        /// convert from DroneToList to drone 
+        /// </summary>
+        /// <param name="drone"></param>
+        /// <returns>Drone</returns>
+        internal Drone DroneToListToDrone(DroneToList drone)
+        {
+            DO.Parcel? parcel = (drone.NumOfParcel == null) ? null : (DO.Parcel?)dalObject.GetParcel((int)drone.NumOfParcel);
+
+            return new Drone()
+            {
+                Id = drone.Id,
+                BatteryStatuses = drone.BatteryStatuses,
+                CurrentLocation = drone.CurrentLocation,
+                DroneStatuses = drone.DroneStatuses,
+                MaxWeight = drone.MaxWeight,
+                Model = drone.Model,
+                Parcel = parcel == null ? null : ParcelToParcelDelivery((DO.Parcel)parcel, drone)
+            };
+        }
+
+
+        /// <summary>
+        /// DroneToDroneToList
+        /// Exception: ObjectNotExistException
+        /// </summary>
+        /// <param name="drone">do drone</param>
+        /// <param name="stationId">station Id</param>
+        /// <returns>DroneToList</returns>
+        internal DroneToList DroneToDroneToList(DO.Drone drone, int stationId)
+        {
+            lock (dalObject)
+            {
+                try
+                {
+                    DO.Station station = dalObject.GetStation(stationId);
+                    return new DroneToList()
+                    {
+                        Id = drone.Id,
+                        Model = drone.Model,
+                        MaxWeight = (WeightCategories)drone.MaxWeight,
+                        BatteryStatuses = (rand.NextDouble() * 20) + 20,
+                        CurrentLocation = new Location(station.Lattitude, station.Longitude),
+                        DroneStatuses = DroneStatuses.maintanance
+                    };
+                }
+                catch (DO.ObjectNotExistException e) { throw new ObjectNotExistException(e.Message); }
+            }
+        }
+
+
+        /// <summary>
+        /// change bl parcel to list 
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <param name="parcelStatuses"></param>
+        /// <returns>ParcelToList</returns>
+        internal ParcelToList DlToBlParcelToList(DO.Parcel parcel, ParcelStatuses parcelStatuses = default)
+        {
+            return new ParcelToList()
+            {
+                Id = parcel.Id,
+                SenderId = parcel.SenderId,
+                GetterId = parcel.GetterId,
+                Weight = (WeightCategories)parcel.Weight,
+                Priority = (Priorities)parcel.Priority,
+                ParcelStatuses = parcelStatuses != default ? ParcelStatuses.defined : FindParcelStatuses(parcel)
+            };
+        }
+
+
+        /// <summary>
+        /// Convert To StationToList
+        /// </summary>
+        /// <param name="station">station</param>
+        /// <returns></returns>
+        internal StationToList ConvertToStationToList(DO.Station station)
+        {
+            int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation.Latitude == station.Lattitude && d.CurrentLocation.Longitude == station.Longitude);
+            return new StationToList()
+            {
+                Id = station.Id,
+                Name = station.Name,
+                NumOfCatchChargeSlots = NumOfCatchChargeSlots,
+                NumOfEmptyChargeSlots = station.ChargeSlot - NumOfCatchChargeSlots
+            };
+        }
+        #endregion
+
+        /// <summary>
+        /// Exceptions: ObjectNotExistException
+        /// creat a new CustomerDelivery by the customer and parcel 
+        /// </summary>
+        /// <param name="parcel">the parcel</param>
+        /// <param name="id">the customer id</param>
+        /// <returns>CustomerDelivery</returns>
+        internal CustomerDelivery CustomerAndParcelToCustomerDelivery(int parcelId, int customerId)
+        {
+
+            ParcelToList parcel = DlToBlParcelToList(dalObject.GetParcel(parcelId));
+            DO.Customer geterCustomer = dalObject.GetCustomer(customerId);
+
+            return new CustomerDelivery()
+            {
+                Id = parcel.Id,
+                Weight = parcel.Weight,
+                Priority = parcel.Priority,
+                Status = parcel.ParcelStatuses,
+                Customer = new DeliveryCustomer()
+                {
+                    Id = geterCustomer.Id,
+                    Name = geterCustomer.Name
+                }
+            };
+        }
+
+
+        /// <summary>
+        /// Convert Parcel To ParcelDelivery
+        /// </summary>
+        /// <param name="parcel">parcel</param>
+        /// <param name="droneLocation">drone Location</param>
+        /// <returns></returns>
+        internal ParcelDelivery ParcelToParcelDelivery(DO.Parcel parcel, Ilocatable droneLocation)
+        {
+            Customer sender;
+            Customer getter;
+            sender = GetCustomer(parcel.SenderId);
+            getter = GetCustomer(parcel.GetterId);
+            return new ParcelDelivery()
+            {
+                Id = parcel.Id,
+                Weight = (WeightCategories)parcel.Weight,
+                Priority = (Priorities)parcel.Priority,
+                StatusParcel = !parcel.PickedUp.Equals(null),
+                Collecting = sender.CurrentLocation,
+                DeliveryDestination = getter.CurrentLocation,
+                Distance = droneLocation.Distance(!parcel.PickedUp.Equals(null) ? getter : sender),
+                Sender = new DeliveryCustomer() { Id = sender.Id, Name = sender.Name },
+                Getter = new DeliveryCustomer() { Id = getter.Id, Name = getter.Name }
+            };
+        }
+
 
         /// <summary>
         /// convert from DroneToList to DroneCharge 
         /// </summary>
-        /// <param name="drone"></param>
-        /// <returns>Drone</returns>
+        /// <param name="drone">drone</param>
+        /// <returns>Drone Charge</returns>
         internal DroneCharge DroneToListToDroneCharge(DroneToList drone)
         {
             return new DroneCharge()
             {
                 Id = drone.Id,
                 BatteryStatuses = drone.BatteryStatuses
-            };
-        }
-
-        /// <summary>
-        /// Convert To StationToList
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        internal StationToList ConvertToStationToList(DO.Station s)
-        {
-            int NumOfCatchChargeSlots = drones.Count(d => d.DroneStatuses == DroneStatuses.maintanance && d.CurrentLocation.Latitude == s.Lattitude && d.CurrentLocation.Longitude == s.Longitude);
-            return new StationToList()
-            {
-                Id = s.Id,
-                Name = s.Name,
-                NumOfCatchChargeSlots = NumOfCatchChargeSlots,
-                NumOfEmptyChargeSlots = s.ChargeSlot - NumOfCatchChargeSlots
             };
         }
     }

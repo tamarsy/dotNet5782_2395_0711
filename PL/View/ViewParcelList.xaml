@@ -22,15 +22,18 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <ComboBox Name="StatusSelector" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="120"
                       SelectedIndex="{Binding StatusSelector_select, ValidatesOnDataErrors=True}" ItemsSource="{Binding StatusSelector}" />
-            <Button Grid.Column="3" Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
-            <Button Command="{Binding Path=NewViewCommand}" Grid.Column="3" Content="Add parcel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Grid.Column="4" Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
+            <Button Command="{Binding Path=NewViewCommand}" Grid.Column="4" Content="Add parcel" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsAddVisibility}"/>
             <ComboBox Name="MaxWeightSelector" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120"
-                      SelectedIndex="{Binding MaxWeightSelector_select, ValidatesOnDataErrors=True}"  ItemsSource="{Binding MaxWeightSelector}"/>
+                      SelectedIndex="{Binding MaxWeightSelector_select, ValidatesOnDataErrors=True}"  ItemsSource="{Binding MaxWeightSelector, Mode=OneTime}"/>
             <ComboBox Name="PrioritySelector" Grid.Column="0"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="120"
-                      SelectedIndex="{Binding PrioritySelector_select, ValidatesOnDataErrors=True}"  ItemsSource="{Binding PrioritySelector}"/>
+                      SelectedIndex="{Binding PrioritySelector_select, ValidatesOnDataErrors=True}"  ItemsSource="{Binding PrioritySelector, Mode=OneTime}"/>
+            <ComboBox Name="GroupBy" Grid.Column="3"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="120"
+                      SelectedItem="{Binding GroupBy_select, ValidatesOnDataErrors=True}"  ItemsSource="{Binding GroupBySelector, Mode=OneTime}"/>
         </Grid>
         <ListView ItemsSource="{Binding Parcels, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" x:Name="viewParcels" MouseDoubleClick="viewParcel_MouseDoubleClick" >
             <ListView.View>

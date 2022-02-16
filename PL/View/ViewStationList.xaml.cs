@@ -18,7 +18,7 @@ namespace PL.View
     public partial class ViewStationList : UserControl
     {
         ViewModel.ViewStationListModel _viewStationList;
-        public ViewStationList(Action<object> addTab, Action<string> removeTab)
+        public ViewStationList(Action<object> addTab, Action<object> removeTab)
         {
             _viewStationList = new ViewModel.ViewStationListModel(addTab, removeTab);
             DataContext = _viewStationList;

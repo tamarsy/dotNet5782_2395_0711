@@ -11,16 +11,16 @@ namespace PL.ViewModel
     {
         public int Id { get; set; }
         public string ButtonA_Content { get { return "Update your details"; } }
-        public string ButtonB_Content { get { return "New parcel for delivery"; } }
+        public string ButtonB_Content { get { return "gets parcels"; } }
         public string ButtonC_Content { get { return "sends parcels"; } }
-        public string ButtonD_Content { get { return "gets parcels"; } }
+        public string ButtonD_Content { get { return "Add parcel"; } }
         public ICommand ButtonA_Command
         {
             get
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = "Update your details";
-                newTab.Content = new View.ViewCustomer(Id, close:()=>RemoveTab("Update your details"));
+                newTab.Content = new View.ViewCustomer(Id, close:()=>RemoveTab("Update your details"), AddTab, RemoveTab);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -32,8 +32,8 @@ namespace PL.ViewModel
             get
             {
                 TabItem newTab = new TabItem();
-                newTab.Header = "Add parcel";
-                newTab.Content = new View.ViewParcel(()=>RemoveTab("Add parcel"));
+                newTab.Header = $"Parcels to {BLApi.FactoryBL.GetBL().GetCustomer(Id).Name}";
+                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.GetterId.Equals(Id), (string)newTab.Header);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -46,20 +46,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = $"Parcels From {BLApi.FactoryBL.GetBL().GetCustomer(Id).Name}";
-                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.SenderId.Equals(Id));
-                return new DelegateCommand((o) =>
-                {
-                    AddTab(newTab);
-                });
-            }
-        }
-        public ICommand ButtonD_Command
-        {
-            get
-            {
-                TabItem newTab = new TabItem();
-                newTab.Header = $"Parcels to {BLApi.FactoryBL.GetBL().GetCustomer(Id).Name}";
-                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.GetterId.Equals(Id));
+                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.SenderId.Equals(Id), (string)newTab.Header);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -67,6 +54,19 @@ namespace PL.ViewModel
             }
         }
 
+        public ICommand ButtonD_Command
+        {
+            get
+            {
+                TabItem newTab = new TabItem();
+                newTab.Header = "Add parcel";
+                newTab.Content = new View.ViewParcel(() => RemoveTab("Add parcel"), Id);
+                return new DelegateCommand((o) =>
+                {
+                    AddTab(newTab);
+                });
+            }
+        }
 
         public ICommand CloseCd
         {
@@ -79,7 +79,7 @@ namespace PL.ViewModel
             }
         }
 
-        public ViewMenueModelCustomer(Action<object> addTab, Action<string> removeTab, int customerId, Action close)
+        public ViewMenueModelCustomer(Action<object> addTab, Action<object> removeTab, int customerId, Action close)
         {
             AddTab = addTab;
             RemoveTab = removeTab;

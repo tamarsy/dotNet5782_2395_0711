@@ -13,7 +13,7 @@ namespace DalApi
     {
         public static IDal GetDL()                                                                                                          
         {
-            Assembly.LoadFrom($@"{Directory.GetCurrentDirectory()}\..\..\..\..\{DalConfig.DalType}\bin\Debug\netstandard2.0\{DalConfig.DalType}.dll");
+            Assembly.LoadFrom($@"{Directory.GetCurrentDirectory()}\..\..\..\..\{DalConfig.DalType}\bin\Debug\net5.0\{DalConfig.DalType}.dll");
             Type type = Type.GetType($"{DalConfig.Namespace}.{DalConfig.DalType}, {DalConfig.DalType}");
             
             if (type == null)

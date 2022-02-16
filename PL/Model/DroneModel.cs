@@ -13,6 +13,7 @@ namespace PL.Model
         public DelegateCommand DC_Comand { set; get; }
         public DelegateCommand CS_Comand { set; get; }
         public DelegateCommand UpDateModelComand { set; get; }
+        public bool IsAutomatic { set; get; }
         public int MaxWeightSelector_select { set; get; }
         public int StationSelector_select { set; get; }
         public int IStartModel { set; get; }

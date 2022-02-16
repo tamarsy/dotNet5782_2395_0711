@@ -18,9 +18,9 @@ namespace PL.View
     public partial class ViewParcelList : UserControl
     {
         private readonly ViewModel.ViewParcelListModel _viewParcelListModel;
-        public ViewParcelList(Action<object> addTab, Action<string> removeTab, Predicate<BO.ParcelToList> p = default)
+        public ViewParcelList(Action<object> addTab, Action<object> removeTab, Predicate<BO.ParcelToList> p = default, string header = "Parcels List")
         {
-            _viewParcelListModel = new ViewModel.ViewParcelListModel(addTab, removeTab, p);
+            _viewParcelListModel = new ViewModel.ViewParcelListModel(addTab, removeTab, p, header);
             DataContext = _viewParcelListModel;
             InitializeComponent();
         }

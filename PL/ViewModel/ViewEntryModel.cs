@@ -27,6 +27,10 @@ namespace PL.ViewModel
                         if (o is string name)
                             if (customer.Name.Equals(name))
                                 ChangePage(new View.Menue((int)Id, Close));
+                            else
+                                MessageBox.Show("Wrung id or name");
+                        else
+                            MessageBox.Show("Wrung name");
                     }
                     catch (ObjectNotExistException e) { MessageBox.Show("Wrung id or name: " + e.Message); }
                     catch (Exception) { MessageBox.Show("Error"); }
@@ -58,12 +62,14 @@ namespace PL.ViewModel
                             BLApi.FactoryBL.GetBL().AddCustomer(
                                 id: (int)Id,
                                 name: name,
-                                phone: Phone.ToString(),
+                                phone: Phone,
                                 location: new Location((double)Latitude, (double)Longitude)
                             );
+                            MessageBox.Show("successfully Add your dedails\nWelcome!");
+                            ChangePage(new View.Menue((int)Id, Close));
                         }
-                        MessageBox.Show("successfully Add your dedails\nWelcome!");
-                        ChangePage(new View.Menue((int)Id, Close));
+                        else
+                            MessageBox.Show("Wrung name");
                     }
                     catch (ObjectAlreadyExistException e) { MessageBox.Show($"Id: {Id} already exist: \n" + e.Message); }
                     catch (Exception) { MessageBox.Show("Error"); }
@@ -76,7 +82,13 @@ namespace PL.ViewModel
         public ViewEntryModel(Action<object> changePage, Action close)
         {
             ChangePage = changePage;
-            Close = close;
+            Close = ()=>
+            {
+                if (MessageBox.Show($"Do you want to close? ", "Closing", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                {
+                    close();
+                }
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +11,44 @@ namespace PL.ViewModel
     partial class ViewDroneModel : ViewModelBase
     {
         private Model.DroneModel droneModel;
+        BackgroundWorker worker;
+
+        private void updateDrone() => worker.ReportProgress(0);
+        private bool checkStop() => worker.CancellationPending;
+
+        public DelegateCommand AutomaticCommand
+        {
+            get
+            {
+                return new DelegateCommand((o) =>
+                {
+                    try
+                    {
+                        if (!droneModel.IsAutomatic)
+                        {
+                            droneModel.IsAutomatic = true;
+                            worker = new BackgroundWorker() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
+                            worker.DoWork += (sender, args) => BLApi.FactoryBL.GetBL().StartSimulator((int)args.Argument, updateDrone, checkStop);
+                            worker.RunWorkerCompleted += (sender, args) => droneModel.IsAutomatic = false;
+                            worker.ProgressChanged += (sender, args) => { InitializeData(DroneId); UpDatePWindow(); };
+                            worker.RunWorkerAsync(droneModel.DroneId);
+                        }
+                        else
+                        {
+                            worker?.CancelAsync();
+                            droneModel.IsAutomatic = false;
+                        }
+                    }
+                    catch (BO.ObjectNotExistException e) { MessageBox.Show("failed Automatic:" + e.Message); }
+                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                    OnPropertyChange("AutomaticText");
+                    InitializeData(DroneId);
+                });
+            }
+        }
+        
+        public string AutomaticText { get { return droneModel.IsAutomatic ? "Regular" : "Automatic"; } }
+
         public string DroneDetails
         {
             get {return droneModel.DroneStr;}
@@ -78,7 +117,28 @@ namespace PL.ViewModel
         }
 
 
-
+        public DelegateCommand DeleteCommand
+        {
+            get
+            {
+                return new DelegateCommand((o) =>
+                {
+                    try
+                    {
+                        if (MessageBox.Show($"delete drone {DroneId} ?", $"delete {DroneId}", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+                        {
+                            BLApi.FactoryBL.GetBL().DeleteDrone(DroneId);
+                            MessageBox.Show("Successfully delete");
+                            if (UpDatePWindow != default)
+                                UpDatePWindow();
+                            Close();
+                        }
+                    }
+                    catch (BO.ObjectNotExistException e) { MessageBox.Show("can't update drone details:" + e.Message); }
+                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                });
+            }
+        }
 
         private void InitializeData(int droneId)
         {
@@ -90,49 +150,58 @@ namespace PL.ViewModel
                 droneModel.ModelLength = droneModel.DroneStr.IndexOf("\n", droneModel.IStartModel) - droneModel.IStartModel;
                 OnPropertyChange("DroneDetails");
                 OnPropertyChange("IsEnablUpdateModel");
-                ButtonsContent(currentDrone.DroneStatuses, currentDrone.Parcel == default);
+                ButtonsContent(currentDrone.DroneStatuses, currentDrone.Parcel == default? default: currentDrone.Parcel.Id, currentDrone.Parcel == default ? default : currentDrone.Parcel.StatusParcel);
             }
             catch (BO.ObjectNotExistException e) { DroneDetails = "can't view drone " + e.Message; }
         }
 
-        private void ButtonsContent(BO.DroneStatuses droneStatuses, bool IsNoParcel)
+        private void ButtonsContent(BO.DroneStatuses droneStatuses, int? parcelId, bool StatusParcel)
         {
             Action currentActionDelivery = default, currentActionCharge = default;
-            DeliveryAndCollectedVisibility = Visibility.Visible;
-            ChargeAndSuppliedVisibility = Visibility.Visible;
-            if (droneStatuses == BO.DroneStatuses.vacant)
+            if (!droneModel.IsAutomatic)
             {
-                ChargeAndSuppliedContext = "Charge on";
-                currentActionCharge = ChargeOn;
-                DeliveryAndCollectedContext = "Send to delivery";
-                currentActionDelivery = ParcelToDrone;
-            }
-            else if (droneStatuses == BO.DroneStatuses.sending)
-            {
-                if (IsNoParcel)
+                DeliveryAndCollectedVisibility = Visibility.Visible;
+                ChargeAndSuppliedVisibility = Visibility.Visible;
+                if (droneStatuses == BO.DroneStatuses.vacant)
                 {
-                    DeliveryAndCollectedContext = "collect Parcel";
-                    currentActionDelivery = PickParcel;
-                    currentActionCharge = default;
-                    ChargeAndSuppliedVisibility = Visibility.Collapsed;
+                    ChargeAndSuppliedContext = "Charge on";
+                    currentActionCharge = ChargeOn;
+                    DeliveryAndCollectedContext = "Send to delivery";
+                    currentActionDelivery = ParcelToDrone;
                 }
-                else
+                else if (droneStatuses == BO.DroneStatuses.sending)
                 {
-                    DeliveryAndCollectedContext = "Parcel delivery";
-                    currentActionDelivery = Destination;
-                    ChargeAndSuppliedContext = "Parcel details";
-                    // up date ??????????????????????????????????????????
-                    //currentActionCharge = () => new View.ViewParcel(droneModel.DroneId, () => DroneDetails = DroneDetails);
+                    if (!StatusParcel)
+                    {
+                        DeliveryAndCollectedContext = "collect Parcel";
+                        currentActionDelivery = PickParcel;
+                        currentActionCharge = default;
+                        ChargeAndSuppliedVisibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        DeliveryAndCollectedContext = "Parcel delivery";
+                        currentActionDelivery = Destination;
+                        ChargeAndSuppliedContext = "Parcel details";
+                        currentActionCharge = () =>
+                        {
+                            TabItem parcelTab = new TabItem();
+                            parcelTab.Header = "Parcel: " + parcelId;
+                            parcelTab.Content = new View.ViewParcel((int)parcelId, () => InitializeData(DroneId), () => RemoveTab(parcelTab.Header), AddTab, RemoveTab);
+                            AddTab(parcelTab);
+                        };
+                    }
                 }
+                else if (droneStatuses == BO.DroneStatuses.maintanance)
+                {
+                    ChargeAndSuppliedContext = "Charge of";
+                    currentActionCharge = ChargeOf;
+                    currentActionDelivery = default;
+                    DeliveryAndCollectedVisibility = Visibility.Collapsed;
+                }
+                SetButtonsAction(currentActionCharge, currentActionDelivery);
             }
-            else if (droneStatuses == BO.DroneStatuses.maintanance)
-            {
-                ChargeAndSuppliedContext = "Charge of";
-                currentActionCharge = ChargeOf;
-                currentActionDelivery = default;
-                DeliveryAndCollectedVisibility = Visibility.Collapsed;
-            }
-            SetButtonsAction(currentActionCharge, currentActionDelivery);
+            else { DeliveryAndCollectedVisibility = Visibility.Collapsed; ChargeAndSuppliedVisibility = Visibility.Collapsed; }
         }
 
 
@@ -238,10 +307,8 @@ namespace PL.ViewModel
         }
         private void ParcelToDrone()
         {
-
             BLApi.FactoryBL.GetBL().ParcelToDrone(droneModel.DroneId);
             MessageBox.Show("successfully connect parcel to drone");
-
         }
         private void PickParcel()
         {
@@ -254,13 +321,16 @@ namespace PL.ViewModel
             MessageBox.Show("successfully supplay the parcel by drone");
         }
 
-        public ViewDroneModel(int droneId, Action upDateDronesWindow, Action close)
+        public ViewDroneModel(int droneId, Action upDateDronesWindow, Action close, Action<object> addTab, Action<object> removeTab)
         {
+            AddTab = addTab;
+            RemoveTab = removeTab;
             Close = close;
             droneModel = new Model.DroneModel();
             droneModel.DroneId = droneId;
             UpDatePWindow = upDateDronesWindow;
             droneModel.DetailsPanelVisibility = true;
+            droneModel.IsAutomatic = false;
             InitializeData(droneId);
         }
     }
