@@ -19,13 +19,6 @@
             <Button Content="{Binding ButtonC_Content}" Command="{Binding ButtonC_Command}"/>
             <Button Content="{Binding ButtonD_Content}" Command="{Binding ButtonD_Command}"/>
             <Button Content="back" Command="{Binding CloseCd}"/>
-            <StackPanel Orientation="Horizontal">
-                <TextBox Text="{Binding Hour, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabledTime}"/> 
-                <TextBlock Text=" : "/>
-                <TextBox Text="{Binding min, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabledTime}" />
-                <TextBlock Text=" : "/>
-                <TextBox Text="{Binding sec, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsEnabledTime}" />
-            </StackPanel>
         </WrapPanel>
     </Grid>
 </Page>
