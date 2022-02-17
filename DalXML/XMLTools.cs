@@ -18,6 +18,7 @@ namespace Dal
             if (!Directory.Exists(dirPath))
                 Directory.CreateDirectory(dirPath);
         }
+        
         #region SaveLoadWithXElement
         public static void SaveListToXmlElement(XElement rootElem, string filePath)
         {
@@ -27,7 +28,7 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new DO.XMLFileException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
 
@@ -48,7 +49,7 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new DO.XMLFileException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
         #endregion
@@ -66,7 +67,7 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new DO.XMLFileException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
         public static List<T> LoadListFromXmlSerializer<T>(string filePath)
@@ -87,10 +88,9 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                throw;//new DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+                throw new DO.XMLFileException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
         #endregion
     }
-}
 }
