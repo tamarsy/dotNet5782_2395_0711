@@ -7,8 +7,31 @@ namespace PL.Model
 {
     class CustomerModel
     {
-        internal DelegateCommand Addcommand { set; get; }
-        internal DelegateCommand UpDateCommand { set; get; }
+        internal Action Addcommand { get => () =>
+          {
+              try
+              {
+                  BLApi.FactoryBL.GetBL().AddCustomer(CustomerId, Name, Phone, new BO.Location(Latitude, Longitude));
+                  MessageBox.Show("Successfully add customer");
+
+              }
+              catch (BO.ObjectAlreadyExistException e) { MessageBox.Show("failed add customer: " + e.Message); }
+              catch (Exception e) { MessageBox.Show("ERROR " + e.Message); }
+          };
+        }
+        internal Action UpDateCommand { get => () =>
+          {
+              try
+              {
+                  BLApi.FactoryBL.GetBL().UpdateCusomer(CustomerId, name: Name, phone: Phone);
+                  MessageBox.Show("Successfully update customer details");
+              }
+              catch (BO.ObjectAlreadyExistException e) { MessageBox.Show("can't update customer details:" + e.Message); }
+              catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+          };
+        }
+        public List<BO.CustomerDelivery> ParcelsFrom { set; get; }
+        public List<BO.CustomerDelivery> ParcelsTo { set; get; }
         internal string Details { get; set; }
         internal int CustomerId { get; set; }
         internal string Name { get; set; } = "";

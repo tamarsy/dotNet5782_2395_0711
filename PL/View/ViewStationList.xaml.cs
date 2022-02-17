@@ -15,15 +15,18 @@ namespace PL.View
     /// <summary>
     /// Interaction logic for ViewStationList.xaml
     /// </summary>
-    public partial class ViewStationList : UserControl
+    public partial class ViewStationList : UserControl, Update
     {
         ViewModel.ViewStationListModel _viewStationList;
+        public Action updateCurrentWindow { get; }
         public ViewStationList(Action<object> addTab, Action<object> removeTab)
         {
             _viewStationList = new ViewModel.ViewStationListModel(addTab, removeTab);
+            updateCurrentWindow = _viewStationList.updateCurrentWindow;
             DataContext = _viewStationList;
             InitializeComponent();
         }
+
 
         private void viewStation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

@@ -12,31 +12,75 @@ namespace PL.ViewModel
     partial class ViewCustomerModel : ViewModelBase
     {
         private Model.CustomerModel customerModel;
-        public List<BO.CustomerDelivery> ParcelsFrom { get => BLApi.FactoryBL.GetBL().GetCustomer(Id).FromCustomer ; }
-        public List<BO.CustomerDelivery> ParcelsTo { get => BLApi.FactoryBL.GetBL().GetCustomer(Id).ToCustomer; }
 
-
+        #region Command
         public DelegateCommand UpDateCommand
         {
             get
             {
-                customerModel.UpDateCommand = new DelegateCommand((o) =>
+                return new DelegateCommand((o) =>
                 {
-                    try
-                    {
-                        BLApi.FactoryBL.GetBL().UpdateCusomer(Id, name: customerModel.Name, phone: customerModel.Phone);
-                        MessageBox.Show("Successfully update customer details");
-                        OnPropertyChange("IsEnableUpdateCommand");
-                        if (UpDatePWindow != default)
-                            UpDatePWindow();
-                    }
-                    catch (BO.ObjectAlreadyExistException e) { MessageBox.Show("can't update customer details:" + e.Message); }
-                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                    customerModel.UpDateCommand();
+                    OnPropertyChange("IsEnableUpdateCommand");
+                    if (UpDatePWindow != default)
+                        UpDatePWindow();
                 });
-                return customerModel.UpDateCommand;
             }
         }
 
+        public ICommand CloseCd
+        {
+            get
+            {
+                return new DelegateCommand((o) =>
+                {
+                    Close();
+                });
+            }
+        }
+
+        public void NewViewParcel(int o)
+        {
+            TabItem tabitem = new TabItem();
+            if (o is int PId)
+            {
+                tabitem.Header = "Parcel: " + PId;
+                tabitem.Content = new View.ViewParcel(PId, updatePWindow: () => Details = BLApi.FactoryBL.GetBL().GetCustomer(Id).ToString()
+                , close: () => RemoveTab(tabitem.Header), addTab: AddTab, removeTab: RemoveTab);
+            }
+            AddTab(tabitem);
+        }
+
+
+        #endregion
+
+        #region Enable and Visibility
+        public bool IsEnableUpdateCommand
+        {
+            get
+            {
+                if (customerModel.IsDetailsPanelVisibility)
+                {
+                    try
+                    {
+                        BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(customerModel.CustomerId);
+                        return customerModel.Name.Length > 1 && customerModel.Phone.Length > 7 && customerModel.Phone.Length < 11 &&
+                            (!customerModel.Name.Equals(c.Name) || !customerModel.Phone.Equals(c.Phone));
+                    }
+                    catch (BO.ObjectNotExistException e) { Details = e.Message; }
+                }
+                return false;
+            }
+        }
+
+
+        public Visibility AddPanelVisibility { get { return customerModel.IsDetailsPanelVisibility ? Visibility.Collapsed : Visibility.Visible; } }
+        public Visibility DetailsPanelVisibility { get { return customerModel.IsDetailsPanelVisibility ? Visibility.Visible : Visibility.Collapsed; } }
+
+        #endregion
+
+        public List<BO.CustomerDelivery> ParcelsFrom { get => customerModel.ParcelsFrom; set { customerModel.ParcelsFrom = value; OnPropertyChange("ParcelsFrom"); } }
+        public List<BO.CustomerDelivery> ParcelsTo { get => customerModel.ParcelsTo; set { customerModel.ParcelsTo = value; OnPropertyChange("ParcelsTo"); } }
 
         public string Details
         {
@@ -51,7 +95,6 @@ namespace PL.ViewModel
                 }
             }
         }
-
 
         private bool OnlyUpdatesCange(string str)
         {
@@ -85,52 +128,21 @@ namespace PL.ViewModel
             }
             return false;
         }
-        public bool IsEnableUpdateCommand
+
+        private void InitializeData(int customerId)
         {
-            get
-            {
-                if (customerModel.IsDetailsPanelVisibility)
-                {
-                    try
-                    {
-                        BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(customerModel.CustomerId);
-                        return customerModel.Name.Length > 1 && customerModel.Phone.Length > 7 && customerModel.Phone.Length < 11 &&
-                            (!customerModel.Name.Equals(c.Name) || !customerModel.Phone.Equals(c.Phone));
-                    }
-                    catch (BO.ObjectNotExistException e) { Details = e.Message; }
-                }
-                return false;
-            }
+            BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(customerId);
+            customerModel.CustomerId = customerId;
+            customerModel.Name = c.Name;
+            customerModel.Phone = c.Phone;
+            customerModel.Details = c.ToString();
+            customerModel.IStartPhone = Details.IndexOf("Phone: ") + "Phone: ".Length;
+            customerModel.IStartName = Details.IndexOf("Name") + "Name: ".Length;
+            customerModel.Phone = c.Phone;
+            customerModel.Name = c.Name;
+            ParcelsFrom = BLApi.FactoryBL.GetBL().GetCustomer(Id).FromCustomer;
+            ParcelsTo = BLApi.FactoryBL.GetBL().GetCustomer(Id).ToCustomer;
         }
-
-        public ICommand CloseCd
-        {
-            get
-            {
-                return new DelegateCommand((o) =>
-                {
-                    Close();
-                });
-            }
-        }
-
-
-        public void NewViewParcel(int o)
-        {
-            TabItem tabitem = new TabItem();
-            if (o is int PId)
-            {
-                tabitem.Header = "Parcel: " + PId;
-                tabitem.Content = new View.ViewParcel(PId, updatePWindow: ()=> Details =  BLApi.FactoryBL.GetBL().GetCustomer(Id).ToString()
-                , close: () => RemoveTab(tabitem.Header), addTab:AddTab, removeTab:RemoveTab);
-            }
-            AddTab(tabitem);
-        }
-
-        
-
-        public Visibility AddPanelVisibility { get { return customerModel.IsDetailsPanelVisibility ? Visibility.Collapsed : Visibility.Visible; } }
-        public Visibility DetailsPanelVisibility { get { return customerModel.IsDetailsPanelVisibility ? Visibility.Visible : Visibility.Collapsed; } }
 
         public ViewCustomerModel(int customerId, Action upDatePList, Action close, Action<object> addTab, Action<object> removeTab)
         {
@@ -138,17 +150,10 @@ namespace PL.ViewModel
             Close = close;
             AddTab = addTab;
             RemoveTab = removeTab;
-            BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(customerId);
             UpDatePWindow = upDatePList;
-            customerModel.CustomerId = customerId;
-            customerModel.Name = c.Name;
-            customerModel.Phone = c.Phone;
-            customerModel.Details = c.ToString();
             customerModel.IsDetailsPanelVisibility = true;
-            customerModel.IStartPhone = Details.IndexOf("Phone: ") + "Phone: ".Length;
-            customerModel.IStartName = Details.IndexOf("Name") + "Name: ".Length;
-            customerModel.Phone = c.Phone;
-            customerModel.Name = c.Name;
+            updateCurrentWindow = () => InitializeData(customerId);
+            updateCurrentWindow();
         }
     }
 }

@@ -17,17 +17,19 @@ namespace PL.View
     /// <summary>
     /// Interaction logic for ViewDrones.xaml
     /// </summary>
-    public partial class ViewListDrone : UserControl
+    public partial class ViewListDrone : UserControl, Update
     {
 
         private readonly ViewModel.ViewDroneListModel _viewListDrone;
-
+        public Action updateCurrentWindow { get; }
         public ViewListDrone(Action<object> addTab, Action<object> removeTab)
         {
             _viewListDrone = new ViewModel.ViewDroneListModel(addTab, removeTab);
+            updateCurrentWindow = _viewListDrone.updateCurrentWindow;
             DataContext = _viewListDrone;
             InitializeComponent();
         }
+
 
         private void viewDrones_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

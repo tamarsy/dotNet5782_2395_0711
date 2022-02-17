@@ -15,15 +15,18 @@ namespace PL.View
     /// <summary>
     /// Interaction logic for VIewCustomerList.xaml
     /// </summary>
-    public partial class VIewCustomerList : UserControl
+    public partial class VIewCustomerList : UserControl, Update
     {
         private readonly ViewModel.ViewCustomerListModel _viewCustomerListModel;
+        public Action updateCurrentWindow { get; }
         public VIewCustomerList(Action<object> addTab, Action<object> removeTab)
         {
             _viewCustomerListModel = new ViewModel.ViewCustomerListModel(addTab, removeTab);
+            updateCurrentWindow = _viewCustomerListModel.updateCurrentWindow;
             DataContext = _viewCustomerListModel;
             InitializeComponent();
         }
+
         private void viewCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (viewCustomers.SelectedItem is BO.CustomerToList c)

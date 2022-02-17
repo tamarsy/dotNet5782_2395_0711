@@ -32,6 +32,7 @@ namespace PL.View
         public ViewStation(Action UpdateAndClosePWindow)
         {
             _viewParcelModel = new ViewModel.ViewStationModel(UpdateAndClosePWindow);
+            updateCurrentWindow = _viewParcelModel.updateCurrentWindow;
             DataContext = _viewParcelModel;
             InitializeComponent();
         }
