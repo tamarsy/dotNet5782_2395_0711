@@ -15,22 +15,26 @@ namespace PL.View
     /// <summary>
     /// Interaction logic for VIewCustomer.xaml
     /// </summary>
-    public partial class ViewCustomer : UserControl
+    public partial class ViewCustomer : UserControl , Update
     {
         private readonly ViewModel.ViewCustomerModel _viewCustomerModel;
+        public Action updateCurrentWindow { get; }
         public ViewCustomer(Action upDatePWindowAndClose)
         {
             _viewCustomerModel = new ViewModel.ViewCustomerModel(upDatePWindowAndClose);
+            updateCurrentWindow = _viewCustomerModel.updateCurrentWindow;
             DataContext = _viewCustomerModel;
             InitializeComponent();
         }
 
-        public ViewCustomer(int id, Action close, Action<object> addTab, Action<object> removeTab, Action UpDatePWindow = default)
+        public ViewCustomer(int id, Action close, Action<object> addTab, Action<object> removeTab, Action UpDatePWindow)
         {
             _viewCustomerModel = new ViewModel.ViewCustomerModel(id, UpDatePWindow, close, addTab, removeTab);
+            updateCurrentWindow = _viewCustomerModel.updateCurrentWindow;
             DataContext = _viewCustomerModel;
             InitializeComponent();
         }
+
 
         private void viewParceld_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {

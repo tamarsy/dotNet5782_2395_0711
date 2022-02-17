@@ -10,20 +10,23 @@ namespace PL.ViewModel
     partial class ViewParcelModel : ViewModelBase
     {
         private Model.ParcelModel parcelModel;
-        public string Details { get { return parcelModel.Details; } set { parcelModel.Details = value; } }
-        public Visibility CustomerVisibility { get; }
-        public Visibility ViewDroneVisibility { get { return BLApi.FactoryBL.GetBL().GetParcel(parcelModel.ParcelId).DroneDelivery == null? Visibility.Collapsed: Visibility.Visible; } }
+
+        #region Commands
+
+        /// <summary>
+        /// Close window 
+        /// </summary>
         public ICommand CloseCd
         {
-            get
+            get => new DelegateCommand((o) =>
             {
-                return new DelegateCommand((o) =>
-                {
-                    Close();
-                });
-            }
+                Close();
+            });
         }
 
+        /// <summary>
+        /// Open customer window
+        /// </summary>
         public ICommand ViewCustomer
         {
             get
@@ -32,17 +35,20 @@ namespace PL.ViewModel
                 {
                     if (o is string i)
                     {
-                        BO.DeliveryCustomer customer = i.Equals("0")? BLApi.FactoryBL.GetBL().GetParcel(parcelModel.ParcelId).GetterId:
+                        BO.DeliveryCustomer customer = i.Equals("0") ? BLApi.FactoryBL.GetBL().GetParcel(parcelModel.ParcelId).GetterId :
                         BLApi.FactoryBL.GetBL().GetParcel(parcelModel.ParcelId).SenderId;
                         TabItem viewCustomer = new TabItem();
                         viewCustomer.Header = "Customer: " + customer.Name;
-                        viewCustomer.Content = new View.ViewCustomer(customer.Id, () => RemoveTab(viewCustomer.Header), AddTab, RemoveTab, ()=>InitializeData(parcelModel.ParcelId));
+                        viewCustomer.Content = new View.ViewCustomer(customer.Id, () => RemoveTab(viewCustomer.Header), AddTab, RemoveTab, updateCurrentWindow);
                         AddTab(viewCustomer);
                     }
                 });
             }
         }
 
+        /// <summary>
+        /// Open drone window
+        /// </summary>
         public ICommand DroneDetails
         {
             get
@@ -52,33 +58,42 @@ namespace PL.ViewModel
                     int droneId = BLApi.FactoryBL.GetBL().GetParcel(parcelModel.ParcelId).DroneDelivery.Id;
                     TabItem viewDrone = new TabItem();
                     viewDrone.Header = "Drone: " + droneId;
-                    viewDrone.Content = new View.ViewDrone(droneId, () => InitializeData(parcelModel.ParcelId), ()=>RemoveTab(viewDrone.Header), AddTab,RemoveTab);
+                    viewDrone.Content = new View.ViewDrone(droneId, updateCurrentWindow, () => RemoveTab(viewDrone.Header), AddTab, RemoveTab);
                     AddTab(viewDrone);
                 });
             }
         }
 
+        #endregion Commands
 
+        /// <summary>
+        /// parcel details
+        /// </summary>
+        public string Details { get { return parcelModel.Details; } set { parcelModel.Details = value; } }
 
+        /// <summary>
+        /// Customer Details Visibility
+        /// </summary>
+        public Visibility CustomerVisibility { get; }
+
+        /// <summary>
+        /// View Drone Visibility
+        /// </summary>
+        public Visibility ViewDroneVisibility { get { return BLApi.FactoryBL.GetBL().GetParcel(parcelModel.ParcelId).DroneDelivery == null? Visibility.Collapsed: Visibility.Visible; } }
+
+        /// <summary>
+        /// DeleteCommand
+        /// </summary>
         public DelegateCommand DeleteCommand
         {
             get
             {
                 return new DelegateCommand((o) =>
                 {
-                    try
-                    {
-                        if (MessageBox.Show($"delete parcel {parcelModel.ParcelId} ?", $"delete {parcelModel.ParcelId}", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                        {
-                            BLApi.FactoryBL.GetBL().DeleteParcel(parcelModel.ParcelId);
-                            MessageBox.Show("Successfully delete");
-                            if (UpDatePWindow != default)
-                                UpDatePWindow();
-                            Close();
-                        }
-                    }
-                    catch (BO.ObjectNotExistException e) { MessageBox.Show("can't update parcel details:" + e.Message); }
-                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                    parcelModel.Delete();
+                    if (UpDatePWindow is not null)
+                        UpDatePWindow();
+                    Close();
                 });
             }
         }
@@ -102,7 +117,8 @@ namespace PL.ViewModel
             parcelModel.ParcelId = parcelId;
             parcelModel.DetailsPanelVisibility = true;
             CustomerVisibility = IsCustomerI ? Visibility.Collapsed : Visibility.Visible;
-            InitializeData(parcelId);
+            updateCurrentWindow = ()=>InitializeData(parcelId);
+            updateCurrentWindow();
         }
     }
 }

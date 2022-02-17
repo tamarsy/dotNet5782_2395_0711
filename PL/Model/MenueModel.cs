@@ -11,5 +11,6 @@ namespace PL.Model
         public string ButtonC_Content { get; set; }
         public string ButtonD_Content { get; set; }
         public int selectedTab { get; set; }
+       
     }
 }

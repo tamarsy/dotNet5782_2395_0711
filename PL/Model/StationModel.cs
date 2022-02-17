@@ -7,12 +7,54 @@ namespace PL.Model
 {
     class StationModel
     {
-        public DelegateCommand Addcommand { set; get; }
-        public DelegateCommand UpDateComand { set; get; }
+        public Action Addcommand
+        {
+            get
+            {
+                return () =>
+                {
+                    try
+                    {
+                        BLApi.FactoryBL.GetBL().AddStation(Id, Name, new BO.Location(Latitude, Longitude), NumCargeSlot);
+                        MessageBox.Show("Successfully add station");
+                    }
+                    catch (BO.ObjectAlreadyExistException e) { MessageBox.Show("failed add station: " + e.Message); }
+                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                };
+            }
+        }
+        public Action UpDateComand
+        {
+            get
+            {
+                return () =>
+                {
+                    try
+                    {
+                        BLApi.FactoryBL.GetBL().UpdateStation(Id, Name, NumCargeSlot);
+                        MessageBox.Show("Successfully update station details");
+                    }
+                    catch (BO.ObjectAlreadyExistException e) { MessageBox.Show("failed update station: " + e.Message); }
+                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                };
+            }
+        }
+        public Action Delete
+        {
+            get => () =>
+                 {
+                     try
+                     {
+                         BLApi.FactoryBL.GetBL().DeleteStation(Id);
+                         MessageBox.Show("Successfully delete");
+
+                     }
+                     catch (BO.ObjectNotExistException e) { MessageBox.Show("can't update station details:" + e.Message); }
+                     catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                 };
+        }
+        public List<BO.DroneCharge> DronesInCharge;
         public bool IsDetailsPanelVisibility { set; get; }
-        public int StatusSelector_select { set; get; }
-        public int MaxWeightSelector_select { set; get; }
-        public int StationSelector_select { set; get; }
         public string Details { get; set; }
         public double Latitude { get; internal set; }
         public double Longitude { get; internal set; }

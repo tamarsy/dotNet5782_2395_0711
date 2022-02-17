@@ -17,7 +17,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = "Update your details";
-                newTab.Content = new View.ViewCustomer(Id, close: () => RemoveTab("Update your details"), AddTab, RemoveTab);
+                newTab.Content = new View.ViewCustomer(Id, close: () => RemoveTab("Update your details"), AddTab, RemoveTab, UpdateWindows);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -57,7 +57,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = "Add parcel";
-                newTab.Content = new View.ViewParcel(() => RemoveTab("Add parcel"), Id);
+                newTab.Content = new View.ViewParcel(() => {UpdateWindows(); RemoveTab(newTab.Header); }, Id);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -77,6 +77,7 @@ namespace PL.ViewModel
             RemoveTab = removeTab;
             Id = customerId;
             Close = close;
+            UpdateWindows = ()=> { };
         }
     }
 }

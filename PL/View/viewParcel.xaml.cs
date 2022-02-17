@@ -17,12 +17,14 @@ namespace PL.View
     /// <summary>
     /// Interaction logic for viewParcel.xaml
     /// </summary>
-    public partial class ViewParcel : UserControl
+    public partial class ViewParcel : UserControl, Update
     {
         private readonly ViewModel.ViewParcelModel _viewParcelModel;
+        public Action updateCurrentWindow { get; }
         public ViewParcel(int parcelId, Action updatePWindow, Action close, Action<object> addTab, Action<object> removeTab, bool IsCustomerI = true)
         {
             _viewParcelModel = new ViewModel.ViewParcelModel(parcelId, updatePWindow, close, addTab, removeTab, IsCustomerI);
+            updateCurrentWindow = _viewParcelModel.updateCurrentWindow;
             DataContext = _viewParcelModel;
             InitializeComponent();
         }
@@ -30,6 +32,7 @@ namespace PL.View
         public ViewParcel(Action UpdateAndClose, int? id = null)
         {
             _viewParcelModel = new ViewModel.ViewParcelModel(UpdateAndClose, id);
+            updateCurrentWindow = _viewParcelModel.updateCurrentWindow;
             DataContext = _viewParcelModel;
             InitializeComponent();
         }

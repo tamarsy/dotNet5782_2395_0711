@@ -9,51 +9,62 @@ namespace PL.ViewModel
 {
     partial class ViewDroneModel : ViewModelBase
     {
-        public bool IsEnablAddDrone {
-            get { return droneModel.IsEnablButton;}
-            private set { droneModel.IsEnablButton = value; }
-        }
 
-        public Array MaxWeightSelector {
+        #region Selectors
+
+        public Array MaxWeightSelector
+        {
             get { return Enum.GetValues(typeof(BO.WeightCategories)); }
         }
 
-        public Array StationSelector {
-            get { return BLApi.FactoryBL.GetBL().StationsList().Select(s => s.Id).ToArray(); }
-        }
+        public Array StationSelector { get => droneModel.StationSelector; set { droneModel.StationSelector = value; OnPropertyChange("StationSelector"); } }
 
-        public int MaxWeightSelector_select {
+        #endregion Selectors
+
+
+        #region Items select
+
+        public int MaxWeightSelector_select
+        {
             get { return droneModel.MaxWeightSelector_select; }
             set { droneModel.MaxWeightSelector_select = value; OnPropertyChange("MaxWeightSelector_select"); }
         }
 
-        public int StationSelector_select { get { return droneModel.StationSelector_select; }
+        public int StationSelector_select
+        {
+            get { return droneModel.StationSelector_select; }
             set { droneModel.StationSelector_select = value; OnPropertyChange("StationSelector_select"); }
         }
+        #endregion  Items select
 
-        public int DroneId { get { return droneModel.DroneId; }
-            set{ droneModel.DroneId = value; }
+        public bool IsEnablAddDrone
+        {
+            get { return droneModel.IsEnablButton; }
+            private set { droneModel.IsEnablButton = value; }
         }
 
+        public int DroneId
+        {
+            get { return droneModel.DroneId; }
+            set { droneModel.DroneId = value; }
+        }
+
+        /// <summary>
+        /// AddCommand
+        /// </summary>
         public ICommand AddCommand
         {
-            get
-            {
-                droneModel.Addcommand = new DelegateCommand((o) =>
+            get => new DelegateCommand((o) =>
                 {
-                    try
-                    {
-                        BLApi.FactoryBL.GetBL().AddDrone(droneModel.DroneId, droneModel.DroneStr, (BO.WeightCategories)droneModel.MaxWeightSelector_select, (int)StationSelector.GetValue(droneModel.StationSelector_select));
-                        MessageBox.Show("successfully add");
-                        UpDatePWindow();
-                    }
-                    catch (BO.ObjectAlreadyExistException e){ MessageBox.Show("Failed add drone: " + e.Message); }
-                    catch (Exception e) { MessageBox.Show("failed add drone: " + e.Message); }
+                    droneModel.Addcommand();
+                    UpDatePWindow();
                 });
-                return droneModel.Addcommand;
-            }
         }
 
+        /// <summary>
+        /// ViewDroneModel
+        /// </summary>
+        /// <param name="updateAndClose">updateAndClose</param>
         public ViewDroneModel(Action updateAndClose)
         {
             droneModel = new Model.DroneModel();
@@ -61,6 +72,8 @@ namespace PL.ViewModel
             droneModel.DetailsPanelVisibility = false;
             UpDatePWindow = updateAndClose;
             Close = updateAndClose;
+            updateCurrentWindow = ()=> StationSelector = BLApi.FactoryBL.GetBL().StationsList().Select(s => s.Id).ToArray();
+            updateCurrentWindow();
         }
     }
 }

@@ -33,6 +33,6 @@
                 <TextBox x:Name="NameIn" />
             </StackPanel>
         </Expander>
-        <Button Content="Company" Command="{Binding Company}" DockPanel.Dock="Right" Height="68" Width="111"/>
+        <Button Content="Company" Command="{Binding Company}" Height="450" Width="111"/>
     </DockPanel>
 </Page>

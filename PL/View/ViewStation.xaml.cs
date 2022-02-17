@@ -15,12 +15,16 @@ namespace PL.View
     /// <summary>
     /// Interaction logic for ViewStation.xaml
     /// </summary>
-    public partial class ViewStation : UserControl
+    public partial class ViewStation : UserControl, Update
     {
         private readonly ViewModel.ViewStationModel _viewParcelModel;
+
+        public Action updateCurrentWindow { get; }
+
         public ViewStation(Action UpdatePWindow, int parcelId, Action close, Action<object> addTab, Action<object> removeTab)
         {
             _viewParcelModel = new ViewModel.ViewStationModel(parcelId, UpdatePWindow, close, addTab, removeTab);
+            updateCurrentWindow = _viewParcelModel.updateCurrentWindow;
             DataContext = _viewParcelModel;
             InitializeComponent();
         }

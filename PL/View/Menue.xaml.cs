@@ -44,6 +44,9 @@ namespace PL.View
                 {
                     i = MainTabs.Items.Add(tabItem);
                 }
+                if (tabItem.Content is Update p)    
+                    if (p.updateCurrentWindow is not null)
+                        _menu.UpdateWindows += ((Update)tabItem.Content).updateCurrentWindow;
                 _menu.SelectedTab = i;
             }
         }

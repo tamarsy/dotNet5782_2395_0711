@@ -182,6 +182,7 @@ namespace PL.ViewModel
         public ViewParcelListModel(Action<object> addTab, Action<object> removeTab, Predicate<ParcelToList> selectorParcel = default, string header = "Parcels List")
         {
             ParcelListModel = new Model.ParcelListModel();
+            updateCurrentWindow = ParcelsSelector_SelectionChanged;
             AddTab = addTab;
             RemoveTab = removeTab;
             Close = () => removeTab(header);

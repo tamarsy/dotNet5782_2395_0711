@@ -9,11 +9,18 @@ namespace PL.ViewModel
 {
     partial class ViewParcelModel : ViewModelBase
     {
+        #region Selectors
         public Array WeightSelector { get { return Enum.GetValues(typeof(BO.WeightCategories)); } }
         public Array PrioritySelector { get { return Enum.GetValues(typeof(BO.Priorities)); } }
-        public Array TID { get { return BLApi.FactoryBL.GetBL().CustomersList().Select(c=>c.Id).ToArray(); } }
-        public Array SID { get { return BLApi.FactoryBL.GetBL().CustomersList().Select(c=>c.Id).ToArray(); } }
+        public Array TID { get => parcelModel.TID; set { parcelModel.TID = value; OnPropertyChange("TID"); } }
+        public Array SID { get => parcelModel.SID; set { parcelModel.SID = value; OnPropertyChange("SID"); } }
+        #endregion Selectors
 
+        #region Items select
+
+        /// <summary>
+        /// PrioritySelector item select
+        /// </summary>
         public int PrioritySelector_select
         {
             get { return parcelModel.PrioritySelector_select; }
@@ -24,6 +31,9 @@ namespace PL.ViewModel
             }
         }
 
+        /// <summary>
+        /// TID item select
+        /// </summary>
         public object TID_select
         {
             get { return parcelModel.TID_select; }
@@ -35,7 +45,9 @@ namespace PL.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// SID item select
+        /// </summary>
         public object SID_select
         {
             get { return parcelModel.SID_select; }
@@ -47,7 +59,9 @@ namespace PL.ViewModel
             }
         }
 
-
+        /// <summary>
+        /// WeightSelector item select
+        /// </summary>
         public int WeightSelector_select
         {
             get { return parcelModel.WeightSelector_select; }
@@ -58,52 +72,59 @@ namespace PL.ViewModel
             }
         }
 
+        #endregion Items select
+
+
+        #region Enable and Visibility
         public bool IsEnableAdd_Button
         {
-            get {
+            get
+            {
                 return !TID_select.Equals(0) && !SID_select.Equals(0) && !TID_select.Equals(SID_select);
             }
         }
+
+        public Visibility DetailsPanelVisibility { get { return parcelModel.DetailsPanelVisibility ? Visibility.Visible : Visibility.Collapsed; } }
+        public Visibility AddPanelVisibility { get { return parcelModel.DetailsPanelVisibility ? Visibility.Collapsed : Visibility.Visible; } }
+        public bool IsEnableSID_select { get; }
+
+
+        #endregion
+
 
         public ICommand AddComand
         {
             get
             {
-                parcelModel.AddComand = new DelegateCommand((pram) =>
+                return new DelegateCommand((pram) =>
                 {
-                    try
-                    {
-                        BLApi.FactoryBL.GetBL().GetCustomer(parcelModel.SID_select);
-                        BLApi.FactoryBL.GetBL().AddParcel(parcelModel.SID_select, parcelModel.TID_select, (BO.WeightCategories)WeightSelector_select, (BO.Priorities)PrioritySelector_select);
-                        MessageBox.Show("successfully add Parcel");
-                        //?????????????????????????update from customer 
-                        parcelModel.UpDatePWindow();
-                    }
-                    catch (BO.ObjectNotExistException) { MessageBox.Show("not exist sender id:" + SID); }
-                    catch (BO.ObjectAlreadyExistException e) { MessageBox.Show("can't add Parcel: " + e.Message); }
-                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
+                    parcelModel.AddComand();
+                    parcelModel.UpDatePWindow();
                 });
-                return parcelModel.AddComand;
             }
         }
 
-        public Visibility DetailsPanelVisibility { get{ return parcelModel.DetailsPanelVisibility ? Visibility.Visible : Visibility.Collapsed; } }
-        public Visibility AddPanelVisibility { get { return parcelModel.DetailsPanelVisibility ?Visibility.Collapsed:Visibility.Visible; } }
-        public bool IsEnableSID_select { get; }
+
+        private void InitializeData()
+        {
+            TID = BLApi.FactoryBL.GetBL().CustomersList().Select(c => c.Id).ToArray();
+            SID = BLApi.FactoryBL.GetBL().CustomersList().Select(c => c.Id).ToArray();
+        }
 
         public ViewParcelModel(Action upDateAndClose, int? id = null)
         {
             parcelModel = new Model.ParcelModel();
-            Close = upDateAndClose;
-            parcelModel.UpDatePWindow = upDateAndClose;
+            Close = parcelModel.UpDatePWindow = upDateAndClose;
             parcelModel.DetailsPanelVisibility = false;
-            if (id != null)
+            if (id is not null)
             {
                 parcelModel.SID_select = (int)id;
                 IsEnableSID_select = false;
             }
             else
                 IsEnableSID_select = true;
+            updateCurrentWindow = InitializeData;
+            InitializeData();
         }
     }
 }

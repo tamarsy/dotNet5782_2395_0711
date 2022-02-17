@@ -16,6 +16,21 @@ namespace PL.ViewModel
             set { stationListModel.Stations = value; OnPropertyChange("Stations"); }
             get { return stationListModel.Stations; }
         }
+
+        public Array OrderBySelector
+        {
+            get => typeof(BO.StationToList).GetProperties().Select(s=>s.Name).ToArray();
+        }
+
+        public int OrderBy_select
+        {
+            set
+            {
+                stationListModel.OrderBy_select = value;
+                updateCurrentWindow();
+            }
+        }
+
         public DelegateCommand NewViewCommand
         {
             get
@@ -27,12 +42,12 @@ namespace PL.ViewModel
                     {
                         newTab.Header = "Station: " + stationId;
                         newTab.TabIndex = stationId;
-                        newTab.Content = new ViewStation(IntilizeStations, stationId, () => RemoveTab("Station: " + stationId), AddTab, RemoveTab);
+                        newTab.Content = new ViewStation(updateCurrentWindow, stationId, () => RemoveTab("Station: " + stationId), AddTab, RemoveTab);
                     }
                     else
                     {
                         newTab.Header = "Add station";
-                        newTab.Content = new ViewStation(() => { IntilizeStations(); RemoveTab("Add station"); });
+                        newTab.Content = new ViewStation(() => { updateCurrentWindow(); RemoveTab("Add station"); });
                     }
                     AddTab(newTab);
                 });
@@ -52,15 +67,18 @@ namespace PL.ViewModel
         }
         private void IntilizeStations()
         {
-            stationListModel = new Model.StationListModel();
-            Stations = BLApi.FactoryBL.GetBL().StationsList().OrderBy(s=>s.Id).ToList();
+            //???????????????????
+            Stations = BLApi.FactoryBL.GetBL().StationsList()
+                .OrderBy(s=>s.Id).OrderBy(p=> p.Id).ToList();
         }
 
         public ViewStationListModel(Action<object> addTab, Action<object> removeTab)
         {
+            stationListModel = new Model.StationListModel();
             AddTab = addTab;
             RemoveTab = removeTab;
             Close = () => removeTab("Stations List");
+            updateCurrentWindow = IntilizeStations;
             IntilizeStations();
         }
     }

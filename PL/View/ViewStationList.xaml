@@ -23,7 +23,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <Button Grid.Column="3" Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
-            <Button Command="{Binding Path=NewViewCommand}" Grid.Column="3" Content="Add station" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Command="{Binding Path=NewViewCommand}" Grid.Column="2" Content="Add station" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120">Order by: </Label>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120"
+                      SelectedIndex="{Binding OrderBy_select, ValidatesOnDataErrors=True, Mode=OneWayToSource}" ItemsSource="{Binding OrderBySelector, Mode=OneTime}"/>
         </Grid>
         <ListView ItemsSource="{Binding Stations, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" x:Name="viewStations" MouseDoubleClick="viewStation_MouseDoubleClick" >
             <ListView.View>

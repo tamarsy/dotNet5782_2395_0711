@@ -15,12 +15,14 @@ namespace PL.View
     /// <summary>
     /// Interaction logic for ViewParcelList.xaml
     /// </summary>
-    public partial class ViewParcelList : UserControl
+    public partial class ViewParcelList : UserControl, Update
     {
         private readonly ViewModel.ViewParcelListModel _viewParcelListModel;
+        public Action updateCurrentWindow { get; }
         public ViewParcelList(Action<object> addTab, Action<object> removeTab, Predicate<BO.ParcelToList> p = default, string header = "Parcels List")
         {
             _viewParcelListModel = new ViewModel.ViewParcelListModel(addTab, removeTab, p, header);
+            updateCurrentWindow = _viewParcelListModel.updateCurrentWindow;
             DataContext = _viewParcelListModel;
             InitializeComponent();
         }
