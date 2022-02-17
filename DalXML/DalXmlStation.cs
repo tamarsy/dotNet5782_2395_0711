@@ -11,7 +11,7 @@ using System.IO;
 
 namespace DAL
 {
-    internal sealed class DalXML : IDal
+    internal sealed partial class DalXML : IDal
     {
         private readonly string parcelsPath = @$"{Directory.GetCurrentDirectory()}/../../../../xml/Parcels.xml";
         private readonly string StationsPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/Stations.xml";
@@ -28,13 +28,7 @@ namespace DAL
             XMLTools.SaveListToXmlSerializer(customers, customersPath);
         }
 
-        public void AddDrone(Drone newDrone)
-        {
-            List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
-            drones.Add(newDrone);
-            XMLTools.SaveListToXmlSerializer(drones, dronesPath);
-        }
-
+      
         public void AddDroneCharge(int droneId, int baseStationId)
         {
             List<DroneCharge> charges = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
