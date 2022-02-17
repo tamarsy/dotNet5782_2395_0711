@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Windows.Data;
 
 namespace PL.Model
 {
@@ -53,7 +54,7 @@ namespace PL.Model
                      catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
                  };
         }
-        public List<BO.DroneCharge> DronesInCharge;
+        public ListCollectionView DronesInCharge;
         public bool IsDetailsPanelVisibility { set; get; }
         public string Details { get; set; }
         public double Latitude { get; internal set; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PL.ViewModel
@@ -75,7 +76,7 @@ namespace PL.ViewModel
         /// station details
         /// </summary>
         public string Details { get => stationModel.Details; set { stationModel.Details = value; OnPropertyChange("Details"); } }
-        public List<BO.DroneCharge> DronesInCharge { get => stationModel.DronesInCharge; set { stationModel.DronesInCharge = value; OnPropertyChange("DronesInCharge"); } }
+        public ListCollectionView DronesInCharge { get => stationModel.DronesInCharge; set { stationModel.DronesInCharge = value; OnPropertyChange("DronesInCharge"); } }
 
         /// <summary>
         /// open drone from DronesInCharge list
@@ -109,7 +110,7 @@ namespace PL.ViewModel
             updateCurrentWindow = () =>
             {
                 Details = BLApi.FactoryBL.GetBL().GetStation(stationId).ToString();
-                DronesInCharge = BLApi.FactoryBL.GetBL().GetStation(stationModel.Id).DronesInCharge;
+                DronesInCharge = new ListCollectionView( BLApi.FactoryBL.GetBL().GetStation(stationModel.Id).DronesInCharge);
             };
             updateCurrentWindow();
         }

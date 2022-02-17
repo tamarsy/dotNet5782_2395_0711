@@ -8,7 +8,6 @@ namespace PL.Model
     {
         public List<BO.StationToList> Stations { set; get; }
         public DelegateCommand Close { set; get; }
-        public DelegateCommand NewViewCommand { set; get; }
         public int OrderBy_select { set; get; }
     }
 }

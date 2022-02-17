@@ -191,7 +191,7 @@ namespace PL.ViewModel
             ParcelListModel.PrioritySelector_select = PrioritySelector.Length - 1;
             ParcelListModel.GroupBy_select = GroupBySelector.GetValue(GroupBySelector.Length - 1).ToString();
             ParcelListModel.CustomerSelector = selectorParcel;
-            ParcelsSelector_SelectionChanged();
+            updateCurrentWindow();
         }
     }
 }

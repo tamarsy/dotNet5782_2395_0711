@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PL.ViewModel
@@ -79,8 +80,8 @@ namespace PL.ViewModel
 
         #endregion
 
-        public List<BO.CustomerDelivery> ParcelsFrom { get => customerModel.ParcelsFrom; set { customerModel.ParcelsFrom = value; OnPropertyChange("ParcelsFrom"); } }
-        public List<BO.CustomerDelivery> ParcelsTo { get => customerModel.ParcelsTo; set { customerModel.ParcelsTo = value; OnPropertyChange("ParcelsTo"); } }
+        public ListCollectionView ParcelsFrom { get => customerModel.ParcelsFrom; set { customerModel.ParcelsFrom = value; OnPropertyChange("ParcelsFrom"); } }
+        public ListCollectionView ParcelsTo { get => customerModel.ParcelsTo; set { customerModel.ParcelsTo = value; OnPropertyChange("ParcelsTo"); } }
 
         public string Details
         {
@@ -140,8 +141,8 @@ namespace PL.ViewModel
             customerModel.IStartName = Details.IndexOf("Name") + "Name: ".Length;
             customerModel.Phone = c.Phone;
             customerModel.Name = c.Name;
-            ParcelsFrom = BLApi.FactoryBL.GetBL().GetCustomer(Id).FromCustomer;
-            ParcelsTo = BLApi.FactoryBL.GetBL().GetCustomer(Id).ToCustomer;
+            ParcelsFrom = new ListCollectionView(BLApi.FactoryBL.GetBL().GetCustomer(Id).FromCustomer);
+            ParcelsTo = new ListCollectionView(BLApi.FactoryBL.GetBL().GetCustomer(Id).ToCustomer);
         }
 
         public ViewCustomerModel(int customerId, Action upDatePList, Action close, Action<object> addTab, Action<object> removeTab)

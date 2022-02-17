@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PL.ViewModel
@@ -10,17 +11,11 @@ namespace PL.ViewModel
     class ViewDroneListModel : ViewModelBase
     {
         private Model.DroneListModel droneListModel;
-        public List<BO.DroneToList> Drones
-        {
-            get { return droneListModel.Drones; }
-            set
-            {
-                droneListModel.Drones = value;
-                OnPropertyChange("Drones");
-            }
-        }
 
-        public Array StatusSelector { get
+        #region Selctors
+        public Array StatusSelector
+        {
+            get
             {
                 List<object> statusSelector = new List<object>();
                 foreach (var item in Enum.GetValues(typeof(BO.DroneStatuses)))
@@ -29,10 +24,13 @@ namespace PL.ViewModel
                 }
                 statusSelector.Add("All Status");
                 return statusSelector.ToArray();
-            } }
+            }
+        }
 
-
-        public Array MaxWeightSelector { get {
+        public Array MaxWeightSelector
+        {
+            get
+            {
                 List<object> maxWeightSelector = new List<object>();
                 foreach (var item in Enum.GetValues(typeof(BO.WeightCategories)))
                 {
@@ -41,9 +39,11 @@ namespace PL.ViewModel
                 maxWeightSelector.Add("All Weights");
 
                 return maxWeightSelector.ToArray();
-            } }
+            }
+        }
+        #endregion Selctors
 
-
+        #region Item select
         public int StatusSelector_select
         {
             get { return droneListModel.StatusSelector_select; }
@@ -55,7 +55,7 @@ namespace PL.ViewModel
         }
 
         public int MaxWeightSelector_select
-        { 
+        {
             get { return droneListModel.MaxWeightSelector_select; }
             set
             {
@@ -64,34 +64,21 @@ namespace PL.ViewModel
             }
         }
 
-        private void WeightAndStatudSelector_SelectionChanged()
-        {
-            droneListModel.Drones = BLApi.FactoryBL.GetBL().DronesList().ToList();
-            if (MaxWeightSelector.Length - 1 > MaxWeightSelector_select)
-            {
-                droneListModel.Drones = droneListModel.Drones.Where(
-                    (d) => d.MaxWeight.Equals((BO.WeightCategories)MaxWeightSelector_select)).ToList();
-            }
-            if (StatusSelector.Length - 1 > StatusSelector_select)
-            {
-                droneListModel.Drones = droneListModel.Drones.Where(
-                    (d) => d.DroneStatuses.Equals((BO.DroneStatuses)StatusSelector_select)).ToList();
-            }
-            Drones = droneListModel.Drones;
-        }
+        #endregion
 
+        #region Command
         public ICommand NewViewDroneCommand
         {
             get
             {
-                droneListModel.NewViewDroneCommand = new DelegateCommand((choosenDrone) =>
+                return new DelegateCommand((choosenDrone) =>
                 {
                     TabItem newTabItem = new TabItem();
                     if (choosenDrone is int droneId)
                     {
                         newTabItem.Header = "Drone: " + droneId;
                         newTabItem.TabIndex = droneId;
-                        newTabItem.Content = new View.ViewDrone(droneId, WeightAndStatudSelector_SelectionChanged, ()=>RemoveTab("Drone: " + droneId), addTab:AddTab, removeTab:RemoveTab);
+                        newTabItem.Content = new View.ViewDrone(droneId, WeightAndStatudSelector_SelectionChanged, () => RemoveTab("Drone: " + droneId), addTab: AddTab, removeTab: RemoveTab);
                     }
                     else
                     {
@@ -102,7 +89,6 @@ namespace PL.ViewModel
                     }
                     AddTab(newTabItem);
                 });
-                return droneListModel.NewViewDroneCommand;
             }
         }
 
@@ -116,6 +102,29 @@ namespace PL.ViewModel
                 });
             }
         }
+        #endregion
+
+        public ListCollectionView Drones
+        {
+            get { return droneListModel.Drones; }
+            set
+            {
+                droneListModel.Drones = value;
+                OnPropertyChange("Drones");
+            }
+        }
+
+        private void WeightAndStatudSelector_SelectionChanged()
+        {
+            List<BO.DroneToList> drones = BLApi.FactoryBL.GetBL().DronesList().ToList();
+            if (MaxWeightSelector.Length - 1 > MaxWeightSelector_select)
+                drones = drones.Where(
+                    (d) => d.MaxWeight.Equals((BO.WeightCategories)MaxWeightSelector_select)).ToList();
+            if (StatusSelector.Length - 1 > StatusSelector_select)
+                drones = drones.Where(
+                    (d) => d.DroneStatuses.Equals((BO.DroneStatuses)StatusSelector_select)).ToList();
+            Drones = new ListCollectionView(drones);
+        }
 
         public ViewDroneListModel(Action<object> addTab, Action<object> removeTab)
         {
@@ -123,10 +132,10 @@ namespace PL.ViewModel
             AddTab = addTab;
             RemoveTab = removeTab;
             Close = ()=>removeTab("Drones List");
-            Drones = BLApi.FactoryBL.GetBL().DronesList().ToList();
             droneListModel.StatusSelector_select = StatusSelector.Length - 1;
             droneListModel.MaxWeightSelector_select = MaxWeightSelector.Length - 1;
-            WeightAndStatudSelector_SelectionChanged();
+            updateCurrentWindow = WeightAndStatudSelector_SelectionChanged;
+            updateCurrentWindow();
         }
     }
 }

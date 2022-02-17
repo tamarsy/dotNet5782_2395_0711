@@ -17,60 +17,6 @@ namespace PL.ViewModel
         public int SelectedTab { get { return baseModel.selectedTab; } set { baseModel.selectedTab = value; OnPropertyChange("SelectedTab"); } }
         public Action UpdateWindows;
 
-        //public ICommand ButtonA_Command
-        //{
-        //    get
-        //    {
-        //        TabItem newTab = new TabItem();
-        //        newTab.Header = "Drones List";
-        //        newTab.Content = new View.ViewListDrone(AddTab, RemoveTab);
-        //        return new DelegateCommand((o) =>
-        //        {
-        //            AddTab(baseModel.ButtonA_Command(););
-        //        });
-        //    }
-        //}
-        //public ICommand ButtonB_Command
-        //{
-        //    get
-        //    {
-        //        TabItem newTab = new TabItem();
-        //        newTab.Header = "Parcels List";
-        //        newTab.Content = new View.ViewParcelList(AddTab, RemoveTab);
-        //        return new DelegateCommand((o) =>
-        //        {
-        //            AddTab(newTab);
-        //        });
-        //    }
-        //}
-        //public ICommand ButtonC_Command
-        //{
-        //    get
-        //    {
-        //        TabItem newTab = new TabItem();
-        //        newTab.Header = "Customers List";
-        //        newTab.Content = new View.VIewCustomerList(AddTab, RemoveTab);
-        //        return new DelegateCommand((o) =>
-        //        {
-        //            AddTab(newTab);
-        //        });
-        //    }
-        //}
-
-        //public ICommand ButtonD_Command
-        //{
-        //    get
-        //    {
-        //        TabItem newTab = new TabItem();
-        //        newTab.Header = "Stations List";
-        //        newTab.Content = new View.ViewStationList(AddTab, RemoveTab);
-        //        return new DelegateCommand((o) =>
-        //        {
-        //            AddTab(newTab);
-        //        });
-        //    }
-        //}
-
         public ICommand CloseCd
         {
             get

@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         d:DesignHeight="450" d:DesignWidth="800">
 
+    <!--<UserControl.Resources>
+        <local:BatteryToColorConverter x:Key="BatteryToColorConverter" ></local:BatteryToColorConverter>
+        <local:BatteryToProgressBarConverter x:Key="BatteryToProgressBarConverter" ></local:BatteryToProgressBarConverter>
+    </UserControl.Resources>-->
+    
     <Grid x:Name="Drone" >
         <Button Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
         <WrapPanel x:Name="AddDrone" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}">
@@ -46,6 +51,9 @@
                 <Button Content="{Binding AutomaticText}" Command="{Binding AutomaticCommand}" />
             </WrapPanel>
             <TextBox x:Name="details" Text="{Binding DroneDetails, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0"  />
+
+            <!--<ProgressBar Name="Battery" Value="{Binding BatteryStatuses, Converter={StaticResource BatteryToProgressBarConverter}}" Width="Auto" Height="30"
+                         Foreground="{Binding BatteryStatuses, Converter={StaticResource BatteryToColorConverter}}" Margin="0,225,0,56" Grid.Row="1" />-->
         </Grid>
     </Grid>
 </UserControl>

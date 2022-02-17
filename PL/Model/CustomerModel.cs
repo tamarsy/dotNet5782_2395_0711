@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Windows.Data;
 
 namespace PL.Model
 {
@@ -30,8 +31,8 @@ namespace PL.Model
               catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
           };
         }
-        public List<BO.CustomerDelivery> ParcelsFrom { set; get; }
-        public List<BO.CustomerDelivery> ParcelsTo { set; get; }
+        public ListCollectionView ParcelsFrom { set; get; }
+        public ListCollectionView ParcelsTo { set; get; }
         internal string Details { get; set; }
         internal int CustomerId { get; set; }
         internal string Name { get; set; } = "";

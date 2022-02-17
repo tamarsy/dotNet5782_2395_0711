@@ -13,6 +13,7 @@ namespace PL.ViewModel
     {
         Model.CustomerListModel customerListModel;
         public ListCollectionView Customers { get { return customerListModel.Customers; } set { customerListModel.Customers = value; OnPropertyChange("Customers"); } }
+        #region Command
         public DelegateCommand NewViewCommand {
             get
             {
@@ -23,12 +24,12 @@ namespace PL.ViewModel
                     {
                         tabitem.Header = "Customer: " + cId;
                         tabitem.TabIndex = cId;
-                        tabitem.Content = new ViewCustomer(id:cId, close:()=> RemoveTab(tabitem.Header), AddTab, RemoveTab, UpDatePWindow: IntilizeCUstomerList);
+                        tabitem.Content = new ViewCustomer(id:cId, close:()=> RemoveTab(tabitem.Header), AddTab, RemoveTab, UpDatePWindow: updateCurrentWindow);
                     }
                     else
                     {
                         tabitem.Header = "Add customer";
-                        tabitem.Content = new ViewCustomer(() => { IntilizeCUstomerList(); RemoveTab(tabitem.Header); });
+                        tabitem.Content = new ViewCustomer(() => { updateCurrentWindow(); RemoveTab(tabitem.Header); });
                     }
                     AddTab(tabitem);
                 });
@@ -57,8 +58,6 @@ namespace PL.ViewModel
             }
         }
 
-        public string GoupByNameText { get { return customerListModel.groupingSelected is null? "Group by name": "Remove group by name"; } }
-
         public ICommand CloseCd
         {
             get
@@ -70,6 +69,9 @@ namespace PL.ViewModel
             }
         }
 
+        #endregion
+
+        public string GoupByNameText { get { return customerListModel.groupingSelected is null? "Group by name": "Remove group by name"; } }
 
         private void IntilizeCUstomerList()
         {
@@ -83,7 +85,8 @@ namespace PL.ViewModel
             AddTab = addtab;
             RemoveTab = removeTab;
             Close = () => removeTab("Customers List");
-            IntilizeCUstomerList();
+            updateCurrentWindow = IntilizeCUstomerList;
+            updateCurrentWindow();
         }
 
     }

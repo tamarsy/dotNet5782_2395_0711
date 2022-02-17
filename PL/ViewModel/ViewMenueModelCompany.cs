@@ -48,7 +48,6 @@ namespace PL.ViewModel
                 });
             }
         }
-
         public ICommand ButtonD_Command
         {
             get
@@ -62,7 +61,6 @@ namespace PL.ViewModel
                 });
             }
         }
-
 
         public ViewMenueModelCompany(Action<object> addTab, Action<object> removeTab, Action close)
         {

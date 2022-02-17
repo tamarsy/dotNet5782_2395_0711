@@ -10,7 +10,6 @@ namespace PL.ViewModel
     class ViewMenueModelCustomer : ViewMenueModel
     {
         public int Id { get; set; }
-
         public ICommand ButtonA_Command
         {
             get
@@ -50,7 +49,6 @@ namespace PL.ViewModel
                 });
             }
         }
-
         public ICommand ButtonD_Command
         {
             get
@@ -64,7 +62,6 @@ namespace PL.ViewModel
                 });
             }
         }
-
 
         public ViewMenueModelCustomer(Action<object> addTab, Action<object> removeTab, int customerId, Action close)
         {

@@ -31,11 +31,11 @@ namespace PL.ViewModel
             }
         }
 
-        public DelegateCommand NewViewCommand
+        public ICommand NewViewCommand
         {
             get
             {
-                stationListModel.NewViewCommand = new DelegateCommand((s) =>
+                return new DelegateCommand((s) =>
                 {
                     TabItem newTab = new TabItem();
                     if (s is int stationId)
@@ -51,7 +51,6 @@ namespace PL.ViewModel
                     }
                     AddTab(newTab);
                 });
-                return stationListModel.NewViewCommand;
             }
         }
 
@@ -67,9 +66,18 @@ namespace PL.ViewModel
         }
         private void IntilizeStations()
         {
-            //???????????????????
-            Stations = BLApi.FactoryBL.GetBL().StationsList()
-                .OrderBy(s=>s.Id).OrderBy(p=> p.Id).ToList();
+            Stations =
+            stationListModel.OrderBy_select switch
+            {
+                0 => BLApi.FactoryBL.GetBL().StationsList()
+                    .OrderBy(s => s.Id).OrderBy(p => p.Id).ToList(),
+                1 => BLApi.FactoryBL.GetBL().StationsList()
+                    .OrderBy(s => s.Id).OrderBy(p => p.Name).ToList(),
+                2 => BLApi.FactoryBL.GetBL().StationsList()
+                    .OrderBy(s => s.Id).OrderBy(p => p.NumOfEmptyChargeSlots).ToList(),
+                _ => BLApi.FactoryBL.GetBL().StationsList()
+                .OrderBy(s => s.Id).OrderBy(p => p.NumOfCatchChargeSlots).ToList()
+            };
         }
 
         public ViewStationListModel(Action<object> addTab, Action<object> removeTab)
@@ -79,7 +87,7 @@ namespace PL.ViewModel
             RemoveTab = removeTab;
             Close = () => removeTab("Stations List");
             updateCurrentWindow = IntilizeStations;
-            IntilizeStations();
+            updateCurrentWindow();
         }
     }
 }

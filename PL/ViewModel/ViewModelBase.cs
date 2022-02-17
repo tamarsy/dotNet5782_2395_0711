@@ -15,7 +15,6 @@ namespace PL.ViewModel
         public Action<object> RemoveTab { get; set; }
         public Action updateCurrentWindow { get; set; }
         public Action Close { get; set; }
-
         protected string OnlyNumStr(string allString)
         {
             string newS = "";
@@ -30,15 +29,7 @@ namespace PL.ViewModel
             }
             return newS;
         }
-
-
-        public ViewModelBase()
-        {
-
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected void OnPropertyChange(string propertyName)
         {
             if (PropertyChanged != null)
