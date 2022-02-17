@@ -36,6 +36,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        public void AddDroneCharge(int droneId, int baseStationId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void AddParcel(Parcel newParcel)
         {
             List<Parcel> config = XMLTools.LoadListFromXmlSerializer(ConfigPath);         
@@ -53,31 +58,26 @@ namespace DAL
 
         public void ChargeOf(int droenId)
         {
-            int i = DataSource.DronesArr.FindIndex((d) => d.Id == droenId);
-            if (i < 0)
+            Drone drone = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath).FirstOrDefault(item => item.Id == droenId);
+            if (drone.Id < 0) 
                 throw new ObjectNotExistException("no drone whith id: " + droenId + "in charge slot");
             //remove from the list Of Charge Slot in DataSource
-            int f = DataSource.listOfChargeSlot.RemoveAll((dch) => dch.DroneId == droenId);
-            if (f < 0)
-                throw new ObjectNotAvailableForActionException($"no charge for drone: {droenId}");
-            throw new NotImplementedException();
+            StationDroneOut(droenId);
+            DeleteDroneCharge(droenId);
         }
 
         public void ChargeOn(int droenId, int stationId)
         {
-            Station s;
-            if (!DataSource.DronesArr.Exists(d => d.Id == droenId))
+            Drone drone = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath).FirstOrDefault(item => item.Id == droenId);
+            if (!XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath).Exists(d => d.Id == droenId))
                 throw new ObjectNotExistException("no drone whith id: " + droenId);
-            s = GetStation(stationId);
+            Station s = GetStation(stationId);
             if (!isEmptyChargeSlotInStation(stationId, s.ChargeSlot))
                 throw new ObjectNotAvailableForActionException($"no empty charge slot in station with id: {stationId}");
-            DataSource.listOfChargeSlot.Add(
-                new DroneCharge()
-                {
-                    DroneId = droenId,
-                    StationId = stationId,
-                    StartTime = DateTime.Now
-                });
+            if (XMLTools.LoadListFromXmlSerializer<Station>(StationsPath).Exists(d => d.Id == droenId))
+                throw new ObjectNotAvailableForActionException("Exist in charge drone whith id: " + droenId);
+            StationDroneIn(stationId);
+            AddDroneCharge(droenId, stationId);
             throw new NotImplementedException();
         }
 
@@ -113,6 +113,11 @@ namespace DAL
             throw new NotImplementedException();
         }
 
+        public void DeleteDroneCharge(int droneId)
+        {
+            throw new NotImplementedException();
+        }
+
         public void DeleteParcel(int id)
         {
             List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
@@ -144,12 +149,12 @@ namespace DAL
 
         public void Destination(int percelChoose)
         {
-            XMLTools.LoadListFromXmlSerializer<Parcel>(customersPath);
+         
 
-            int i = DataSource.ParcelArr.FindIndex(p => p.Id == percelChoose && !p.IsDelete);
-            if (i < 0)
+            Parcel parcel = XMLTools.LoadListFromXmlSerializer<Parcel>(customersPath).FirstOrDefault(p => p.Id == percelChoose && !p.IsDelete);
+            if (parcel.Id < 0)
                 throw new ObjectNotExistException("Error!! Ther is no drone with this id");
-            Parcel parcel = DataSource.ParcelArr[i];
+
             parcel.Delivered = DateTime.Now;
             DataSource.ParcelArr[i] = parcel;
             throw new NotImplementedException();
@@ -243,21 +248,59 @@ namespace DAL
 
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
-            throw new NotImplementedException();
+            List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
+            Parcel parcel = GetParcel(percelChoose);
+            parcels.Remove(parcel);
+            parcel.Id = droneChoose;
+            parcel.Schedulet = DateTime.Now;
+            parcels.Add(parcel);
+            XMLTools.SaveListToXmlSerializer(parcels, parcelsPath);
         }
 
         public void PickParcel(int percelChoose)
         {
-            throw new NotImplementedException();
+            List<Parcel> parcels = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
+
+            int i = DataSource.ParcelArr.FindIndex(pa => pa.Id == percelChoose);
+            if (i < 0)
+                throw new ObjectNotExistException("Error!! Ther is no drone with this id");
+            Parcel p = DataSource.ParcelArr[i];
+            p.PickedUp = DateTime.Now;
+            DataSource.ParcelArr[i] = p;
         }
 
         public double[] PowerConsumptionRequest()
         {
+        
             throw new NotImplementedException();
         }
 
         public DateTime StartChargeTime(int droneId)
         {
+            int i = DataSource.listOfChargeSlot.FindIndex((l) => l.DroneId == droneId);
+            if (i < 0)
+                throw new ObjectNotExistException("No charge for drone: " + droneId);
+            return DataSource.listOfChargeSlot[i].StartTime;
+        }
+
+        public void StationDroneIn(int baseStationId)
+        {
+            int i = DataSource.StationsArr.FindIndex(s => s.Id == stationId);
+            if (i < 0)
+                throw new ObjectNotExistException("Station not exist");
+            Station station = DataSource.StationsArr[i];
+            --station.ChargeSlot;
+            DataSource.StationsArr[i] = station;
+        }
+
+        public void StationDroneOut(int baseStationId)
+        {
+            int i = DataSource.StationsArr.FindIndex(s => s.Id == StationId); 
+            if (i == -1)
+                throw new ObjectNotExistException("station not exist");
+            Station station = DataSource.StationsArr[i];
+            ++station.ChargeSlot;
+            DataSource.StationsArr[i] = station;
             throw new NotImplementedException();
         }
 
@@ -309,7 +352,7 @@ namespace DAL
     /// <returns></returns>
     private bool isEmptyChargeSlotInStation(int stationId, int stationChargeSlot)
     {
-        XElement ChargeSlotXML = XMLTools.LoadListFromXmlElement(stationsPath);
+        XElement ChargeSlotXML = XMLTools.LoadListFromXmlElement(StationsPath);
         int counter = 0;
         foreach (var ChargeSlot in ChargeSlotXML.Elements())
         {
@@ -322,9 +365,7 @@ namespace DAL
         {
             return true;
         }
-        return false;
+        return false;    
+        throw new NotImplementedException();
     }
-                throw new NotImplementedException();
 }
-
-
