@@ -12,16 +12,8 @@ namespace PL.ViewModel
     partial class ViewCustomerModel : ViewModelBase
     {
         private Model.CustomerModel customerModel;
-        public List<BO.CustomerDelivery> Parcels { get => BLApi.FactoryBL.GetBL().GetCustomer(Id).ToCustomer; }
-
-        //public Array Parcels { get
-        //    {
-        //        BO.Customer c = BLApi.FactoryBL.GetBL().GetCustomer(Id);
-        //        IEnumerable<BO.CustomerDelivery> l = c.FromCustomer;
-        //        //l. c.ToCustomer 
-        //        var a = l.GroupBy();
-        //        return BLApi.FactoryBL.GetBL().GetCustomer(Id).FromCustomer;
-        //    } }
+        public List<BO.CustomerDelivery> ParcelsFrom { get => BLApi.FactoryBL.GetBL().GetCustomer(Id).FromCustomer ; }
+        public List<BO.CustomerDelivery> ParcelsTo { get => BLApi.FactoryBL.GetBL().GetCustomer(Id).ToCustomer; }
 
 
         public DelegateCommand UpDateCommand
@@ -42,29 +34,6 @@ namespace PL.ViewModel
                     catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
                 });
                 return customerModel.UpDateCommand;
-            }
-        }
-
-        public DelegateCommand DeleteCommand
-        {
-            get
-            {
-                return new DelegateCommand((o) =>
-                {
-                    try
-                    {
-                        if (MessageBox.Show($"delete {Name} ?", $"delete {Name}", MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-                        {
-                            BLApi.FactoryBL.GetBL().DeleteCustomer(Id);
-                            MessageBox.Show("Successfully delete");
-                            if (UpDatePWindow != default)
-                                UpDatePWindow();
-                            Close();
-                        }
-                    }
-                    catch (BO.ObjectNotExistException e) { MessageBox.Show("can't update customer details:" + e.Message); }
-                    catch (Exception e) { MessageBox.Show("ERROR" + e.Message); }
-                });
             }
         }
 

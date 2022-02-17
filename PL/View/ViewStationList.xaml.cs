@@ -25,6 +25,10 @@ namespace PL.View
             InitializeComponent();
         }
 
-        private void viewStation_MouseDoubleClick(object sender, MouseButtonEventArgs e) => _viewStationList.NewViewCommand.Execute(((BO.StationToList)viewStations.SelectedItem).Id);
+        private void viewStation_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (viewStations.SelectedItem is BO.StationToList d)
+                _viewStationList.NewViewCommand.Execute(d.Id);
+        }
     }
 }

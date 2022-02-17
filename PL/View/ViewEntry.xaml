@@ -2,29 +2,37 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:PL.View"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:PL"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ViewEntry">
 
     <DockPanel>
-        <Expander x:Name="up"  Header="sing up" >
-                <StackPanel>
-                <Button x:Name="upB" Content="sing up" Command="{Binding UpCd}" CommandParameter="{Binding ElementName=name, Path=Text}" DockPanel.Dock="Top"/>
-                <Button Content="sing in" Command="{Binding InCd}" CommandParameter="{Binding ElementName=name, Path=Text}" DockPanel.Dock="Top" />
+        <Expander x:Name="up" Header="sign up" >
+            <StackPanel>
+                <Button x:Name="upB" Content="sing up" Command="{Binding UpCd}" CommandParameter="{Binding ElementName=NameUp, Path=Text}" DockPanel.Dock="Top"/>
                 <Label>id:</Label>
-                    <TextBox x:Name="id" Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label>name:</Label>
-                    <TextBox x:Name="name" />
-                    <Label>phone:</Label>
-                    <TextBox x:Name="phone" Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label>name:</Label>
+                <TextBox x:Name="NameUp" />
+                <Label>phone:</Label>
+                <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label>latitude:</Label>
-                <TextBox x:Name="latitude" Text="{Binding Latitude, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding Latitude, UpdateSourceTrigger=PropertyChanged}"/>
                 <Label>longitude:</Label>
-                <TextBox x:Name="longitude" Text="{Binding Longitude, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox Text="{Binding Longitude, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-            </Expander>
-        <Button Content="compny" Command="{Binding Comp}" DockPanel.Dock="Right" Height="68" Width="111"/>
+        </Expander>
+        <Expander x:Name="in" Header="sign in" IsExpanded="{Binding ElementName=up, Path=IsExpanded, Converter={StaticResource NotConverter}}" >
+            <StackPanel>
+                <Button Content="sing in" Command="{Binding InCd}" CommandParameter="{Binding ElementName=NameIn, Path=Text}" DockPanel.Dock="Top" />
+                <Label>id:</Label>
+                <TextBox Text="{Binding Id, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label>name:</Label>
+                <TextBox x:Name="NameIn" />
+            </StackPanel>
+        </Expander>
+        <Button Content="Company" Command="{Binding Company}" DockPanel.Dock="Right" Height="68" Width="111"/>
     </DockPanel>
 </Page>

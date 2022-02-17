@@ -41,22 +41,18 @@ namespace DalObject
         /// Exception: ObjectNotExistException
         /// Delete Station
         /// </summary>
-        /// <param name="station"></param>
+        /// <param name="statioId">station id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteStation(int Id)
+        public void DeleteStation(int statioId)
         {
-            int i = DataSource.StationsArr.FindIndex(s => s.Id == Id && !s.IsDelete);
+            int i = DataSource.StationsArr.FindIndex(s => s.Id == statioId && !s.IsDelete);
             if (i < 0)
-                throw new ObjectNotExistException("not found a station with id = " + Id);
-            DataSource.StationsArr[i] = new Station()
-            {
-                Id = DataSource.StationsArr[i].Id,
-                Name = DataSource.StationsArr[i].Name,
-                Lattitude = DataSource.StationsArr[i].Lattitude,
-                Longitude = DataSource.StationsArr[i].Longitude,
-                ChargeSlot = DataSource.StationsArr[i].ChargeSlot,
-                IsDelete = true
-            };
+                throw new ObjectNotExistException("not found a station with id = " + statioId);
+            if (DataSource.listOfChargeSlot.Exists(cs => cs.StationId == statioId))
+                throw new ObjectNotAvailableForActionException("Exist drone in station" + statioId);
+            Station station = DataSource.StationsArr[i];
+            station.IsDelete = true;
+            DataSource.StationsArr[i] = station;
         }
 
 

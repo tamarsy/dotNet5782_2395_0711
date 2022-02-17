@@ -54,7 +54,7 @@ namespace PL.ViewModel
             get {return droneModel.DroneStr;}
             set
             {
-                if (OnlyModelCange(value))
+                if (OnlyModelChange(value))
                 {
                     string newModel = value.Substring(droneModel.IStartModel, value.Length - DroneDetails.Length + droneModel.ModelLength);
                     droneModel.DroneStr = value;
@@ -73,9 +73,9 @@ namespace PL.ViewModel
         }
 
 
-        private bool OnlyModelCange(string str)
+        private bool OnlyModelChange(string str)
         {
-            if(str.Length >= DroneDetails.Length - droneModel.ModelLength)
+            if(DroneDetails != null && str.Length >= DroneDetails.Length - droneModel.ModelLength)
             {
                 string start = DroneDetails.Substring(0, droneModel.IStartModel);
                 string end = DroneDetails.Substring(droneModel.IStartModel + droneModel.ModelLength);
@@ -291,6 +291,7 @@ namespace PL.ViewModel
                 {
                     Close();
                 });
+
             }
         }
 

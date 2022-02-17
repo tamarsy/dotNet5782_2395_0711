@@ -18,11 +18,11 @@ namespace DalObject
         internal class Config
         {
             static Random random;
-            static public double vacent { get; set; } = 1;
-            static public double LightWeightCarrier { get; set; } = 2;
-            static public double MediumWeightCarrier { get; set; } = 3;
-            static public double heavyWeightCarrier { get; set; } = 4;
-            static public double SkimmerLoadingRate { get; set; } = 4;
+            static public double vacent { get; set; } = 4;
+            static public double LightWeightCarrier { get; set; } = 6;
+            static public double MediumWeightCarrier { get; set; } = 6;
+            static public double heavyWeightCarrier { get; set; } = 7;
+            static public double SkimmerLoadingRate { get; set; } = 3;
             public static int runNumForParcel = 0;
             public static void Initialize()
             {
@@ -61,13 +61,23 @@ namespace DalObject
                 {
                     CustomerArr.Add(new Customer()
                     {
-                        Id = random.Next(11111111, 99999999),
+                        Id = GetCustomerId(),
                         Name = names[i % names.Count()],
                         Phone = phones[i % names.Count()],
                         Longitude = getRandomCoordinate(random.NextDouble() * 5),
                         Lattitude = getRandomCoordinate(random.NextDouble() * 5)
                     });
                 }
+            }
+
+            static int GetCustomerId()
+            {
+                int id;
+                do
+                {
+                    id = random.Next(11111111, 99999999);
+                } while (CustomerArr.Exists(c=>c.Id ==id));
+                return id;
             }
 
             static void AddToStationArr(int n, List<string> phones)
@@ -96,9 +106,9 @@ namespace DalObject
                     {
                         Id = runNumForParcel++,
                         SenderId = CustomerArr[index].Id,
-                        GetterId = (from c in CustomerArr where c.Id != CustomerArr[index].Id select c).FirstOrDefault().Id,
-                        Weight = 0,
-                        Priority = (Priorities)(i % 3),
+                        GetterId = (from c in CustomerArr where c.Id != CustomerArr[index].Id select c).ElementAt(random.Next() % (CustomerArr.Count - 2)).Id,
+                        Weight = (WeightCategories)(i % Enum.GetValues(typeof(WeightCategories)).Length),
+                        Priority = (Priorities)(i % Enum.GetValues(typeof(Priorities)).Length),
                         Droneld = dronIdOrNull,
                         Requested = (DateTime)getRandomDateTime(DateTime.Now, 200, false),
                         Schedulet = default(DateTime?),

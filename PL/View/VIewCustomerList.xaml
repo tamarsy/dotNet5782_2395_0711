@@ -25,13 +25,41 @@
             </Grid.ColumnDefinitions >
             <Button Grid.Column="3" Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
             <Button Command="{Binding NewViewCommand}" Grid.Column="3" Content="Add Customer" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Button Command="{Binding GoupByName}" Grid.Column="1" Content="{Binding GoupByNameText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <ListView ItemsSource="{Binding Customers, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" x:Name="viewCustomers" MouseDoubleClick="viewCustomer_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="viewD" />
+                    <GridViewColumn Header="Id"
+                            DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Name"
+                            DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Phone"
+                            DisplayMemberBinding="{Binding Phone}" />
                 </GridView>
             </ListView.View>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander >
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
     </Grid>
 </UserControl>

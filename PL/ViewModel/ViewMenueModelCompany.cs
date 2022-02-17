@@ -1,23 +1,21 @@
-﻿using BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Xml.Linq;
 
 namespace PL.ViewModel
 {
-    class ViewMenueModelCustomer : ViewMenueModel
+    class ViewMenueModelCompany : ViewMenueModel
     {
-        public int Id { get; set; }
-
         public ICommand ButtonA_Command
         {
             get
             {
                 TabItem newTab = new TabItem();
-                newTab.Header = "Update your details";
-                newTab.Content = new View.ViewCustomer(Id, close: () => RemoveTab("Update your details"), AddTab, RemoveTab);
+                newTab.Header = "Drones List";
+                newTab.Content = new View.ViewListDrone(AddTab, RemoveTab);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -29,8 +27,8 @@ namespace PL.ViewModel
             get
             {
                 TabItem newTab = new TabItem();
-                newTab.Header = $"Parcels to {BLApi.FactoryBL.GetBL().GetCustomer(Id).Name}";
-                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.GetterId.Equals(Id), (string)newTab.Header);
+                newTab.Header = "Parcels List";
+                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -42,8 +40,8 @@ namespace PL.ViewModel
             get
             {
                 TabItem newTab = new TabItem();
-                newTab.Header = $"Parcels From {BLApi.FactoryBL.GetBL().GetCustomer(Id).Name}";
-                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.SenderId.Equals(Id), (string)newTab.Header);
+                newTab.Header = "Customers List";
+                newTab.Content = new View.VIewCustomerList(AddTab, RemoveTab);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -56,8 +54,8 @@ namespace PL.ViewModel
             get
             {
                 TabItem newTab = new TabItem();
-                newTab.Header = "Add parcel";
-                newTab.Content = new View.ViewParcel(() => RemoveTab("Add parcel"), Id);
+                newTab.Header = "Stations List";
+                newTab.Content = new View.ViewStationList(AddTab, RemoveTab);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -66,16 +64,15 @@ namespace PL.ViewModel
         }
 
 
-        public ViewMenueModelCustomer(Action<object> addTab, Action<object> removeTab, int customerId, Action close)
+        public ViewMenueModelCompany(Action<object> addTab, Action<object> removeTab, Action close)
         {
             baseModel = new Model.MenueModel();
-            baseModel.ButtonA_Content = "Update your details";
-            baseModel.ButtonB_Content = "gets parcels";
-            baseModel.ButtonC_Content = "sends parcels";
-            baseModel.ButtonD_Content = "Add parcel";
+            baseModel.ButtonA_Content = "Drones List";
+            baseModel.ButtonB_Content = "Parcels List";
+            baseModel.ButtonC_Content = "Customers List";
+            baseModel.ButtonD_Content = "Stations List";
             AddTab = addTab;
             RemoveTab = removeTab;
-            Id = customerId;
             Close = close;
         }
     }

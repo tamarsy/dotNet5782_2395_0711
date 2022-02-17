@@ -86,16 +86,7 @@ namespace BL
                 }
                 catch (DO.ObjectNotExistException e){ throw new ObjectNotExistException(e.Message); }
                 if(customer.IsDelete) throw new ObjectNotExistException("customer deleted");
-                Customer newCustomer = new Customer()
-                {
-                    Id = customer.Id,
-                    Name = customer.Name,
-                    Phone = customer.Phone,
-                    CurrentLocation = new Location(customer.Lattitude, customer.Longitude),
-                    FromCustomer = ParcelsList().Where(parcel => parcel.SenderId == customer.Id).Select(p => CustomerAndParcelToCustomerDelivery(p.Id, p.GetterId)).ToList(),
-                    ToCustomer = ParcelsList().Where(parcel => parcel.GetterId == customer.Id).Select(parcel => CustomerAndParcelToCustomerDelivery(parcel.Id, parcel.SenderId)).ToList()
-                };
-                return newCustomer;
+                return DlToBlCustomer(customer);
             }
         }
 

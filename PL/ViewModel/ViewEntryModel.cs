@@ -25,7 +25,7 @@ namespace PL.ViewModel
                     {
                         Customer customer = BLApi.FactoryBL.GetBL().GetCustomer((int)Id);
                         if (o is string name)
-                            if (customer.Name.Equals(name))
+                            if (customer.Name.ToLower().Trim().Equals(name.ToLower().Trim()))
                                 ChangePage(new View.Menue((int)Id, Close));
                             else
                                 MessageBox.Show("Wrung id or name");
@@ -38,7 +38,7 @@ namespace PL.ViewModel
             }
         }
 
-        public ICommand Comp
+        public ICommand Company
         {
             get
             {

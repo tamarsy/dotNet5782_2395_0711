@@ -10,6 +10,10 @@
         mc:Ignorable="d" 
         d:DesignHeight="450" d:DesignWidth="800">
     
+    <!--<UserControl.Resources>
+        <local:IntToStringConverter x:Key="IntToStringConverter"></local:IntToStringConverter>
+    </UserControl.Resources>-->
+    
     <Grid x:Name="aViewParcelList">
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
@@ -35,12 +39,46 @@
             <ComboBox Name="GroupBy" Grid.Column="3"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="120"
                       SelectedItem="{Binding GroupBy_select, ValidatesOnDataErrors=True}"  ItemsSource="{Binding GroupBySelector, Mode=OneTime}"/>
         </Grid>
-        <ListView ItemsSource="{Binding Parcels, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" x:Name="viewParcels" MouseDoubleClick="viewParcel_MouseDoubleClick" >
+        <ListView ItemsSource="{Binding Parcels, UpdateSourceTrigger=PropertyChanged}" x:Name="viewParcels" Grid.Row="1" MouseDoubleClick="viewParcel_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="viewD" />
+                    <GridViewColumn Header="Id"
+                            DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Sender Id"
+                            DisplayMemberBinding="{Binding SenderId}" />
+                    <GridViewColumn Header="Getter Id"
+                            DisplayMemberBinding="{Binding GetterId}" />
+                    <GridViewColumn Header="Weight"
+                            DisplayMemberBinding="{Binding Weight}" />
+                    <GridViewColumn Header="Priority"
+                            DisplayMemberBinding="{Binding Priority}" />
+                    <GridViewColumn Header="Parcel Statuses"
+                            DisplayMemberBinding="{Binding ParcelStatuses}" />
                 </GridView>
             </ListView.View>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander >
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
     </Grid>
 </UserControl>

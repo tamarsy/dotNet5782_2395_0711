@@ -31,7 +31,14 @@ namespace PL.View
             DataContext = _viewCustomerModel;
             InitializeComponent();
         }
-        private void viewParceld_MouseDoubleClick(object sender, MouseButtonEventArgs e) => _viewCustomerModel.NewViewParcel(((BO.CustomerDelivery)ViewParcels.SelectedItem).Id);
+
+        private void viewParceld_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is ListView l)
+                if (l.SelectedItem is BO.CustomerDelivery c)
+                    _viewCustomerModel.NewViewParcel(c.Id);
+
+        }
 
     }
 }

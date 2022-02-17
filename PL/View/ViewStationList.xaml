@@ -28,7 +28,14 @@
         <ListView ItemsSource="{Binding Stations, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" x:Name="viewStations" MouseDoubleClick="viewStation_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="viewD" />
+                    <GridViewColumn Header="Id"
+                            DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Name"
+                            DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Num Of Empty Charge Slots"
+                            DisplayMemberBinding="{Binding NumOfEmptyChargeSlots}" />
+                    <GridViewColumn Header="Num Of Catch Charge Slots"
+                            DisplayMemberBinding="{Binding NumOfCatchChargeSlots}" />
                 </GridView>
             </ListView.View>
         </ListView>

@@ -34,7 +34,20 @@
         <ListView ItemsSource="{Binding Drones, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" x:Name="viewDrones" MouseDoubleClick="viewDrones_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Id"
+                            DisplayMemberBinding="{Binding Id}" />
+                    <GridViewColumn Header="Model"
+                            DisplayMemberBinding="{Binding Model}" />
+                    <GridViewColumn Header="MaxWeight"
+                            DisplayMemberBinding="{Binding MaxWeight}" />
+                    <GridViewColumn Header="BatteryStatuses"
+                            DisplayMemberBinding="{Binding BatteryStatuses, Converter={StaticResource MathMultiplyConverter}, ConverterParameter=100}" />
+                    <GridViewColumn Header="DroneStatuses"
+                            DisplayMemberBinding="{Binding DroneStatuses}" />
+                    <GridViewColumn Header="CurrentLocation"
+                            DisplayMemberBinding="{Binding CurrentLocation}" />
+                    <GridViewColumn Header="NumOfParcel"
+                            DisplayMemberBinding="{Binding NumOfParcel}" />
                 </GridView>
             </ListView.View>
         </ListView>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,17 +19,17 @@ namespace PL.View
     /// </summary>
     public partial class Menue : Page
     {
-        public int SelectedTab { get; set; }
+        ViewModel.ViewMenueModel _menu;
         public Menue(Action close)
         {
-            ViewModel.ViewMenueModel _menu = new ViewModel.ViewMenueModel(AddTab, RemoveTab, close);
+            _menu = new ViewModel.ViewMenueModelCompany(AddTab, RemoveTab, close);
             DataContext = _menu;
             InitializeComponent();
         }
 
         public Menue(int Id, Action close)
         {
-            ViewModel.ViewMenueModelCustomer _menu = new ViewModel.ViewMenueModelCustomer(AddTab, RemoveTab, Id, close);
+            _menu = new ViewModel.ViewMenueModelCustomer(AddTab, RemoveTab, Id, close);
             DataContext = _menu;
             InitializeComponent();
         }
@@ -43,7 +44,7 @@ namespace PL.View
                 {
                     i = MainTabs.Items.Add(tabItem);
                 }
-                SelectedTab = i;
+                _menu.SelectedTab = i;
             }
         }
 

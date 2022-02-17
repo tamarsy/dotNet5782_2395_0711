@@ -27,7 +27,7 @@ namespace PL.ViewModel
                 {
                     statusSelector.Add(item);
                 }
-                statusSelector.Add("All");
+                statusSelector.Add("All Status");
                 return statusSelector.ToArray();
             } }
 
@@ -38,7 +38,7 @@ namespace PL.ViewModel
                 {
                     maxWeightSelector.Add(item);
                 }
-                maxWeightSelector.Add("All");
+                maxWeightSelector.Add("All Weights");
 
                 return maxWeightSelector.ToArray();
             } }
@@ -67,15 +67,15 @@ namespace PL.ViewModel
         private void WeightAndStatudSelector_SelectionChanged()
         {
             droneListModel.Drones = BLApi.FactoryBL.GetBL().DronesList().ToList();
-            if (!MaxWeightSelector.GetValue(MaxWeightSelector_select).Equals("All"))
+            if (MaxWeightSelector.Length - 1 > MaxWeightSelector_select)
             {
                 droneListModel.Drones = droneListModel.Drones.Where(
-                    (d) => (d.MaxWeight).Equals((BO.WeightCategories)MaxWeightSelector_select)).ToList();
+                    (d) => d.MaxWeight.Equals((BO.WeightCategories)MaxWeightSelector_select)).ToList();
             }
-            if (!StatusSelector.GetValue(StatusSelector_select).Equals("All"))
+            if (StatusSelector.Length - 1 > StatusSelector_select)
             {
                 droneListModel.Drones = droneListModel.Drones.Where(
-                    (d) => (d.DroneStatuses).Equals((BO.DroneStatuses)StatusSelector_select)).ToList();
+                    (d) => d.DroneStatuses.Equals((BO.DroneStatuses)StatusSelector_select)).ToList();
             }
             Drones = droneListModel.Drones;
         }

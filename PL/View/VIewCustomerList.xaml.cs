@@ -24,6 +24,10 @@ namespace PL.View
             DataContext = _viewCustomerListModel;
             InitializeComponent();
         }
-        private void viewCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)=> _viewCustomerListModel.NewViewCommand.Execute(((BO.CustomerToList)viewCustomers.SelectedItem).Id);
+        private void viewCustomer_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (viewCustomers.SelectedItem is BO.CustomerToList c)
+                _viewCustomerListModel.NewViewCommand.Execute(c.Id);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using BO;
+﻿                                                                                                                                                                                              using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,23 +45,45 @@ namespace BL
         internal Parcel DlToBlParcel(DO.Parcel parcel)
         {
             Drone drone = (parcel.Droneld == default) ? default : GetDrone((int)parcel.Droneld);
-            return new Parcel()
+            lock (dalObject)
             {
-                Id = parcel.Id,
-                AssignmentTime = parcel.Requested,
-                DeliveryTime = parcel.Delivered,
-                DroneDelivery = drone == null ? default : new DroneDelivery() { Id = drone.Id, BatteryStatuses = drone.BatteryStatuses, CurrentLocation = drone.CurrentLocation },
-                PickUpTime = parcel.PickedUp,
-                Priority = (Priorities)parcel.Priority,
-                SenderId = new DeliveryCustomer() { Id = parcel.SenderId, Name = GetCustomer(parcel.SenderId).Name },
-                GetterId = new DeliveryCustomer() { Id = parcel.GetterId, Name = GetCustomer(parcel.GetterId).Name },
-                SupplyTime = parcel.Schedulet,
-                Weight = (WeightCategories)parcel.Weight
+                return new Parcel()
+                {
+                    Id = parcel.Id,
+                    AssignmentTime = parcel.Requested,
+                    DeliveryTime = parcel.Delivered,
+                    DroneDelivery = drone == null ? default : new DroneDelivery() { Id = drone.Id, BatteryStatuses = drone.BatteryStatuses, CurrentLocation = drone.CurrentLocation },
+                    PickUpTime = parcel.PickedUp,
+                    Priority = (Priorities)parcel.Priority,
+                    SenderId = new DeliveryCustomer() { Id = parcel.SenderId, Name = dalObject.GetCustomer(parcel.SenderId).Name },
+                    GetterId = new DeliveryCustomer() { Id = parcel.GetterId, Name = dalObject.GetCustomer(parcel.GetterId).Name },
+                    SupplyTime = parcel.Schedulet,
+                    Weight = (WeightCategories)parcel.Weight
+                };
+            }
+        }
+
+        /// <summary>
+        /// DlToBlCustomer
+        /// </summary>
+        /// <param name="customer">customer</param>
+        /// <returns></returns>
+        internal Customer DlToBlCustomer(DO.Customer customer)
+        {
+            return new Customer()
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Phone = customer.Phone,
+                CurrentLocation = new Location(customer.Lattitude, customer.Longitude),
+                FromCustomer = ParcelsList().Where(parcel => parcel.SenderId == customer.Id).Select(p => CustomerAndParcelToCustomerDelivery(p.Id, p.GetterId)).ToList(),
+                ToCustomer = ParcelsList().Where(parcel => parcel.GetterId == customer.Id).Select(parcel => CustomerAndParcelToCustomerDelivery(parcel.Id, parcel.SenderId)).ToList()
             };
         }
 
 
         /// <summary>
+        /// DalToBlStation
         /// change the things in dal to bl
         /// </summary>
         /// <param name="station"></param>
@@ -174,6 +196,7 @@ namespace BL
             };
         }
         #endregion
+        #region Delivery
 
         /// <summary>
         /// Exceptions: ObjectNotExistException
@@ -211,24 +234,25 @@ namespace BL
         /// <returns></returns>
         internal ParcelDelivery ParcelToParcelDelivery(DO.Parcel parcel, Ilocatable droneLocation)
         {
-            Customer sender;
-            Customer getter;
-            sender = GetCustomer(parcel.SenderId);
-            getter = GetCustomer(parcel.GetterId);
-            return new ParcelDelivery()
+            lock (dalObject)
             {
-                Id = parcel.Id,
-                Weight = (WeightCategories)parcel.Weight,
-                Priority = (Priorities)parcel.Priority,
-                StatusParcel = !parcel.PickedUp.Equals(null),
-                Collecting = sender.CurrentLocation,
-                DeliveryDestination = getter.CurrentLocation,
-                Distance = droneLocation.Distance(!parcel.PickedUp.Equals(null) ? getter : sender),
-                Sender = new DeliveryCustomer() { Id = sender.Id, Name = sender.Name },
-                Getter = new DeliveryCustomer() { Id = getter.Id, Name = getter.Name }
-            };
+                Customer sender = DlToBlCustomer(dalObject.GetCustomer(parcel.SenderId));
+                Customer getter = DlToBlCustomer(dalObject.GetCustomer(parcel.GetterId));
+                return new ParcelDelivery()
+                {
+                    Id = parcel.Id,
+                    Weight = (WeightCategories)parcel.Weight,
+                    Priority = (Priorities)parcel.Priority,
+                    StatusParcel = !parcel.PickedUp.Equals(null),
+                    Collecting = sender.CurrentLocation,
+                    DeliveryDestination = getter.CurrentLocation,
+                    Distance = droneLocation.Distance(!parcel.PickedUp.Equals(null) ? getter : sender),
+                    Sender = new DeliveryCustomer() { Id = sender.Id, Name = sender.Name },
+                    Getter = new DeliveryCustomer() { Id = getter.Id, Name = getter.Name }
+                };
+            }
         }
-
+        #endregion
 
         /// <summary>
         /// convert from DroneToList to DroneCharge 

@@ -18,12 +18,16 @@ namespace BL
         /// <returns>Parcel</returns>
         internal Parcel FindParcelToCollecting(int droneId)
         {
-            Drone drone = GetDrone(droneId);
-            ParcelToList parcelToCollect = ParcesWithoutDronelList().Where((p) => checkAvailableDelivery(drone, p)).
-             OrderByDescending(p => p?.Priority)
-             .ThenByDescending(p => p?.Weight)
-             .FirstOrDefault();
-            return parcelToCollect != null ? GetParcel(parcelToCollect.Id) : null;
+            lock (dalObject)
+            {
+                Drone drone = GetDrone(droneId);
+                ParcelToList parcelToCollect = ParcesWithoutDronelList().Where((p) => checkAvailableDelivery(drone, p)).
+                 OrderByDescending(p => p?.Priority)
+                 .ThenByDescending(p => p?.Weight)
+                 .OrderBy(p => drone.Distance(DlToBlCustomer(dalObject.GetCustomer(p.SenderId))))
+                 .FirstOrDefault();
+                return parcelToCollect != null ? GetParcel(parcelToCollect.Id) : null;
+            }
         }
 
 

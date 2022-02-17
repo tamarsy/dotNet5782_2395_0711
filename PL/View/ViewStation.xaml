@@ -52,7 +52,10 @@
             <ListView ItemsSource="{Binding DronesInCharge, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" x:Name="ViewDrones" MouseDoubleClick="ViewDrone_MouseDoubleClick" >
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn x:Name="viewD" />
+                        <GridViewColumn Header="Id"
+                            DisplayMemberBinding="{Binding Id}" />
+                        <GridViewColumn Header="Battery Statuses"
+                            DisplayMemberBinding="{Binding BatteryStatuses}" />
                     </GridView>
                 </ListView.View>
             </ListView>

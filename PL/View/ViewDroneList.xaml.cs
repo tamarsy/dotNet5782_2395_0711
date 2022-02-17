@@ -29,6 +29,10 @@ namespace PL.View
             InitializeComponent();
         }
 
-        private void viewDrones_MouseDoubleClick(object sender, MouseButtonEventArgs e) => _viewListDrone.NewViewDroneCommand.Execute(((BO.DroneToList)viewDrones.SelectedItem).Id);
+        private void viewDrones_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (viewDrones.SelectedItem is BO.DroneToList d)
+                _viewListDrone.NewViewDroneCommand.Execute(d.Id);
+        }
     }
 }

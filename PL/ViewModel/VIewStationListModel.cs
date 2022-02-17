@@ -27,12 +27,12 @@ namespace PL.ViewModel
                     {
                         newTab.Header = "Station: " + stationId;
                         newTab.TabIndex = stationId;
-                        newTab.Content = new ViewStation(IntilizeStations, stationId, ()=>RemoveTab("Station: " + stationId), AddTab, RemoveTab);
+                        newTab.Content = new ViewStation(IntilizeStations, stationId, () => RemoveTab("Station: " + stationId), AddTab, RemoveTab);
                     }
                     else
                     {
                         newTab.Header = "Add station";
-                        newTab.Content = new ViewStation(()=> { IntilizeStations(); RemoveTab("Add station"); });
+                        newTab.Content = new ViewStation(() => { IntilizeStations(); RemoveTab("Add station"); });
                     }
                     AddTab(newTab);
                 });
@@ -50,11 +50,10 @@ namespace PL.ViewModel
                 });
             }
         }
-
         private void IntilizeStations()
         {
             stationListModel = new Model.StationListModel();
-            Stations = BLApi.FactoryBL.GetBL().StationsList().ToList();
+            Stations = BLApi.FactoryBL.GetBL().StationsList().OrderBy(s=>s.Id).ToList();
         }
 
         public ViewStationListModel(Action<object> addTab, Action<object> removeTab)

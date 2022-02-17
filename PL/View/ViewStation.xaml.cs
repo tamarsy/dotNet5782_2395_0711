@@ -32,6 +32,10 @@ namespace PL.View
             InitializeComponent();
         }
 
-        private void ViewDrone_MouseDoubleClick(object sender, MouseButtonEventArgs e) => _viewParcelModel.ViewDrone(((BO.DroneCharge)ViewDrones.SelectedItem).Id);
+        private void ViewDrone_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(ViewDrones.SelectedItem is BO.DroneCharge d)
+                _viewParcelModel.ViewDrone(d.Id);
+        }
     }
 }

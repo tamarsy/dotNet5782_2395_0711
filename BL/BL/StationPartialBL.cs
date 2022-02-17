@@ -113,7 +113,13 @@ namespace BL
         /// </summary>
         /// <param name="id">station id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void DeleteStation(int id) { lock (dalObject) { dalObject.DeleteStation(id); } }
+        public void DeleteStation(int id) {
+            lock (dalObject)
+            {
+                try { dalObject.DeleteStation(id); }
+                catch (DO.ObjectNotAvailableForActionException e) { throw new ObjectNotAvailableForActionException(e.Message); }
+            }
+        }
 
 
 

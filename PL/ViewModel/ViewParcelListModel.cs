@@ -6,30 +6,22 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace PL.ViewModel
 {
     class ViewParcelListModel : ViewModelBase
     {
         private Model.ParcelListModel ParcelListModel;
-        Predicate<ParcelToList> customerSelector;
-        public List<ParcelToList> Parcels
-        {
-            get { return ParcelListModel.Parcels; }
-            set
-            {
-                ParcelListModel.Parcels = value;
-                OnPropertyChange("Parcels");
-            }
-        }
-        public Visibility IsAddVisibility { get { return customerSelector == null ? Visibility.Visible : Visibility.Collapsed; } }
 
+        #region Selectors
         public Array StatusSelector
         {
             get
             {
                 List<object> statusSelector = new List<object>();
-                foreach (var item in Enum.GetValues(typeof(BO.ParcelStatuses)))
+                foreach (var item in Enum.GetValues(typeof(ParcelStatuses)))
                 {
                     statusSelector.Add(item);
                 }
@@ -37,8 +29,6 @@ namespace PL.ViewModel
                 return statusSelector.ToArray();
             }
         }
-
-
 
         public Array MaxWeightSelector
         {
@@ -53,6 +43,7 @@ namespace PL.ViewModel
                 return maxWeightSelector.ToArray();
             }
         }
+
         public Array PrioritySelector
         {
             get
@@ -69,13 +60,12 @@ namespace PL.ViewModel
         {
             get
             {
-                List<object> GroupBySelector = new List<object>();
-                foreach (var item in Enum.GetValues(typeof(BO.Priorities)))
-                    GroupBySelector.Add(item);
-                GroupBySelector.Add("Not grouping");
-                return GroupBySelector.ToArray();
+                return new List<object>() { nameof(ParcelToList.SenderId), nameof(ParcelToList.GetterId), "Not group" }.ToArray();
             }
         }
+        #endregion
+
+        #region SelectedItems
         public int StatusSelector_select
         {
             get { return ParcelListModel.StatusSelector_select; }
@@ -85,7 +75,6 @@ namespace PL.ViewModel
                 ParcelsSelector_SelectionChanged();
             }
         }
-
         public int PrioritySelector_select
         {
             get { return ParcelListModel.PrioritySelector_select; }
@@ -106,27 +95,51 @@ namespace PL.ViewModel
             }
         }
 
+        public object GroupBy_select
+        {
+            get { return ParcelListModel.GroupBy_select; }
+            set
+            {
+                ParcelListModel.GroupBy_select = value.ToString();
+                ParcelListModel.groupingSelected = new PropertyGroupDescription(ParcelListModel.GroupBy_select);
+                ParcelsSelector_SelectionChanged();
+            }
+        }
+        #endregion
+
+        public ListCollectionView Parcels
+        {
+            get { return ParcelListModel.Parcels; }
+            set
+            {
+                ParcelListModel.Parcels = value;
+                OnPropertyChange("Parcels");
+            }
+        }
+        public Visibility IsAddVisibility { get { return ParcelListModel.CustomerSelector == null ? Visibility.Visible : Visibility.Collapsed; } }
 
         private void ParcelsSelector_SelectionChanged()
         {
-            ParcelListModel.Parcels = BLApi.FactoryBL.GetBL().ParcelsList().ToList();
-            if (customerSelector != default)
-                ParcelListModel.Parcels = ParcelListModel.Parcels.Where(p => customerSelector(p)).ToList();
-            if (!MaxWeightSelector.GetValue(MaxWeightSelector_select).Equals("All"))
-            {
-                ParcelListModel.Parcels = ParcelListModel.Parcels.Where(
-                    (p) => (p.Weight).Equals((BO.WeightCategories)MaxWeightSelector_select)).ToList();
-            }
-            if (!StatusSelector.GetValue(StatusSelector_select).Equals("All"))
-            {
-                ParcelListModel.Parcels = ParcelListModel.Parcels.Where(
-                    (p) => (p.ParcelStatuses).Equals((BO.ParcelStatuses)StatusSelector_select)).ToList();
-            }
-            if (!PrioritySelector.GetValue(PrioritySelector_select).Equals("All"))
-            {
-                ParcelListModel.Parcels = ParcelListModel.Parcels.Where(
-                    (p) => (p.Priority).Equals((BO.Priorities)PrioritySelector_select)).ToList();
-            }
+            List<ParcelToList> parcels = BLApi.FactoryBL.GetBL().ParcelsList().ToList();
+            if (ParcelListModel.CustomerSelector != default)
+                parcels = parcels.Where(p => ParcelListModel.CustomerSelector(p)).ToList();
+            if (Enum.GetValues(typeof(WeightCategories)).Length >  MaxWeightSelector_select)
+                parcels = parcels.Where(
+                    (p) => p.Weight.Equals((WeightCategories)MaxWeightSelector_select)).ToList();
+            if (Enum.GetValues(typeof(ParcelStatuses)).Length > StatusSelector_select)
+                parcels = parcels.Where(
+                    (p) => p.ParcelStatuses.Equals((ParcelStatuses)StatusSelector_select)).ToList();
+            if (Enum.GetValues(typeof(Priorities)).Length > PrioritySelector_select)
+                parcels = parcels.Where(
+                    (p) => p.Priority.Equals((Priorities)PrioritySelector_select)).ToList();
+
+            ParcelListModel.Parcels = new ListCollectionView(parcels);
+
+            if (ParcelListModel.groupingSelected is not null && !ParcelListModel.GroupBy_select.Equals(GroupBySelector.GetValue(GroupBySelector.Length - 1)))
+                ParcelListModel.Parcels.GroupDescriptions.Add(ParcelListModel.groupingSelected);
+            else if(ParcelListModel.groupingSelected is not null)
+                ParcelListModel.Parcels.GroupDescriptions.Remove(ParcelListModel.groupingSelected);
+
             Parcels = ParcelListModel.Parcels;
         }
 
@@ -152,7 +165,7 @@ namespace PL.ViewModel
                     {
                         tabitem.Header = "Parcel: " + pId;
                         tabitem.TabIndex = pId;
-                        tabitem.Content = new View.ViewParcel(pId, ParcelsSelector_SelectionChanged, () => RemoveTab(tabitem.Header), AddTab, RemoveTab, customerSelector != null);
+                        tabitem.Content = new View.ViewParcel(pId, ParcelsSelector_SelectionChanged, () => RemoveTab(tabitem.Header), AddTab, RemoveTab, ParcelListModel.CustomerSelector != null);
                     }
                     else
                     {
@@ -175,7 +188,8 @@ namespace PL.ViewModel
             ParcelListModel.StatusSelector_select = StatusSelector.Length - 1;
             ParcelListModel.MaxWeightSelector_select = MaxWeightSelector.Length - 1;
             ParcelListModel.PrioritySelector_select = PrioritySelector.Length - 1;
-            customerSelector = selectorParcel;
+            ParcelListModel.GroupBy_select = GroupBySelector.GetValue(GroupBySelector.Length - 1).ToString();
+            ParcelListModel.CustomerSelector = selectorParcel;
             ParcelsSelector_SelectionChanged();
         }
     }

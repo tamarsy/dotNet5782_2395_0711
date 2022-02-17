@@ -25,6 +25,10 @@ namespace PL.View
             InitializeComponent();
         }
 
-        private void viewParcel_MouseDoubleClick(object sender, MouseButtonEventArgs e) => _viewParcelListModel.NewViewCommand.Execute(((BO.ParcelToList)viewParcels.SelectedItem).Id);
+        private void viewParcel_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (viewParcels.SelectedItem is BO.ParcelToList p)
+                _viewParcelListModel.NewViewCommand.Execute(p.Id);
+        }
     }
 }

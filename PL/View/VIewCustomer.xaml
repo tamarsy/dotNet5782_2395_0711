@@ -11,7 +11,7 @@
 
     <Grid x:Name="Customer" >
         <Button Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
-        
+
         <WrapPanel x:Name="Add" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}">
             <DockPanel>
                 <Label Content="Id:" />
@@ -43,21 +43,51 @@
                 <RowDefinition Height="10*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="5*" />
                 <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="5*" />
             </Grid.ColumnDefinitions>
             <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch" >
                 <Button Content="update details" Command="{Binding UpDateCommand}" IsEnabled="{Binding IsEnableUpdateCommand}" />
-                <Button Content="delete" Command="{Binding DeleteCommand}"/>
             </WrapPanel>
             <TextBox x:Name="details" Text="{Binding Details,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="0"  />
-            <ListView ItemsSource="{Binding Parcels, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" x:Name="ViewParcels" MouseDoubleClick="viewParceld_MouseDoubleClick" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn x:Name="viewD" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <StackPanel Grid.Row="1" Grid.Column="1" >
+                <Expander Header="Parcels from Customer">
+                    <ListView ItemsSource="{Binding ParcelsFrom, UpdateSourceTrigger=PropertyChanged}" x:Name="ViewParcelsFrom" MouseDoubleClick="viewParceld_MouseDoubleClick">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id"
+                            DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Header="Weight"
+                            DisplayMemberBinding="{Binding Weight}" />
+                                <GridViewColumn Header="Priority"
+                            DisplayMemberBinding="{Binding Priority}" />
+                                <GridViewColumn Header="Status"
+                            DisplayMemberBinding="{Binding Status}" />
+                                <GridViewColumn Header="Customer"
+                            DisplayMemberBinding="{Binding Customer}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Expander>
+                <Expander Header="Parcels To Customer">
+                    <ListView ItemsSource="{Binding ParcelsTo, UpdateSourceTrigger=PropertyChanged}"  x:Name="ViewParcelsTo" MouseDoubleClick="viewParceld_MouseDoubleClick" >
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Id"
+                            DisplayMemberBinding="{Binding Id}" />
+                                <GridViewColumn Header="Weight"
+                            DisplayMemberBinding="{Binding Weight}" />
+                                <GridViewColumn Header="Priority"
+                            DisplayMemberBinding="{Binding Priority}" />
+                                <GridViewColumn Header="Status"
+                            DisplayMemberBinding="{Binding Status}" />
+                                <GridViewColumn Header="Customer"
+                            DisplayMemberBinding="{Binding Customer}" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Expander>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

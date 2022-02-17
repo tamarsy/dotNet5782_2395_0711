@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace PL.ViewModel
@@ -11,7 +12,7 @@ namespace PL.ViewModel
     class ViewCustomerListModel : ViewModelBase
     {
         Model.CustomerListModel customerListModel;
-        public List<BO.CustomerToList> Customers { get { return customerListModel.Customer; } set { customerListModel.Customer = value; OnPropertyChange("Customers"); } }
+        public ListCollectionView Customers { get { return customerListModel.Customers; } set { customerListModel.Customers = value; OnPropertyChange("Customers"); } }
         public DelegateCommand NewViewCommand {
             get
             {
@@ -35,6 +36,29 @@ namespace PL.ViewModel
             }
         }
 
+        public DelegateCommand GoupByName
+        {
+            get
+            {
+                return new DelegateCommand((choosenCustomer) =>
+                {
+                    if (customerListModel.groupingSelected is null)
+                    {
+                        customerListModel.groupingSelected = new PropertyGroupDescription("Name");
+                        customerListModel.Customers.GroupDescriptions.Add(customerListModel.groupingSelected);
+                    }
+                    else
+                    {
+                        customerListModel.Customers.GroupDescriptions.Remove(customerListModel.groupingSelected);
+                        customerListModel.groupingSelected = null;
+                    }
+                    OnPropertyChange("GoupByNameText");
+                });
+            }
+        }
+
+        public string GoupByNameText { get { return customerListModel.groupingSelected is null? "Group by name": "Remove group by name"; } }
+
         public ICommand CloseCd
         {
             get
@@ -49,7 +73,7 @@ namespace PL.ViewModel
 
         private void IntilizeCUstomerList()
         {
-            Customers = BLApi.FactoryBL.GetBL().CustomersList().ToList();
+            Customers = new ListCollectionView(BLApi.FactoryBL.GetBL().CustomersList().ToList());
         }
 
 
