@@ -9,7 +9,7 @@ using Dal;
 
 
 namespace DAL
-{
+{ 
     internal sealed class DalXML : IDal
     {
         private readonly string parcelsPath = "Parcels.xml";
