@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<config>	
+	<vacent>4</vacent>
+	<LightWeightCarrier>6</LightWeightCarrier>
+	<MediumWeightCarrier>6</MediumWeightCarrier>
+	<heavyWeightCarrier>7</heavyWeightCarrier>
+	<SkimmerLoadingRate>3</SkimmerLoadingRate>
+</config>

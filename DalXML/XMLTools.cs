@@ -24,7 +24,7 @@ namespace Dal
         {
             try
             {
-                rootElem.Save(dirPath + filePath);
+                rootElem.Save(filePath);
             }
             catch (Exception ex)
             {
@@ -36,14 +36,14 @@ namespace Dal
         {
             try
             {
-                if (File.Exists(dirPath + filePath))
+                if (File.Exists(filePath))
                 {
-                    return XElement.Load(dirPath + filePath);
+                    return XElement.Load(filePath);
                 }
                 else
                 {
-                    XElement rootElem = new XElement(dirPath + filePath);
-                    rootElem.Save(dirPath + filePath);
+                    XElement rootElem = new XElement(filePath);
+                    rootElem.Save(filePath);
                     return rootElem;
                 }
             }
@@ -59,7 +59,7 @@ namespace Dal
         {
             try
             {
-                FileStream file = new FileStream(dirPath + filePath, FileMode.Create);
+                FileStream file = new FileStream(filePath, FileMode.Create);
                 XmlSerializer x = new XmlSerializer(list.GetType());
 
                 x.Serialize(file, list);
@@ -74,11 +74,11 @@ namespace Dal
         {
             try
             {
-                if (File.Exists(dirPath + filePath))
+                if (File.Exists(filePath))
                 {
                     List<T> list;
                     XmlSerializer x = new XmlSerializer(typeof(List<T>));
-                    FileStream file = new FileStream(dirPath + filePath, FileMode.Open);
+                    FileStream file = new FileStream(filePath, FileMode.Open);
                     list = (List<T>)x.Deserialize(file);
                     file.Close();
                     return list;

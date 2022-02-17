@@ -6,44 +6,45 @@ using System.Xml.Serialization;
 using DalApi;
 using DO;
 using Dal;
-
+using System.Runtime.CompilerServices;
+using System.IO;
 
 namespace DAL
-{ 
+{
     internal sealed class DalXML : IDal
     {
-        private readonly string parcelsPath = "Parcels.xml";
-        private readonly string StationsPath = "Stations.xml";
-        private readonly string dronesPath = "Drones.xml";
-        private readonly string ConfigPath = @"XmlConfig.xml";
-        private readonly string customersPath = "Customers.xml";
-        private readonly string droneChargesPath = "DroneCharges.xml";
+        private readonly string parcelsPath = @$"{Directory.GetCurrentDirectory()}/../../../../xml/Parcels.xml";
+        private readonly string StationsPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/Stations.xml";
+        private readonly string dronesPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/Drones.xml";
+        private readonly string ConfigPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/XmlConfig.xml";
+        private readonly string customersPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/Customers.xml";
+        private readonly string droneChargesPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/DroneCharges.xml";
         public static IDal Instance { get; } = new DalXML();
 
         public void AddCustomer(Customer newCustomer)
         {
-            List<Customer> config = XMLTools.LoadListFromXmlSerializer<Customer>(ConfigPath);
-            config.Add(newCustomer);
-            XMLTools.SaveListToXmlSerializer(config, customersPath);
-            throw new NotImplementedException();
+            List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(ConfigPath);
+            customers.Add(newCustomer);
+            XMLTools.SaveListToXmlSerializer(customers, customersPath);
         }
 
         public void AddDrone(Drone newDrone)
         {
-            List<Drone> config = XMLTools.LoadListFromXmlSerializer<Drone>(ConfigPath);
-            config.Add(newDrone);
-            XMLTools.SaveListToXmlSerializer(config, dronesPath);
-            throw new NotImplementedException();
+            List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
+            drones.Add(newDrone);
+            XMLTools.SaveListToXmlSerializer(drones, dronesPath);
         }
 
         public void AddDroneCharge(int droneId, int baseStationId)
         {
-            throw new NotImplementedException();
+            List<DroneCharge> charges = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
+            charges.Add(new DroneCharge() { DroneId = droneId, StationId = baseStationId, StartTime = DateTime.Now });
+            XMLTools.SaveListToXmlSerializer(charges, droneChargesPath);
         }
 
         public void AddParcel(Parcel newParcel)
         {
-            List<Parcel> config = XMLTools.LoadListFromXmlSerializer<Parcel>(ConfigPath);         
+            List<Parcel> config = XMLTools.LoadListFromXmlSerializer<Parcel>(ConfigPath);
             config.Add(newParcel);
             XMLTools.SaveListToXmlSerializer(config, parcelsPath);
 
@@ -59,7 +60,7 @@ namespace DAL
         public void ChargeOf(int droenId)
         {
             Drone drone = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath).FirstOrDefault(item => item.Id == droenId);
-            if (drone.Id < 0) 
+            if (drone.Id < 0)
                 throw new ObjectNotExistException("no drone whith id: " + droenId + "in charge slot");
             //remove from the list Of Charge Slot in DataSource
             StationDroneOut(droenId);
@@ -78,7 +79,6 @@ namespace DAL
                 throw new ObjectNotAvailableForActionException("Exist in charge drone whith id: " + droenId);
             StationDroneIn(stationId);
             AddDroneCharge(droenId, stationId);
-            throw new NotImplementedException();
         }
 
         public IEnumerable<Customer> CustomerList(Predicate<bool> selectList = null) =>
@@ -99,7 +99,6 @@ namespace DAL
             customer.IsDelete = true;
             customers.Add(customer);
             XMLTools.SaveListToXmlSerializer(customers, customersPath);
-            throw new NotImplementedException();
         }
 
         public void DeleteDrone(int id)
@@ -110,12 +109,15 @@ namespace DAL
             drone.IsDelete = true;
             drones.Add(drone);
             XMLTools.SaveListToXmlSerializer(drones, dronesPath);
-            throw new NotImplementedException();
         }
 
         public void DeleteDroneCharge(int droneId)
         {
-            throw new NotImplementedException();
+            List<DroneCharge> charges = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);
+            DroneCharge charge = charges.FirstOrDefault(c => c.DroneId == droneId);
+            charges.Remove(charge);
+
+            XMLTools.SaveListToXmlSerializer(charges, droneChargesPath);
         }
 
         public void DeleteParcel(int id)
@@ -126,7 +128,6 @@ namespace DAL
             parcel.IsDelete = true;
             parcels.Add(parcel);
             XMLTools.SaveListToXmlSerializer(parcels, parcelsPath);
-            throw new NotImplementedException();
         }
 
         public void DeleteStation(int id)
@@ -214,26 +215,26 @@ namespace DAL
         {
             XElement StationsXML = XMLTools.LoadListFromXmlElement(StationsPath);
             foreach (var StationElement in StationsXML.Elements())
-            {     
-                    if (int.Parse(StationElement.Element("Id").Value )== id)
-                    {
+            {
+                if (int.Parse(StationElement.Element("Id").Value) == id)
+                {
                     return new Station()
-                        {
-                            Id = int.Parse(StationElement.Element("Id").Value),
-                            ChargeSlot = int.Parse(StationElement.Element("ChargingPorts").Value),
-                            Name = StationElement.Element("Name").Value,
-                            Lattitude = double.Parse(StationElement.Element("Latitude").Value),
-                            Longitude = double.Parse(StationElement.Element("Longitude").Value),
-                        };
-                    }
+                    {
+                        Id = int.Parse(StationElement.Element("Id").Value),
+                        ChargeSlot = int.Parse(StationElement.Element("ChargingPorts").Value),
+                        Name = StationElement.Element("Name").Value,
+                        Lattitude = double.Parse(StationElement.Element("Latitude").Value),
+                        Longitude = double.Parse(StationElement.Element("Longitude").Value),
+                    };
+                }
             }
-            throw new NotImplementedException();
+            throw new DO.ObjectNotExistException();
         }
 
         public int GetStationIdOfDroneCharge(int droneId)
         {
 
-            throw new NotImplementedException();
+            return XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath).First(c => c.DroneId == droneId).StationId;
         }
 
         public IEnumerable<Parcel> ParcelList(Predicate<Parcel> selectList = null) =>
@@ -241,10 +242,15 @@ namespace DAL
                XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath) :
                XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath).Where(p => selectList(p));
 
-        public IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = null)
-        {
-            throw new NotImplementedException();
-        }
+
+        /// <summary>
+        /// return Parcel List
+        /// </summary>
+        /// <param name="selectList">select parcel</param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Parcel> ParcelList(Predicate<int?> selectList = default)
+            => XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath).Where((c) => !c.IsDelete && (selectList == null || selectList(c.Droneld)));
 
         public void ParcelToDrone(int percelChoose, int droneChoose)
         {
@@ -264,7 +270,7 @@ namespace DAL
             int i = parcels.FindIndex(pa => pa.Id == percelChoose);
             if (i < 0)
                 throw new ObjectNotExistException("Error!! Ther is no drone with this id");
-            
+
             Parcel p = parcels[i];
             p.PickedUp = DateTime.Now;
             parcels[i] = p;
@@ -274,8 +280,8 @@ namespace DAL
 
         public double[] PowerConsumptionRequest()
         {
-        
-            throw new NotImplementedException();
+            XElement config = XDocument.Load(ConfigPath).Root;
+            return config.Elements().Select(item => double.Parse(item.Value)).ToArray();
         }
 
         public DateTime StartChargeTime(int droneId)
@@ -304,7 +310,7 @@ namespace DAL
         public void StationDroneOut(int baseStationId)
         {
             List<Station> stations = XMLTools.LoadListFromXmlSerializer<Station>(StationsPath);
-            int i = stations.FindIndex(s => s.Id == baseStationId); 
+            int i = stations.FindIndex(s => s.Id == baseStationId);
             if (i == -1)
                 throw new ObjectNotExistException("station not exist");
             Station station = stations[i];
@@ -315,25 +321,57 @@ namespace DAL
 
         }
 
-        public IEnumerable<Station> StationList(Predicate<bool> selectList = null)
-        {
-            // return XMLTools.LoadListFromXmlSerializer<Station>(StationsPath).Where(s => selectList)
-        }
+        /// <summary>
+        /// return StationList
+        /// </summary>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Station> StationList(Predicate<bool> selectList = default)
+            => XMLTools.LoadListFromXmlSerializer<Station>(StationsPath).Where((c) => !c.IsDelete && (selectList == null || selectList(isEmptyChargeSlotInStation(c.Id, c.ChargeSlot))));
 
         public IEnumerable<Station> StationListStationList(Predicate<bool> selectList = null) =>
            selectList == null ?
                XMLTools.LoadListFromXmlSerializer<Station>(StationsPath) :
                XMLTools.LoadListFromXmlSerializer<Station>(StationsPath).Where(p => selectList(true));
 
-        public void UpdateCustomer(Customer id)
+        /// <summary>
+        /// Exception: ArgumentNullException, ObjectNotExistException
+        /// Update the Customer details
+        /// </summary>
+        /// <param name="customer"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateCustomer(Customer customer)
         {
+            if (customer.Equals(default(Customer)))
+                throw new ArgumentNullException("Null argument");
 
-            throw new NotImplementedException();
+            var customers = XMLTools.LoadListFromXmlSerializer<Customer>(customersPath);
+            int i = customers.FindIndex(s => s.Id == customer.Id);
+            if (i < 0)
+                throw new ObjectNotExistException("not found a customer with id = " + customer.Id);
+            customers[i] = customer;
+
+            XMLTools.SaveListToXmlSerializer(customers, customersPath);
         }
 
-        public void UpdateDrone(Drone id)
+
+        /// <summary>
+        /// Exception: ObjectNotExistException, ArgumentNullException
+        /// Update Drone details
+        /// </summary>
+        /// <param name="drone"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateDrone(Drone drone)
         {
-            throw new NotImplementedException();
+            if (drone.Equals(default(Drone)))
+                throw new ArgumentNullException("Null argument");
+
+            var drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
+            int i = drones.FindIndex(s => s.Id == drone.Id && !s.IsDelete);
+            if (i < 0)
+                throw new ObjectNotExistException("no drone whith id: " + drone.Id + "in charge slot");
+            drones[i] = drone;
+
+            XMLTools.SaveListToXmlSerializer(drones, dronesPath);
         }
 
         public void UpdateStation(Station id)
@@ -348,35 +386,28 @@ namespace DAL
 
             XMLTools.SaveListToXmlSerializer(stations, StationsPath);
         }
-    }
 
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public IEnumerable<Station>
-
-    /// <summary>
-    /// return if is empty charge slot in a station
-    /// </summary>
-    /// <param name="station">the choosen station</param>
-    /// <returns></returns>
-    private bool isEmptyChargeSlotInStation(int stationId, int stationChargeSlot)
-    {
-        XElement ChargeSlotXML = XMLTools.LoadListFromXmlElement(StationsPath);
-        int counter = 0;
-        foreach (var ChargeSlot in ChargeSlotXML.Elements())
+        /// <summary>
+        /// return if is empty charge slot in a station
+        /// </summary>
+        /// <param name="station">the choosen station</param>
+        /// <returns></returns>
+        private bool isEmptyChargeSlotInStation(int stationId, int stationChargeSlot)
         {
-            if (ChargeSlot.StationId == stationId)
+            int counter = 0;
+            foreach (var ChargeSlot in XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath))
             {
-                ++counter;
+                if (ChargeSlot.StationId == stationId)
+                {
+                    ++counter;
+                }
             }
+            if (counter < stationChargeSlot)
+            {
+                return true;
+            }
+            return false;
         }
-        if (counter < stationChargeSlot)
-        {
-            return true;
-        }
-        return false;    
-        throw new NotImplementedException();
+
     }
 }
