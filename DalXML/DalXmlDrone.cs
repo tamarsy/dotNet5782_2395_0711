@@ -18,7 +18,7 @@ namespace DAL
             List<Drone> drones = XMLTools.LoadListFromXmlSerializer<Drone>(dronesPath);
             drones.Add(newDrone);
             XMLTools.SaveListToXmlSerializer(drones, dronesPath);
-        }
+        }  
 
 
         /// <summary> 
