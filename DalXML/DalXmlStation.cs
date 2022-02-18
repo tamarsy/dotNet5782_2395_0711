@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DalXML
+namespace DAL
 {
     internal sealed partial class DalXML : IDal
     {
