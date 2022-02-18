@@ -21,7 +21,7 @@ namespace DAL
         }
 
 
-        /// <summary>
+        /// <summary> 
         /// Exception: ObjectNotExistException, ArgumentNullException
         /// Update Drone details
         /// </summary>
