@@ -37,5 +37,25 @@ namespace DAL
             XMLTools.SaveListToXmlElement(stationList, StationsPath);
         }
 
+
+        public Station GetStation(int id)
+        {
+            XElement StationsXML = XMLTools.LoadListFromXmlElement(StationsPath);
+            foreach (var StationElement in StationsXML.Elements())
+            {
+                if (int.Parse(StationElement.Element("Id").Value) == id)
+                {
+                    return new Station()
+                    {
+                        Id = int.Parse(StationElement.Element("Id").Value),
+                        ChargeSlot = int.Parse(StationElement.Element("ChargeSlot").Value),
+                        Name = StationElement.Element("Name").Value,
+                        Lattitude = double.Parse(StationElement.Element("Lattitude").Value),
+                        Longitude = double.Parse(StationElement.Element("Longitude").Value),
+                    };
+                }
+            }
+            throw new DO.ObjectNotExistException();
+        }
     }
 }
