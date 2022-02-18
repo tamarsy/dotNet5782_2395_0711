@@ -165,12 +165,12 @@ namespace PL.ViewModel
                     {
                         tabitem.Header = "Parcel: " + pId;
                         tabitem.TabIndex = pId;
-                        tabitem.Content = new View.ViewParcel(pId, ParcelsSelector_SelectionChanged, () => RemoveTab(tabitem.Header), AddTab, RemoveTab, ParcelListModel.CustomerSelector != null);
+                        tabitem.Content = new View.ViewParcel(pId, UpDatePWindow, () => RemoveTab(tabitem.Header), AddTab, RemoveTab, ParcelListModel.CustomerSelector != null);
                     }
                     else
                     {
                         tabitem.Header = "Add parcel";
-                        tabitem.Content = new View.ViewParcel(() => { ParcelsSelector_SelectionChanged(); RemoveTab(tabitem.Header); });
+                        tabitem.Content = new View.ViewParcel(() => { UpDatePWindow(); RemoveTab(tabitem.Header); });
                     }
                     AddTab(tabitem);
                 });
@@ -179,9 +179,10 @@ namespace PL.ViewModel
         }
 
 
-        public ViewParcelListModel(Action<object> addTab, Action<object> removeTab, Predicate<ParcelToList> selectorParcel = default, string header = "Parcels List")
+        public ViewParcelListModel(Action<object> addTab, Action<object> removeTab, Action upDateWindows, Predicate<ParcelToList> selectorParcel = default, string header = "Parcels List")
         {
             ParcelListModel = new Model.ParcelListModel();
+            UpDatePWindow = upDateWindows;
             updateCurrentWindow = ParcelsSelector_SelectionChanged;
             AddTab = addTab;
             RemoveTab = removeTab;

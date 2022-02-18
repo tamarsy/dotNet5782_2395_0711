@@ -29,7 +29,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = $"Parcels to {BLApi.FactoryBL.GetBL().GetCustomer(Id).Name}";
-                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.GetterId.Equals(Id), (string)newTab.Header);
+                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, UpdateWindows, (ParcelToList p) => p.GetterId.Equals(Id), (string)newTab.Header);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -42,7 +42,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = $"Parcels From {BLApi.FactoryBL.GetBL().GetCustomer(Id).Name}";
-                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, (ParcelToList p) => p.SenderId.Equals(Id), (string)newTab.Header);
+                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, UpdateWindows, (ParcelToList p) => p.SenderId.Equals(Id), (string)newTab.Header);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -63,7 +63,7 @@ namespace PL.ViewModel
             }
         }
 
-        public ViewMenueModelCustomer(Action<object> addTab, Action<object> removeTab, int customerId, Action close)
+        public ViewMenueModelCustomer(Action<object> addTab, Action<object> removeTab, int customerId, Action close) : base()
         {
             baseModel = new Model.MenueModel();
             baseModel.ButtonA_Content = "Update your details";
@@ -74,7 +74,6 @@ namespace PL.ViewModel
             RemoveTab = removeTab;
             Id = customerId;
             Close = close;
-            UpdateWindows = ()=> { };
         }
     }
 }

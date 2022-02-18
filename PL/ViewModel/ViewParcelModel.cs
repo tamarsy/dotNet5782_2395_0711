@@ -91,8 +91,7 @@ namespace PL.ViewModel
                 return new DelegateCommand((o) =>
                 {
                     parcelModel.Delete();
-                    if (UpDatePWindow is not null)
-                        UpDatePWindow();
+                    UpDatePWindow();
                     Close();
                 });
             }
@@ -113,7 +112,6 @@ namespace PL.ViewModel
             AddTab = addTab;
             RemoveTab = removeTab;
             UpDatePWindow = upDateParcelsWindow;
-            parcelModel.UpDatePWindow = upDateParcelsWindow;
             parcelModel.ParcelId = parcelId;
             parcelModel.DetailsPanelVisibility = true;
             CustomerVisibility = IsCustomerI ? Visibility.Collapsed : Visibility.Visible;

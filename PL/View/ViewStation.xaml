@@ -9,24 +9,24 @@
     <Grid x:Name="Drone" >
         <Button Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
 
-        <WrapPanel x:Name="Add" HorizontalAlignment="Left" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}" Margin="238,38,0,-50" Width="284">
-            <DockPanel Margin="10">
+        <WrapPanel x:Name="Add" HorizontalAlignment="Left" Orientation="Vertical" ItemWidth="500" Margin="94,40,0,-50" Visibility="{Binding AddPanelVisibility}" Width="630" >
+            <DockPanel Margin="15">
                 <Label Content="Station id" />
                 <TextBox x:Name="id" Text="{Binding Id, Mode=OneWayToSource}"/>
             </DockPanel>
-            <DockPanel Margin="10">
+            <DockPanel Margin="15">
                 <Label Content="Station name:" />
                 <TextBox x:Name="name" Text="{Binding Name, Mode=OneWayToSource}"/>
             </DockPanel>
-            <DockPanel Margin="10">
+            <DockPanel Margin="15">
                 <Label Content="Location - latitude:"/>
                 <TextBox x:Name="latitude" Text="{Binding Latitude, Mode=OneWayToSource}" />
             </DockPanel>
-            <DockPanel Margin="10">
+            <DockPanel Margin="15">
                 <Label Content="Location - longitude:"/>
                 <TextBox x:Name="longitude" Text="{Binding Longitude, Mode=OneWayToSource}" />
             </DockPanel>
-            <DockPanel Margin="10">
+            <DockPanel Margin="15">
                 <Label Content="Num of charge slot in station"/>
                 <TextBox x:Name="numCargeSlot" Text="{Binding NumCargeSlot, Mode=OneWayToSource}" />
             </DockPanel>

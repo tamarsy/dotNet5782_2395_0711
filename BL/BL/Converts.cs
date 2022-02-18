@@ -174,7 +174,7 @@ namespace BL
                 GetterId = parcel.GetterId,
                 Weight = (WeightCategories)parcel.Weight,
                 Priority = (Priorities)parcel.Priority,
-                ParcelStatuses = parcelStatuses == default ? ParcelStatuses.defined : FindParcelStatuses(parcel)
+                ParcelStatuses = parcelStatuses != default ? parcelStatuses : FindParcelStatuses(parcel)
             };
         }
 

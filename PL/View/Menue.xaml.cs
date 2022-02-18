@@ -43,13 +43,14 @@ namespace PL.View
                 if (i < 0)
                 {
                     i = MainTabs.Items.Add(tabItem);
+                    if (tabItem.Content is Update p)
+                        if (p.updateCurrentWindow is not null)
+                            _menu.UpdateWindowsActions += p.updateCurrentWindow;
                 }
-                if (tabItem.Content is Update p)    
-                    if (p.updateCurrentWindow is not null)
-                        _menu.UpdateWindows += ((Update)tabItem.Content).updateCurrentWindow;
                 _menu.SelectedTab = i;
             }
         }
+
 
         private int FindIndexOf(string header)
         {
@@ -70,7 +71,13 @@ namespace PL.View
             {
                 int i = FindIndexOf(header);
                 if (i >= 0 && i < MainTabs.Items.Count)
+                {
+                    if (MainTabs.Items[i] is TabItem t)
+                        if (t.Content is Update p)
+                            if (p.updateCurrentWindow is not null)
+                                _menu.UpdateWindowsActions -= p.updateCurrentWindow;
                     MainTabs.Items.RemoveAt(i);
+                }
             }
         }
     }

@@ -15,7 +15,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = "Drones List";
-                newTab.Content = new View.ViewListDrone(AddTab, RemoveTab);
+                newTab.Content = new View.ViewListDrone(AddTab, RemoveTab, UpdateWindows);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -28,7 +28,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = "Parcels List";
-                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab);
+                newTab.Content = new View.ViewParcelList(AddTab, RemoveTab, UpdateWindows);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -41,7 +41,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = "Customers List";
-                newTab.Content = new View.VIewCustomerList(AddTab, RemoveTab);
+                newTab.Content = new View.VIewCustomerList(AddTab, RemoveTab, UpdateWindows);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -54,7 +54,7 @@ namespace PL.ViewModel
             {
                 TabItem newTab = new TabItem();
                 newTab.Header = "Stations List";
-                newTab.Content = new View.ViewStationList(AddTab, RemoveTab);
+                newTab.Content = new View.ViewStationList(AddTab, RemoveTab, UpdateWindows);
                 return new DelegateCommand((o) =>
                 {
                     AddTab(newTab);
@@ -62,7 +62,7 @@ namespace PL.ViewModel
             }
         }
 
-        public ViewMenueModelCompany(Action<object> addTab, Action<object> removeTab, Action close)
+        public ViewMenueModelCompany(Action<object> addTab, Action<object> removeTab, Action close):base()
         {
             baseModel = new Model.MenueModel();
             baseModel.ButtonA_Content = "Drones List";

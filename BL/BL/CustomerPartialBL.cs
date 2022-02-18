@@ -107,25 +107,19 @@ namespace BL
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> CustomersList()
         {
-            List<CustomerToList> customersList = new List<CustomerToList>();
             lock (dalObject)
             {
-                foreach (var customer in dalObject.CustomerList())
-                {
-                    CustomerToList newCustomer = new CustomerToList()
+                return dalObject.CustomerList().Select(
+                    c=>new CustomerToList()
                     {
-                        Id = customer.Id,
-                        Name = customer.Name,
-                        Phone = customer.Phone,
-                        NumOfParcelsDefined = dalObject.ParcelList().Where(p => p.SenderId == customer.Id && p.PickedUp != default(DateTime)).Count(),
-                        NumOfParcelsAscribed = dalObject.ParcelList().Where(p => p.SenderId == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count(),
-                        NumOfParcelsCollected = dalObject.ParcelList().Where(p => p.GetterId == customer.Id && p.PickedUp != default(DateTime)).Count(),
-                        NumOfParcelsSupplied = dalObject.ParcelList().Where(p => p.GetterId == customer.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count()
-                    };
-                    customersList.Add(newCustomer);
-                }
-
-                return customersList;
+                        Id = c.Id,
+                        Name = c.Name,
+                        Phone = c.Phone,
+                        NumOfParcelsDefined = dalObject.ParcelList().Where(p => p.SenderId == c.Id && p.PickedUp != default(DateTime)).Count(),
+                        NumOfParcelsAscribed = dalObject.ParcelList().Where(p => p.SenderId == c.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count(),
+                        NumOfParcelsCollected = dalObject.ParcelList().Where(p => p.GetterId == c.Id && p.PickedUp != default(DateTime)).Count(),
+                        NumOfParcelsSupplied = dalObject.ParcelList().Where(p => p.GetterId == c.Id && p.PickedUp == default(DateTime) && p.Delivered != default(DateTime)).Count()
+                    });
             }
         }
     }

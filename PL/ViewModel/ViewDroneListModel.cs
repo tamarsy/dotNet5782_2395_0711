@@ -78,12 +78,12 @@ namespace PL.ViewModel
                     {
                         newTabItem.Header = "Drone: " + droneId;
                         newTabItem.TabIndex = droneId;
-                        newTabItem.Content = new View.ViewDrone(droneId, WeightAndStatudSelector_SelectionChanged, () => RemoveTab("Drone: " + droneId), addTab: AddTab, removeTab: RemoveTab);
+                        newTabItem.Content = new View.ViewDrone(droneId, UpDatePWindow, () => RemoveTab("Drone: " + droneId), addTab: AddTab, removeTab: RemoveTab);
                     }
                     else
                     {
                         newTabItem.Header = "Add drone";
-                        Action updateAndClose = WeightAndStatudSelector_SelectionChanged;
+                        Action updateAndClose = UpDatePWindow;
                         updateAndClose += () => RemoveTab((string)newTabItem.Header);
                         newTabItem.Content = new View.ViewDrone(updateAndClose);
                     }
@@ -126,9 +126,10 @@ namespace PL.ViewModel
             Drones = new ListCollectionView(drones);
         }
 
-        public ViewDroneListModel(Action<object> addTab, Action<object> removeTab)
+        public ViewDroneListModel(Action<object> addTab, Action<object> removeTab, Action UpdateWindows)
         {
             droneListModel = new Model.DroneListModel();
+            UpDatePWindow = UpdateWindows;
             AddTab = addTab;
             RemoveTab = removeTab;
             Close = ()=>removeTab("Drones List");

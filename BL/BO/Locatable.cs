@@ -14,8 +14,10 @@ namespace BO
     {
         public static double Distance(this Ilocatable from, Ilocatable to)
         {
+            if (from is null || to is null)
+                throw new ArgumentNullException();
             int R = 6371 * 1000; 
-            double phi1 = from.CurrentLocation.Latitude * Math.PI / 180; // φ, λ in radians
+            double phi1 = from.CurrentLocation.Latitude * Math.PI / 180; 
             double phi2 = to.CurrentLocation.Latitude * Math.PI / 180;
             double deltaPhi = (to.CurrentLocation.Latitude - from.CurrentLocation.Latitude) * Math.PI / 180;
             double deltaLambda = (to.CurrentLocation.Longitude - from.CurrentLocation.Longitude) * Math.PI / 180;

@@ -42,12 +42,12 @@ namespace PL.ViewModel
                     {
                         newTab.Header = "Station: " + stationId;
                         newTab.TabIndex = stationId;
-                        newTab.Content = new ViewStation(updateCurrentWindow, stationId, () => RemoveTab("Station: " + stationId), AddTab, RemoveTab);
+                        newTab.Content = new ViewStation(UpDatePWindow, stationId, () => RemoveTab("Station: " + stationId), AddTab, RemoveTab);
                     }
                     else
                     {
                         newTab.Header = "Add station";
-                        newTab.Content = new ViewStation(() => { updateCurrentWindow(); RemoveTab("Add station"); });
+                        newTab.Content = new ViewStation(() => { UpDatePWindow(); RemoveTab("Add station"); });
                     }
                     AddTab(newTab);
                 });
@@ -80,9 +80,10 @@ namespace PL.ViewModel
             };
         }
 
-        public ViewStationListModel(Action<object> addTab, Action<object> removeTab)
+        public ViewStationListModel(Action<object> addTab, Action<object> removeTab, Action upDateWindows)
         {
             stationListModel = new Model.StationListModel();
+            UpDatePWindow = upDateWindows;
             AddTab = addTab;
             RemoveTab = removeTab;
             Close = () => removeTab("Stations List");

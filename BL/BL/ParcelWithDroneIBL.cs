@@ -73,7 +73,6 @@ namespace BL
                 CurrentLocation = drones[i].CurrentLocation,
                 Id = drones[i].Id
             };
-            choosenParcel.AssignmentTime = DateTime.Now;
             lock (dalObject)
             {
                 dalObject.ParcelToDrone(choosenParcel.Id, droneId);
@@ -112,7 +111,7 @@ namespace BL
                 throw new ObjectNotAvailableForActionException($"parcel already colleced or not pick up by drone with id: {droneld}");
             DestinationEnd(droneld);
             int i = drones.FindIndex(d => d.Id == droneld);
-            drones[i].BatteryStatuses -= FindMinPowerForDistance(drone.Parcel.Distance, drone.Parcel.Weight);
+            drones[i].BatteryStatuses = Max(0, FindMinPowerForDistance(drone.Parcel.Distance, drone.Parcel.Weight));
             drones[i].CurrentLocation = drone.Parcel.DeliveryDestination;
         }
 

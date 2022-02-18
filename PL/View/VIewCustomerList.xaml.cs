@@ -19,9 +19,9 @@ namespace PL.View
     {
         private readonly ViewModel.ViewCustomerListModel _viewCustomerListModel;
         public Action updateCurrentWindow { get; }
-        public VIewCustomerList(Action<object> addTab, Action<object> removeTab)
+        public VIewCustomerList(Action<object> addTab, Action<object> removeTab, Action upDateWindows)
         {
-            _viewCustomerListModel = new ViewModel.ViewCustomerListModel(addTab, removeTab);
+            _viewCustomerListModel = new ViewModel.ViewCustomerListModel(addTab, removeTab, upDateWindows);
             updateCurrentWindow = _viewCustomerListModel.updateCurrentWindow;
             DataContext = _viewCustomerListModel;
             InitializeComponent();

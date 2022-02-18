@@ -118,7 +118,7 @@ namespace BL
                 throw new ObjectNotAvailableForActionException($"Not enough power for distance in drone with id = {droneId}");
 
             StartChargeing(droneId, closeStation.Id);
-            drones[i].BatteryStatuses = drones[i].BatteryStatuses - powerForDistance;
+            drones[i].BatteryStatuses = Max(0, drones[i].BatteryStatuses - powerForDistance);
             drones[i].CurrentLocation = closeStation.CurrentLocation;
         }
 

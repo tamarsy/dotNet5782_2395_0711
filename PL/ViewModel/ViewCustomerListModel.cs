@@ -24,12 +24,12 @@ namespace PL.ViewModel
                     {
                         tabitem.Header = "Customer: " + cId;
                         tabitem.TabIndex = cId;
-                        tabitem.Content = new ViewCustomer(id:cId, close:()=> RemoveTab(tabitem.Header), AddTab, RemoveTab, UpDatePWindow: updateCurrentWindow);
+                        tabitem.Content = new ViewCustomer(id:cId, close:()=> RemoveTab(tabitem.Header), AddTab, RemoveTab, UpDatePWindow: UpDatePWindow);
                     }
                     else
                     {
                         tabitem.Header = "Add customer";
-                        tabitem.Content = new ViewCustomer(() => { updateCurrentWindow(); RemoveTab(tabitem.Header); });
+                        tabitem.Content = new ViewCustomer(() => { UpDatePWindow(); RemoveTab(tabitem.Header); });
                     }
                     AddTab(tabitem);
                 });
@@ -79,9 +79,10 @@ namespace PL.ViewModel
         }
 
 
-        public ViewCustomerListModel(Action<object> addtab, Action<object> removeTab)
+        public ViewCustomerListModel(Action<object> addtab, Action<object> removeTab, Action upDateWindows)
         {
             customerListModel = new Model.CustomerListModel();
+            UpDatePWindow = upDateWindows;
             AddTab = addtab;
             RemoveTab = removeTab;
             Close = () => removeTab("Customers List");

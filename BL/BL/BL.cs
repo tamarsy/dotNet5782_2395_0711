@@ -58,13 +58,11 @@ namespace BL
                     MaxWeight = (WeightCategories)drone.MaxWeight
                 };
                 foreach (var parcel in dalObject.ParcelList())
-                {
-                    if (parcel.Droneld == drone.Id && parcel.Delivered != null)
+                    if (parcel.Droneld == drone.Id && parcel.Delivered == null)
                     {
                         newDrone.NumOfParcel = parcel.Id;
                         break;
                     }
-                }
                 if (newDrone.NumOfParcel != null)
                 {
                     newDrone.DroneStatuses = DroneStatuses.sending;
@@ -98,15 +96,11 @@ namespace BL
                 lock (dalObject)
                 {
                     DO.Parcel parcel = dalObject.GetParcel((int)drone.NumOfParcel);
+                    DO.Customer customer = dalObject.GetCustomer(parcel.SenderId);
                     if (parcel.PickedUp == null)
-                    {
-                        return FindClosetStationLocation(drone.CurrentLocation).CurrentLocation;
-                    }
+                        return FindClosetStationLocation(new Location(customer.Lattitude, customer.Longitude)).CurrentLocation;
                     if (parcel.Delivered == null)
-                    {
-                        DO.Customer customer = dalObject.GetCustomer(parcel.SenderId);
                         return new Location(customer.Lattitude, customer.Longitude);
-                    }
                 }
             }
             if (drone.DroneStatuses == DroneStatuses.maintanance)

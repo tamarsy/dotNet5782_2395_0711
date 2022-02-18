@@ -80,6 +80,16 @@ namespace DalObject
                 return id;
             }
 
+            static int? GetDroneIdForParcel()
+            {
+                int? dronIdOrNull;
+                do
+                {
+                    dronIdOrNull = (random.Next() % 2 == 0) ? null : dronIdOrNull = random.Next(0, 5);
+                } while (dronIdOrNull != null && ParcelArr.Exists(c => c.Droneld == dronIdOrNull));
+                return dronIdOrNull;
+            }
+
             static void AddToStationArr(int n, List<string> phones)
             {
                 for (int i = 0; i < n; ++i)
@@ -99,8 +109,6 @@ namespace DalObject
             {
                 for (int i = 0; i < n; ++i)
                 {
-                    int? dronIdOrNull = (random.Next() % 2 == 0) ? null : dronIdOrNull = random.Next(0, 5);
-
                     int index = random.Next(CustomerArr.Count - 1);
                     Parcel p = new Parcel()
                     {
@@ -109,13 +117,13 @@ namespace DalObject
                         GetterId = (from c in CustomerArr where c.Id != CustomerArr[index].Id select c).ElementAt(random.Next() % (CustomerArr.Count - 2)).Id,
                         Weight = (WeightCategories)(i % Enum.GetValues(typeof(WeightCategories)).Length),
                         Priority = (Priorities)(i % Enum.GetValues(typeof(Priorities)).Length),
-                        Droneld = dronIdOrNull,
+                        Droneld = GetDroneIdForParcel(),
                         Requested = (DateTime)getRandomDateTime(DateTime.Now, 200, false),
                         Schedulet = default(DateTime?),
                         PickedUp = default(DateTime?),
                         Delivered = default(DateTime?)
                     };
-                    if (dronIdOrNull != null)
+                    if (p.Droneld != null)
                     {
                         p.Schedulet = getRandomDateTime(p.Requested, 20);
                         if (random.Next() % 2 == 0)
@@ -133,7 +141,7 @@ namespace DalObject
 
             static DateTime? getRandomDateTime(DateTime? dt, int minute, bool after = true)
             {
-                int afterOrBefore = (after) ? 1 : -1;
+                int afterOrBefore = after ? 1 : -1;
                 return dt?.AddMinutes(afterOrBefore * random.Next(minute));
             }
 

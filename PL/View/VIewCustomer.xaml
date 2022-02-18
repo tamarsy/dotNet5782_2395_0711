@@ -12,24 +12,24 @@
     <Grid x:Name="Customer" >
         <Button Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
 
-        <WrapPanel x:Name="Add" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}">
-            <DockPanel>
+        <WrapPanel x:Name="Add" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="500" Margin="94,40,0,-50" Visibility="{Binding AddPanelVisibility}">
+            <DockPanel Margin="15">
                 <Label Content="Id:" />
                 <TextBox Text="{Binding Id, Mode=OneWayToSource}"/>
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="Name:" />
                 <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="Phone:" />
                 <TextBox Text="{Binding Phone, UpdateSourceTrigger=PropertyChanged}"/>
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="Location - latitude:"/>
                 <TextBox Text="{Binding Latitude, Mode=OneWayToSource}"/>
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="Location - longitude:"/>
                 <TextBox Text="{Binding Longitude, Mode=OneWayToSource}"/>
             </DockPanel>

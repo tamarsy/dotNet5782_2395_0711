@@ -8,7 +8,6 @@ namespace PL.Model
 {
     class ParcelModel
     {
-        public Action UpDatePWindow { set; get; }
         public Action Delete
         {
             get => () =>
