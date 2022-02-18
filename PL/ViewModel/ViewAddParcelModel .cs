@@ -99,7 +99,7 @@ namespace PL.ViewModel
                 return new DelegateCommand((pram) =>
                 {
                     parcelModel.AddComand();
-                    parcelModel.UpDatePWindow();
+                    UpDatePWindow();
                 });
             }
         }
@@ -114,7 +114,7 @@ namespace PL.ViewModel
         public ViewParcelModel(Action upDateAndClose, int? id = null)
         {
             parcelModel = new Model.ParcelModel();
-            Close = parcelModel.UpDatePWindow = upDateAndClose;
+            Close = UpDatePWindow = upDateAndClose;
             parcelModel.DetailsPanelVisibility = false;
             if (id is not null)
             {

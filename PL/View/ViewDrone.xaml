@@ -14,20 +14,20 @@
     
     <Grid x:Name="Drone" >
         <Button Content="x" Command="{Binding CloseCd}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
-        <WrapPanel x:Name="AddDrone" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}">
-            <DockPanel>
+        <WrapPanel x:Name="AddDrone" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="500" Margin="94,40,0,-50" Visibility="{Binding AddPanelVisibility}">
+            <DockPanel Margin="15">
                 <Label Content="Enter drone id" />
                 <TextBox x:Name="id" Text="{Binding DroneId,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="Model" />
                 <TextBox x:Name="model" Text="{Binding Model, UpdateSourceTrigger=LostFocus}"/>
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="Max weight" />
                 <ComboBox x:Name="weight" ItemsSource="{Binding MaxWeightSelector}" SelectedIndex="{Binding MaxWeightSelector_select}" />
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="Station id"/>
                 <ComboBox x:Name="station" ItemsSource="{Binding StationSelector}" Padding="70,8" SelectedIndex="{Binding StationSelector_select}"/>
             </DockPanel>

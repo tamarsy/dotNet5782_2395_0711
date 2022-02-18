@@ -11,20 +11,20 @@
     <Grid x:Name="Parcel" >
         <Button Content="x" Command="{Binding CloseCd}"  HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"/>
 
-        <WrapPanel x:Name="Add" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="Auto" Visibility="{Binding AddPanelVisibility}">
-            <DockPanel>
+        <WrapPanel x:Name="Add" HorizontalAlignment="Center" Orientation="Vertical" ItemWidth="500" Margin="94,40,0,-50" Visibility="{Binding AddPanelVisibility}">
+            <DockPanel Margin="15">
                 <Label Content="sender id" />
                 <ComboBox ItemsSource="{Binding SID, Mode=OneTime}" SelectedItem="{Binding SID_select}" IsEnabled="{Binding IsEnableSID_select, Mode=OneTime}"/>
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="getter id" />
                 <ComboBox ItemsSource="{Binding TID, Mode=OneTime}" SelectedItem="{Binding TID_select}" />
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="weight" />
                 <ComboBox ItemsSource="{Binding WeightSelector, Mode=OneTime}" SelectedIndex="{Binding WeightSelector_select}" />
             </DockPanel>
-            <DockPanel>
+            <DockPanel Margin="15">
                 <Label Content="priority"/>
                 <ComboBox ItemsSource="{Binding PrioritySelector, Mode=OneTime}" SelectedIndex="{Binding PrioritySelector_select}"  Padding="70,8"/>
             </DockPanel>
