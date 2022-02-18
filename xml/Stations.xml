@@ -8,4 +8,20 @@
     <ChargeSlot>8</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
+  <Station>
+    <Id>3</Id>
+    <Name>asdf</Name>
+    <Longitude>234</Longitude>
+    <Lattitude>23424</Lattitude>
+    <ChargeSlot>2</ChargeSlot>
+    <IsDelete>false</IsDelete>
+  </Station>
+  <Station>
+    <Id>3</Id>
+    <Name>asdfd</Name>
+    <Longitude>234</Longitude>
+    <Lattitude>234</Lattitude>
+    <ChargeSlot>234</ChargeSlot>
+    <IsDelete>false</IsDelete>
+  </Station>
 </ArrayOfStation>

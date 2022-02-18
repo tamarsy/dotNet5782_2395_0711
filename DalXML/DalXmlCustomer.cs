@@ -16,7 +16,7 @@ namespace DAL
 
         public void AddCustomer(Customer newCustomer)
         {
-            List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(ConfigPath);
+            List<Customer> customers = XMLTools.LoadListFromXmlSerializer<Customer>(customersPath);
             customers.Add(newCustomer);
             XMLTools.SaveListToXmlSerializer(customers, customersPath);
         }

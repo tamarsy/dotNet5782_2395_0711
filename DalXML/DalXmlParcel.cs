@@ -15,7 +15,7 @@ namespace DAL
     {
         public void AddParcel(Parcel newParcel)         
         {
-            List<Parcel> config = XMLTools.LoadListFromXmlSerializer<Parcel>(ConfigPath);
+            List<Parcel> config = XMLTools.LoadListFromXmlSerializer<Parcel>(parcelsPath);
             config.Add(newParcel);
             XMLTools.SaveListToXmlSerializer(config, parcelsPath);
 

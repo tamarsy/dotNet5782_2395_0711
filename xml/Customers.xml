@@ -1,2 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfCustomer></ArrayOfCustomer>
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>75456545</Id>
+    <Name>AAAAAAAAAAAAA</Name>
+    <Phone>988787676</Phone>
+    <Longitude>34534545</Longitude>
+    <Lattitude>5434535</Lattitude>
+    <IsDelete>false</IsDelete>
+  </Customer>
+  <Customer>
+    <Id>98789876</Id>
+    <Name>aaaaaaa</Name>
+    <Phone>988789876</Phone>
+    <Longitude>354345345345</Longitude>
+    <Lattitude>35345345353</Lattitude>
+    <IsDelete>false</IsDelete>
+  </Customer>
+</ArrayOfCustomer>
