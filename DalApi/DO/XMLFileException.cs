@@ -8,14 +8,11 @@ namespace DO
     {
         public string FileName { get; set; } = "<Unknown>";
 
-        public string Message { get; set; } 
-
         public Exception Inner { get; set; }
 
-        public XMLFileException(string fileName, string message, Exception inner)
+        public XMLFileException(string fileName, string message, Exception inner):base(message)
         {
             FileName = fileName;
-            Message = message;
             Inner = inner;
         }
 

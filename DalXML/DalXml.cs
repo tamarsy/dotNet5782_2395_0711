@@ -33,13 +33,6 @@ namespace DAL
         }
 
 
-        public void AddStation(Station newStation)
-        {
-            List<Station> config = XMLTools.LoadListFromXmlSerializer<Station>(StationsPath);
-            config.Add(newStation);
-            XMLTools.SaveListToXmlSerializer(config, StationsPath);
-        }
-
 
 
         public IEnumerable<Customer> CustomerList()
@@ -56,23 +49,6 @@ namespace DAL
             drone.IsDelete = true;
             drones.Add(drone);
             XMLTools.SaveListToXmlSerializer(drones, dronesPath);
-        }
-
-
-        public void DeleteStation(int id)
-        {
-            XElement stationList = XMLTools.LoadListFromXmlElement(StationsPath);
-            var station = stationList.Elements()
-                                     .FirstOrDefault(xElement => int.Parse(xElement.Element(nameof(Station.Id)).Value) == id
-                                                                 && !bool.Parse(xElement.Element(nameof(Station.IsDelete)).Value));
-
-            if (station == null)
-            {
-                throw new DO.ObjectNotExistException("Station does not exist");
-            }
-
-            station.SetElementValue(nameof(Station.IsDelete), true);
-            XMLTools.SaveListToXmlElement(stationList, StationsPath);
         }
 
 

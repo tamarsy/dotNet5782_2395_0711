@@ -47,7 +47,7 @@ namespace BL
                                     bl.StartChargeing(droneId, station.Id);
                                     maintenance = Maintenance.Starting;
                                 }
-                                catch (ObjectNotExistException e) { throw e; }
+                                catch (ObjectNotExistException e) { throw new ObjectNotExistException(e.Message); }
                                 catch (ObjectNotAvailableForActionException) { };
                             }
                         }
