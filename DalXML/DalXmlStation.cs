@@ -86,9 +86,9 @@ namespace DAL
                     return new Station()
                     {
                         Id = int.Parse(StationElement.Element("Id").Value),
-                        ChargeSlot = int.Parse(StationElement.Element("ChargingPorts").Value),
+                        ChargeSlot = int.Parse(StationElement.Element("ChargeSlot").Value),
                         Name = StationElement.Element("Name").Value,
-                        Lattitude = double.Parse(StationElement.Element("Latitude").Value),
+                        Lattitude = double.Parse(StationElement.Element("Lattitude").Value),
                         Longitude = double.Parse(StationElement.Element("Longitude").Value),
                     };
                 }

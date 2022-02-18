@@ -92,5 +92,12 @@ namespace Dal
             }
         }
         #endregion
+
+        public static double GetInfo(string prop, string path)
+        {
+            XDocument document = XDocument.Load(path);
+            XElement element = document.Root.Element(prop);
+            return double.Parse(element.Value);
+        }
     }
 }
