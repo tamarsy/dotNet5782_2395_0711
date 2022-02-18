@@ -13,7 +13,7 @@ namespace DAL
 {
     internal sealed partial class DalXML : IDal
     {
-        public void AddParcel(Parcel newParcel)
+        public void AddParcel(Parcel newParcel)         
         {
             List<Parcel> config = XMLTools.LoadListFromXmlSerializer<Parcel>(ConfigPath);
             config.Add(newParcel);

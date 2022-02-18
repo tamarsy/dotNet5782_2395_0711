@@ -52,7 +52,7 @@ namespace Dal
                 throw new DO.XMLFileException(filePath, $"fail to load xml file: {filePath}", ex);
             }
         }
-        #endregion
+        #endregion                
 
         #region SaveLoadWithXMLSerializer
         public static void SaveListToXmlSerializer<T>(IEnumerable<T> list, string filePath)

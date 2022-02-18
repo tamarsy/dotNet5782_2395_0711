@@ -45,7 +45,7 @@ namespace DAL
             static void AddToDronesArr(int id)
             {
                 List<Drone> drones= XMLTools.LoadListFromXmlSerializer<Customer>(dronesPath);
-                Drone drone = drones.FirstOrDefault(item => item.Id == id);
+                Drone drone = drones.FirstOrDefault(item => item.Id == id);        
                 foreach(var droneInArr in XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath))
                 for (int i = 0; i < id; ++i)
                 {

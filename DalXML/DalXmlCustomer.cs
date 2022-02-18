@@ -22,7 +22,7 @@ namespace DAL
         }
 
 
-        public IEnumerable<Customer> CustomerList(Predicate<bool> selectList = null) =>
+        public IEnumerable<Customer> CustomerList(Predicate<bool> selectList = null) =>             
           selectList == null ?
               XMLTools.LoadListFromXmlSerializer<Customer>(customersPath) :
               XMLTools.LoadListFromXmlSerializer<Customer>(customersPath).Where(p => selectList(true));

@@ -18,7 +18,7 @@ namespace DalXML
         static public double LightWeightCarrier { get; set; } = XMLTools.LoadListFromXmlSerializer<double>(DetailsPath).Add(LightWeightCarrier = 6);
         static public double MediumWeightCarrier { get; set; } = XMLTools.LoadListFromXmlSerializer<double>(DetailsPath).Add(MediumWeightCarrier = 6);
         static public double heavyWeightCarrier { get; set; } = XMLTools.LoadListFromXmlSerializer<double>(DetailsPath).Add(heavyWeightCarrier = 7);
-        static public double SkimmerLoadingRate { get; set; } = XMLTools.LoadListFromXmlSerializer<double>(DetailsPath).Add(SkimmerLoadingRate = 3);
+        static public double SkimmerLoadingRate { get; set; } = XMLTools.LoadListFromXmlSerializer<double>(DetailsPath).Add(SkimmerLoadingRate = 3);              
         public static int runNumForParcel = XMLTools.LoadListFromXmlSerializer<double>(DetailsPath).Add(runNumForParcel =03);
     }
 }

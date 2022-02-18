@@ -63,7 +63,7 @@ namespace DAL
             charges.Remove(charge);
 
             XMLTools.SaveListToXmlSerializer(charges, droneChargesPath);
-        }
+        }              
 
         public IEnumerable<Drone> DroneList()
         {

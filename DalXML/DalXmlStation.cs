@@ -21,7 +21,7 @@ namespace DAL
         private readonly string droneChargesPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/DroneCharges.xml";
         private readonly string detailsPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/Details.xml";
         public static IDal Instance { get; } = new DalXML();
-        
+                     
        
 
       
