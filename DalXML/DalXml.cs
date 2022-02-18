@@ -22,8 +22,6 @@ namespace DAL
         private readonly string detailsPath = $@"{Directory.GetCurrentDirectory()}/../../../../xml/Details.xml";
         public static IDal Instance { get; } = new DalXML();
 
-
-
         public void AddDroneCharge(int droneId, int baseStationId)
         {
             List<DroneCharge> charges = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);

@@ -5,7 +5,7 @@
     <Name>9741945875</Name>
     <Longitude>2.470541893258012</Longitude>
     <Lattitude>0.22976206523820855</Lattitude>
-    <ChargeSlot>2</ChargeSlot>
+    <ChargeSlot>1</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
@@ -13,7 +13,7 @@
     <Name>9543089251</Name>
     <Longitude>1.432022433975722</Longitude>
     <Lattitude>4.000894773006856</Lattitude>
-    <ChargeSlot>7</ChargeSlot>
+    <ChargeSlot>6</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
@@ -69,7 +69,7 @@
     <Name>6726542027</Name>
     <Longitude>1.576154528360886</Longitude>
     <Lattitude>0.7104836338248494</Lattitude>
-    <ChargeSlot>4</ChargeSlot>
+    <ChargeSlot>3</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml.Linq;
@@ -22,7 +23,8 @@ namespace PL.ViewModel
             UpdateWindowsActions = () => { };
             UpdateWindows = () =>
             {
-                UpdateWindowsActions();
+                try { UpdateWindowsActions(); }
+                catch (Exception e) { MessageBox.Show(e.Message); }
             };
         }
 

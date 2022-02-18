@@ -79,7 +79,7 @@ namespace DAL
             Station s = GetStation(stationId);
             if (!isEmptyChargeSlotInStation(stationId, s.ChargeSlot))
                 throw new ObjectNotAvailableForActionException($"no empty charge slot in station with id: {stationId}");
-            if (XMLTools.LoadListFromXmlSerializer<Station>(StationsPath).Exists(d => d.Id == droenId))
+            if (XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath).Exists(d => d.DroneId == droenId))
                 throw new ObjectNotAvailableForActionException("Exist in charge drone whith id: " + droenId);
             StationDroneIn(stationId);
             AddDroneCharge(droenId, stationId);
