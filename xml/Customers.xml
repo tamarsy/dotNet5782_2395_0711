@@ -1,163 +1,163 @@
 <?xml version="1.0"?>
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
-    <Id>80410414</Id>
+    <Id>47399489</Id>
     <Name>Yoss</Name>
     <Phone>9741945875</Phone>
-    <Longitude>3.74240837480985</Longitude>
-    <Lattitude>3.778704508663483</Lattitude>
+    <Longitude>5.037952717271612</Longitude>
+    <Lattitude>3.7202056011744795</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>97471820</Id>
+    <Id>60233734</Id>
     <Name>Dov</Name>
     <Phone>9543089251</Phone>
-    <Longitude>0.38616117322173027</Longitude>
-    <Lattitude>0.4226060565666323</Lattitude>
+    <Longitude>3.1846649189408236</Longitude>
+    <Lattitude>0.8305312994544074</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>17057795</Id>
+    <Id>54212652</Id>
     <Name>Shay</Name>
     <Phone>9096540508</Phone>
-    <Longitude>1.2822163440669962</Longitude>
-    <Lattitude>4.027035756468324</Lattitude>
+    <Longitude>3.815840405605659</Longitude>
+    <Lattitude>0.12064640122495889</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>98790915</Id>
+    <Id>82560167</Id>
     <Name>Gad</Name>
     <Phone>6726542027</Phone>
-    <Longitude>0.6005848622417939</Longitude>
-    <Lattitude>1.5633678248447216</Lattitude>
+    <Longitude>0.37507841092305183</Longitude>
+    <Lattitude>3.243166452154129</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>50910604</Id>
+    <Id>39828086</Id>
     <Name>Ran</Name>
     <Phone>8823457664</Phone>
-    <Longitude>0.4334800336665846</Longitude>
-    <Lattitude>2.100591058843113</Lattitude>
+    <Longitude>2.3065039879672713</Longitude>
+    <Lattitude>2.150218865764429</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>84609928</Id>
+    <Id>21130276</Id>
     <Name>Yoss</Name>
     <Phone>9741945875</Phone>
-    <Longitude>1.233728165148631</Longitude>
-    <Lattitude>4.383524986907618</Lattitude>
+    <Longitude>1.81374190468981</Longitude>
+    <Lattitude>0.7490141249024375</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>23876037</Id>
+    <Id>19430731</Id>
     <Name>Dov</Name>
     <Phone>9543089251</Phone>
-    <Longitude>2.628481530597657</Longitude>
-    <Lattitude>1.712317999225258</Lattitude>
+    <Longitude>1.0226472181373496</Longitude>
+    <Lattitude>4.0335477423544726</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>92507320</Id>
+    <Id>91727670</Id>
     <Name>Shay</Name>
     <Phone>9096540508</Phone>
-    <Longitude>0.9749365340801591</Longitude>
-    <Lattitude>3.2159935018122163</Lattitude>
+    <Longitude>3.7114119184256587</Longitude>
+    <Lattitude>4.349657456879345</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>53093855</Id>
+    <Id>60138801</Id>
     <Name>Gad</Name>
     <Phone>6726542027</Phone>
-    <Longitude>1.0701141574746529</Longitude>
-    <Lattitude>1.2143505362394968</Lattitude>
+    <Longitude>0.2952624783363484</Longitude>
+    <Lattitude>0.8056352977667168</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>62595083</Id>
+    <Id>82330140</Id>
     <Name>Ran</Name>
     <Phone>8823457664</Phone>
-    <Longitude>2.3289218873851567</Longitude>
-    <Lattitude>2.966145285156623</Lattitude>
+    <Longitude>2.151714950498061</Longitude>
+    <Lattitude>2.3899577760556516</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>43031744</Id>
+    <Id>11959529</Id>
     <Name>Yoss</Name>
     <Phone>9741945875</Phone>
-    <Longitude>2.7083014180922422</Longitude>
-    <Lattitude>3.0349723941343707</Lattitude>
+    <Longitude>3.517195724890193</Longitude>
+    <Lattitude>3.979641564786267</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>73337050</Id>
+    <Id>96906750</Id>
     <Name>Dov</Name>
     <Phone>9543089251</Phone>
-    <Longitude>1.9216483728129645</Longitude>
-    <Lattitude>0.24791267246376383</Lattitude>
+    <Longitude>0.4314247800649259</Longitude>
+    <Lattitude>1.5889208837826367</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>76190663</Id>
+    <Id>28963207</Id>
     <Name>Shay</Name>
     <Phone>9096540508</Phone>
-    <Longitude>3.5656707906470033</Longitude>
-    <Lattitude>4.573549155133566</Lattitude>
+    <Longitude>0.43111838508915085</Longitude>
+    <Lattitude>0.3912860407453431</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>60876854</Id>
+    <Id>37780456</Id>
     <Name>Gad</Name>
     <Phone>6726542027</Phone>
-    <Longitude>1.6845648650939413</Longitude>
-    <Lattitude>4.59545724508141</Lattitude>
+    <Longitude>3.919014567564714</Longitude>
+    <Lattitude>3.3973300687490635</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>81968458</Id>
+    <Id>18099415</Id>
     <Name>Ran</Name>
     <Phone>8823457664</Phone>
-    <Longitude>4.104396428775227</Longitude>
-    <Lattitude>2.019170070634768</Lattitude>
+    <Longitude>1.115307374817928</Longitude>
+    <Lattitude>3.409084353739901</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>32737266</Id>
+    <Id>35432601</Id>
     <Name>Yoss</Name>
     <Phone>9741945875</Phone>
-    <Longitude>3.017045283418635</Longitude>
-    <Lattitude>4.420965751130583</Lattitude>
+    <Longitude>4.891118138093091</Longitude>
+    <Lattitude>3.3000461617019243</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>43303318</Id>
+    <Id>72058096</Id>
     <Name>Dov</Name>
     <Phone>9543089251</Phone>
-    <Longitude>1.0043282712364237</Longitude>
-    <Lattitude>1.506090838651215</Lattitude>
+    <Longitude>0.9458699426827347</Longitude>
+    <Lattitude>0.32050258881435856</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>64624335</Id>
+    <Id>47449764</Id>
     <Name>Shay</Name>
     <Phone>9096540508</Phone>
-    <Longitude>2.548347929515107</Longitude>
-    <Lattitude>1.0825903339230412</Lattitude>
+    <Longitude>1.281540430421727</Longitude>
+    <Lattitude>4.529271171814423</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>59231487</Id>
+    <Id>84211143</Id>
     <Name>Gad</Name>
     <Phone>6726542027</Phone>
-    <Longitude>3.4771730350224175</Longitude>
-    <Lattitude>4.80975606828451</Lattitude>
+    <Longitude>3.24948386575537</Longitude>
+    <Lattitude>2.188756514288837</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
   <Customer>
-    <Id>79258079</Id>
+    <Id>52956532</Id>
     <Name>Ran</Name>
     <Phone>8823457664</Phone>
-    <Longitude>4.209917146018667</Longitude>
-    <Lattitude>2.0207434611491597</Lattitude>
+    <Longitude>3.932671697266713</Longitude>
+    <Lattitude>3.216785585794964</Lattitude>
     <IsDelete>false</IsDelete>
   </Customer>
 </ArrayOfCustomer>

@@ -23,6 +23,7 @@ namespace DAL
         public static IDal Instance { get; } = new DalXML();
 
 
+
         public void AddDroneCharge(int droneId, int baseStationId)
         {
             List<DroneCharge> charges = XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath);

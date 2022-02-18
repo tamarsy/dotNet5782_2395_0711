@@ -3,81 +3,81 @@
   <Station>
     <Id>0</Id>
     <Name>9741945875</Name>
-    <Longitude>0.733942648830797</Longitude>
-    <Lattitude>1.3578785416939663</Lattitude>
-    <ChargeSlot>8</ChargeSlot>
+    <Longitude>2.470541893258012</Longitude>
+    <Lattitude>0.22976206523820855</Lattitude>
+    <ChargeSlot>2</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>1</Id>
     <Name>9543089251</Name>
-    <Longitude>3.060963530447783</Longitude>
-    <Lattitude>2.745297374271461</Lattitude>
-    <ChargeSlot>8</ChargeSlot>
+    <Longitude>1.432022433975722</Longitude>
+    <Lattitude>4.000894773006856</Lattitude>
+    <ChargeSlot>7</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>2</Id>
     <Name>9096540508</Name>
-    <Longitude>3.176797747927158</Longitude>
-    <Lattitude>0.520599180655833</Lattitude>
-    <ChargeSlot>4</ChargeSlot>
+    <Longitude>2.2618818909683647</Longitude>
+    <Lattitude>0.04334272562681824</Lattitude>
+    <ChargeSlot>7</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>3</Id>
     <Name>6726542027</Name>
-    <Longitude>0.4541061728047701</Longitude>
-    <Lattitude>2.826961855696031</Lattitude>
-    <ChargeSlot>3</ChargeSlot>
+    <Longitude>1.1420881922552772</Longitude>
+    <Lattitude>0.06639056190214612</Lattitude>
+    <ChargeSlot>2</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>4</Id>
     <Name>8823457664</Name>
-    <Longitude>2.5287917804572695</Longitude>
-    <Lattitude>0.3832583404999498</Lattitude>
-    <ChargeSlot>8</ChargeSlot>
+    <Longitude>3.132373736208479</Longitude>
+    <Lattitude>0.29595299805326064</Lattitude>
+    <ChargeSlot>4</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>5</Id>
     <Name>9741945875</Name>
-    <Longitude>0.4565743507615171</Longitude>
-    <Lattitude>0.590550139914523</Lattitude>
-    <ChargeSlot>6</ChargeSlot>
+    <Longitude>4.969653694876309</Longitude>
+    <Lattitude>2.2651176210796073</Lattitude>
+    <ChargeSlot>5</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>6</Id>
     <Name>9543089251</Name>
-    <Longitude>3.7856660046082293</Longitude>
-    <Lattitude>2.0666477435113153</Lattitude>
-    <ChargeSlot>8</ChargeSlot>
+    <Longitude>0.684107053645005</Longitude>
+    <Lattitude>2.5317000533136076</Lattitude>
+    <ChargeSlot>6</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>7</Id>
     <Name>9096540508</Name>
-    <Longitude>3.00664502512973</Longitude>
-    <Lattitude>3.011788164503774</Lattitude>
+    <Longitude>3.3689942874801324</Longitude>
+    <Lattitude>3.956972394630766</Lattitude>
     <ChargeSlot>4</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>8</Id>
     <Name>6726542027</Name>
-    <Longitude>0.10292556290650999</Longitude>
-    <Lattitude>0.6184582897547903</Lattitude>
-    <ChargeSlot>2</ChargeSlot>
+    <Longitude>1.576154528360886</Longitude>
+    <Lattitude>0.7104836338248494</Lattitude>
+    <ChargeSlot>4</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
   <Station>
     <Id>9</Id>
     <Name>8823457664</Name>
-    <Longitude>1.788711517950851</Longitude>
-    <Lattitude>1.4605747884421492</Lattitude>
-    <ChargeSlot>6</ChargeSlot>
+    <Longitude>4.364437353128771</Longitude>
+    <Lattitude>2.5452429325996166</Lattitude>
+    <ChargeSlot>8</ChargeSlot>
     <IsDelete>false</IsDelete>
   </Station>
 </ArrayOfStation>
