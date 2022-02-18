@@ -67,8 +67,7 @@ namespace PL.ViewModel
                 return new DelegateCommand((o) =>
                 {
                     droneModel.DeleteCommand();
-                    if (UpDatePWindow != default)
-                        UpDatePWindow();
+                    UpDatePWindow();
                     Close();
 
                 });
@@ -284,7 +283,7 @@ namespace PL.ViewModel
             UpDatePWindow = upDateDronesWindow;
             droneModel.DetailsPanelVisibility = true;
             droneModel.IsAutomatic = false;
-            updateCurrentWindow = ()=> InitializeData(droneId);
+            updateCurrentWindow = () => InitializeData(droneId);
             updateCurrentWindow();
         }
     }

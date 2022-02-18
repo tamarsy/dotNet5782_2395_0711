@@ -15,7 +15,16 @@ namespace PL.ViewModel
         public string ButtonC_Content { get{ return baseModel.ButtonC_Content; } }
         public string ButtonD_Content { get{ return baseModel.ButtonD_Content; } }
         public int SelectedTab { get { return baseModel.selectedTab; } set { baseModel.selectedTab = value; OnPropertyChange("SelectedTab"); } }
-        public Action UpdateWindows;
+        public Action UpdateWindows { get; set; }
+        public Action UpdateWindowsActions { get; set; }
+        public ViewMenueModel()
+        {
+            UpdateWindowsActions = () => { };
+            UpdateWindows = () =>
+            {
+                UpdateWindowsActions();
+            };
+        }
 
         public ICommand CloseCd
         {

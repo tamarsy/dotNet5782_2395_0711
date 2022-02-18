@@ -19,9 +19,9 @@ namespace PL.View
     {
         private readonly ViewModel.ViewParcelListModel _viewParcelListModel;
         public Action updateCurrentWindow { get; }
-        public ViewParcelList(Action<object> addTab, Action<object> removeTab, Predicate<BO.ParcelToList> p = default, string header = "Parcels List")
+        public ViewParcelList(Action<object> addTab, Action<object> removeTab, Action upDateWindows, Predicate<BO.ParcelToList> p = default, string header = "Parcels List")
         {
-            _viewParcelListModel = new ViewModel.ViewParcelListModel(addTab, removeTab, p, header);
+            _viewParcelListModel = new ViewModel.ViewParcelListModel(addTab, removeTab, upDateWindows, p, header);
             updateCurrentWindow = _viewParcelListModel.updateCurrentWindow;
             DataContext = _viewParcelListModel;
             InitializeComponent();

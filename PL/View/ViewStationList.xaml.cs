@@ -19,9 +19,9 @@ namespace PL.View
     {
         ViewModel.ViewStationListModel _viewStationList;
         public Action updateCurrentWindow { get; }
-        public ViewStationList(Action<object> addTab, Action<object> removeTab)
+        public ViewStationList(Action<object> addTab, Action<object> removeTab, Action upDateWindows)
         {
-            _viewStationList = new ViewModel.ViewStationListModel(addTab, removeTab);
+            _viewStationList = new ViewModel.ViewStationListModel(addTab, removeTab, upDateWindows);
             updateCurrentWindow = _viewStationList.updateCurrentWindow;
             DataContext = _viewStationList;
             InitializeComponent();

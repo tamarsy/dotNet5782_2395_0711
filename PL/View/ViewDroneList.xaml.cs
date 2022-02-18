@@ -22,9 +22,9 @@ namespace PL.View
 
         private readonly ViewModel.ViewDroneListModel _viewListDrone;
         public Action updateCurrentWindow { get; }
-        public ViewListDrone(Action<object> addTab, Action<object> removeTab)
+        public ViewListDrone(Action<object> addTab, Action<object> removeTab, Action UpdateWindows)
         {
-            _viewListDrone = new ViewModel.ViewDroneListModel(addTab, removeTab);
+            _viewListDrone = new ViewModel.ViewDroneListModel(addTab, removeTab, UpdateWindows);
             updateCurrentWindow = _viewListDrone.updateCurrentWindow;
             DataContext = _viewListDrone;
             InitializeComponent();
