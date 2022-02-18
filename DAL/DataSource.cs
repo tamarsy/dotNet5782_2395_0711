@@ -86,7 +86,7 @@ namespace DalObject
                 do
                 {
                     dronIdOrNull = (random.Next() % 2 == 0) ? null : dronIdOrNull = random.Next(0, 5);
-                } while (dronIdOrNull != null || ParcelArr.Exists(c => c.Droneld == dronIdOrNull));
+                } while (dronIdOrNull != null && ParcelArr.Exists(c => c.Droneld == dronIdOrNull));
                 return dronIdOrNull;
             }
 
