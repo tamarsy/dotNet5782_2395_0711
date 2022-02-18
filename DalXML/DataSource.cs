@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using DalApi;
 using DO;
-
+using Dal;
+using System.Runtime.CompilerServices;
+using System.IO;
 
 namespace DAL
 {
-    internal class DataSource
+    internal sealed partial class DalXML : IDal
     {
         static internal List<DroneCharge> listOfChargeSlot = new List<DroneCharge>();
         static internal List<Drone> DronesArr = new List<Drone>();
@@ -39,16 +42,19 @@ namespace DAL
             }
 
             #region AddToList
-            static void AddToDronesArr(int n)
+            static void AddToDronesArr(int id)
             {
-                for (int i = 0; i < n; ++i)
+                List<Drone> drones= XMLTools.LoadListFromXmlSerializer<Customer>(dronesPath);
+                Drone drone = drones.FirstOrDefault(item => item.Id == id);
+                foreach(var droneInArr in XMLTools.LoadListFromXmlSerializer<DroneCharge>(droneChargesPath))
+                for (int i = 0; i < id; ++i)
                 {
-                    DronesArr.Add(new Drone()
-                    {
+                        drones.Add(new Drone()
+                        {
                         Id = i,
                         Model = "mavic_JDL" + i,
                         MaxWeight = (WeightCategories)(i % 3)
-                    });
+                        });
                 }
             }
 

@@ -87,5 +87,9 @@ namespace DalObject
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> CustomerList() => DataSource.CustomerArr.Where(c=>!c.IsDelete);
+
+
+
+
     }
 }
